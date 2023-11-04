@@ -1,0 +1,93 @@
+.shape {
+    height: 0;
+    width: 0;
+    border-bottom: 30px solid black;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+}
+
+.logo {
+    color: #13544E;
+    font-size: 100px;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.4px;
+}
+
+.chosen {
+    width: 772.794px;
+    height: 270.199px;
+    transform: rotate(-0.257deg);
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 5px solid #13544E;
+    background: #D9D9D9;
+}
+
+.unchosen {
+    width: 772.794px;
+    height: 270.199px;
+    transform: rotate(-0.257deg);
+    flex-shrink: 0;
+    border-radius: 20px;
+    background: #D9D9D9;
+}
+
+.button {
+    width: 69px;
+    height: 69px;
+    flex-shrink: 0;
+}
+
+.bigText {
+    color: #000;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 29.333px; /* 73.333% */
+    letter-spacing: -0.4px;
+}
+
+.smallText {
+    color: #000;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 29.333px; /* 97.778% */
+    letter-spacing: -0.4px;
+}
+
+.submitButtonText {
+    color: #FFF;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 29.333px; /* 73.333% */
+    letter-spacing: -0.4px;
+}
+
+.greenText {
+    color: #13544E;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 29.333px; /* 73.333% */
+    letter-spacing: -0.4px;
+}
+
+.loginText {
+    color: rgba(0, 0, 0, 0.50);
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 29.333px; /* 73.333% */
+    letter-spacing: -0.4px;
+}
+
+.submitButton {
+    width: 705px;
+    height: 86px;
+    flex-shrink: 0;
+    border-radius: 30px;
+    background: #13544E;
+}
