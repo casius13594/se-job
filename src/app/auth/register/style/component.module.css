@@ -1,0 +1,12 @@
+.customText {
+    color: #13544E;
+    font-family: 'DM Serif Display', serif;
+    font-size: 80px;
+    font-style: italic;
+    font-weight: bold;
+    margin-left: 6px;
+  }
+
+.bottom-border{
+  border-bottom: 2px solid black;
+}
