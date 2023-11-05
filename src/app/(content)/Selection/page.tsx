@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react';
+import Link from 'next/link';
 import styles from '../Selection/monitor.module.css'
 import { headerFont, dela_gothic_one, dm_sans } from "../Selection/fonts"
 
@@ -87,20 +88,20 @@ export default function Monitor() {
                     </h1>
                 </div>
             </div>
-            <button className={`${styles.submitButton}`}>
-                <h1 className={`${styles.submitButtonText} ${dm_sans.className}`}>
-                    Start your business now
-                </h1>
-            </button>
+            <Link href='/auth/Register'>    
+                <button className={`${styles.submitButton}`}>
+                    <h1 className={`${styles.submitButtonText} ${dm_sans.className}`}>
+                        Start your business now
+                    </h1>
+                </button>
+            </Link>
             <div className={`${dm_sans.className} flex flex-row space-x-4 pb-12`}>
                 <h1 className={`${styles.greenText} `}>
                     Already have an account? 
                 </h1>
-                <button>
-                    <h1 className={`${styles.loginText}`}>
-                        Login
-                    </h1>
-                </button>
+                <Link href='/auth/Login' className={`${styles.loginText}`}>
+                    Login
+                </Link>
             </div>
         </main>
     ) 
