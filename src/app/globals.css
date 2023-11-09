@@ -47,7 +47,7 @@
 }
 
 .hero__subtitle {
-  @apply text-[20px] text-black-100 font-normal mt-4;
+  @apply text-[30px] text-black-100 font-normal mt-9;
 }
 
 .hero__image-container {
