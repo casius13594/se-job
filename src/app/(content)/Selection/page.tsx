@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import styles from '../Selection/monitor.module.css'
-import { headerFont, dela_gothic_one, dm_sans } from "../Selection/fonts"
+import { headerFont, dela_gothic_one, dm_sans } from "./fonts"
 
 export default function Monitor() {
     const [employee, setEmployee] = React.useState(true);
@@ -101,7 +101,7 @@ export default function Monitor() {
                 <h1 className={`${styles.greenText} `}>
                     Already have an account? 
                 </h1>
-                <Link href='/auth/Login' className={`${styles.loginText}`}>
+                <Link href='/auth/login' className={`${styles.loginText}`}>
                     Login
                 </Link>
             </div>
