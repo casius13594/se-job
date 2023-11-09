@@ -42,7 +42,7 @@ export function CredentialsForm(props: CredentialsFormProps){
         </div>
         
         <div className='absolute mx-5 my-2 flex top-0'>
-          <Image src="/password.svg" alt="Password" width={20} height={20} />
+          <Image src="/iconPassword.svg" alt="Password" width={20} height={20} />
           <div className="h-10 bg-black w-px ml-5" />
         </div>
       </div>

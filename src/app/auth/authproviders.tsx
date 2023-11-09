@@ -37,7 +37,7 @@ const AuthProviders = () => {
               <button type='button' className="w-full h-12 px-6 text-base font-dmsans text-white bg-[#13544E] rounded-lg focus:shadow-outline" onClick={() => signIn(provider?.id)}>
                 Connect via Google
               </button>
-              <Image src="/google.png" alt="google" width={30} height={30} className='absolute top-0 m-2' />
+              <Image src="/iconGoogle.svg" alt="google" width={30} height={30} className='absolute top-0 m-2' />
             </div>
           )
           )}
