@@ -9,9 +9,8 @@ const Hero = () => {
 
   return (
     <div className="Hero">
-      <div className="pt-36 padding-x">
-        <div className="hero__container-1 flex flex-row justify-between 
-        pt-16 padding-x mt-2 bg-light-green rounded-3xl">
+  <div className="pt-36 padding-x">
+    <div className="hero__container-1 flex flex-row justify-between pt-16 padding-x mt-2 bg-light-green rounded-3x1">
           <div className="flex-1">
                 <h1 className="hero__title text-red">Expand network</h1>
                 <h1 className="hero__title text-green">Explore your potential</h1>
@@ -30,13 +29,12 @@ const Hero = () => {
                 </div>
           </div>
           
-          <div className="hero__image mt-9" style={{height:389, width:608, borderRadius: '25px', overflow: 'hidden'}}>
-            <Image src="/hero.png" alt="hero" layout="fill" objectFit="cover" className="object-contain"/>
-          </div>
+          <div className="hero__image mt-9" style={{ width: '35vw', height: '20vw', borderRadius: '25px', overflow: 'hidden' }}>
+  <Image src="/hero.png" alt="hero" layout="fill" objectFit="cover" className="object-contain" />
+</div>
         </div>
         
-        <div className="hero__container-2 flex flex-row justify-between 
-        padding-y padding-x -mt-28 bg-green rounded-b-3xl" style={{height:450}}>
+        <div className="hero__container-2 flex flex-row justify-between padding-y padding-x bg-green rounded-b-3xl" style={{ height: '30vw' }}>
           <div className="hero__container-2__left flex flex-col flex-1 ">
             <div className="hero__container-2__left-top flex-1 flex flex-row items-center">
               <div className="relative w-20 h-44">
