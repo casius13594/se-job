@@ -1,4 +1,4 @@
-import { Hero } from './(content)/Hero'
+import { Hero } from './(content)/hero'
 
 export default function Home() {
   return (
