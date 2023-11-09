@@ -93,7 +93,7 @@ export default function Monitor() {
                 </div>
             </div>
             <Link 
-            href='/auth/Register'
+            href='/auth/register'
             className={`${styles.submitButton} text-center`}
             >    
                 <button className={`${styles.submitButton} text-center`}>
@@ -106,7 +106,7 @@ export default function Monitor() {
                 <h1 className={`${styles.greenText} `}>
                     Already have an account? 
                 </h1>
-                <Link href='/auth/Login' className={`${styles.loginText}`}>
+                <Link href='/auth/login' className={`${styles.loginText}`}>
                     Login
                 </Link>
             </div>
