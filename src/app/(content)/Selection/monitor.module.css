@@ -17,7 +17,7 @@
 
 .chosen {
     width: 60%;
-    height: 10vw;
+    height: 12vw;
     flex-shrink: 0;
     border-radius: 2vw;
     border: .5vw solid #13544E;
@@ -26,7 +26,7 @@
 
 .unchosen {
     width: 60%;
-    height: 10vw;
+    height: 12vw;
     flex-shrink: 0;
     border-radius: 2vw;
     background: #D9D9D9;

@@ -92,15 +92,10 @@ export default function Monitor() {
                     </h1>
                 </div>
             </div>
-            <Link 
-            href='/auth/Register'
-            className={`${styles.submitButton} text-center`}
-            >    
-                <button className={`${styles.submitButton} text-center`}>
-                    <h1 className={`${styles.submitButtonText} ${dm_sans.className} text-center`}>
-                        Start your business now
-                    </h1>
-                </button>
+            <Link href='/auth/Register' className={`${styles.submitButton} flex items-center`}>   
+                <h1 className={`${styles.submitButtonText} ${dm_sans.className} w-full text-center`}>
+                    Start your business now
+                </h1>
             </Link>
             <div className={`${dm_sans.className} flex flex-row space-x-[0.5vw] pb-[2vw]`}>
                 <h1 className={`${styles.greenText} `}>
