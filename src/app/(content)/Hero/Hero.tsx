@@ -1,6 +1,8 @@
 "use client"
+import React from 'react';
 import Image from 'next/image'
 import { CustomButton } from '.';
+import Link from 'next/link';
 
 const Hero = () => {
   const handleScroll = () => {
@@ -15,12 +17,13 @@ const Hero = () => {
                   <h1 className="hero__title text-red">Expand network</h1>
                   <h1 className="hero__title text-green">Explore your potential</h1>
                   <p className="hero__subtitle">Where to find your career prospect? How to communicate between employee and employer</p>
-                  <div className="flex flex-row space-x-3 mt-4">
-                    <CustomButton
-                      title="Know more"
-                      containerStyles="bg-green text-white min-w-[153px] mt-10"
-                      handleClick={handleScroll}
-                    />
+                  <div className="flex flex-row space-x-3 mt-2">
+                    <Link href="./auth/login">
+                      <CustomButton
+                        title="Login"
+                        containerStyles="bg-green text-white min-w-[153px] mt-10"
+                      />
+                    </Link>
                     <CustomButton
                       title="About us"
                       containerStyles="bg-red text-white min-w-[153px] mt-10"

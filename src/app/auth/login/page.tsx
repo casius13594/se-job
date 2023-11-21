@@ -1,3 +1,5 @@
+'use client'
+
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import AuthProviders from "../authproviders";
@@ -7,7 +9,7 @@ interface CredentialsFormProps {
   csrfToken?: string;
 }
 
-export function CredentialsForm(props: CredentialsFormProps){
+export default function CredentialsForm(props: CredentialsFormProps){
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
