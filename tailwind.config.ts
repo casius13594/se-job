@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         inter: ["Inter", "sans-serif"],
+        dmsans:["var(--font-dmsans)"],
       },
       colors: {
         "black-100": "#212326",
