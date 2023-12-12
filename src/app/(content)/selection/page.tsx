@@ -38,9 +38,11 @@ export default function Monitor() {
 
     return( 
         <main className = "flex flex-col min-h-screen max-h-screen h-full items-center space-y-[2vw]">
-            <h1 className={`${styles.logo} ${headerFont.className} w-full px-[1vw]`}>
-                Jelp
-            </h1>
+            <Link href='/' className = 'w-full px-[1vw]'>
+                <h1 className={`${styles.logo} ${headerFont.className} w-full px-[1vw]`}>
+                    Jelp
+                </h1>
+            </Link>
             <div 
             onClick={clickEmployee} 
             className = {`flex flex-row ${ employee? styles.chosen : styles.unchosen}`}>
@@ -94,7 +96,7 @@ export default function Monitor() {
             </div>
             <Link href='/auth/register' className={`${styles.submitButton} flex items-center`}>   
                 <h1 className={`${styles.submitButtonText} ${dm_sans.className} w-full text-center`}>
-                    Start your business now
+                    { employee? "Explore your career now" : "Start your business now"}
                 </h1>
             </Link>
             <div className={`${dm_sans.className} flex flex-row space-x-[0.5vw] pb-[2vw]`}>
