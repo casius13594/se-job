@@ -38,11 +38,13 @@ export default function Monitor() {
 
     return( 
         <main className = "flex flex-col min-h-screen max-h-screen h-full items-center space-y-[2vw]">
-            <Link href='/' className = 'w-full px-[1vw]'>
-                <h1 className={`${styles.logo} ${headerFont.className} w-full px-[1vw]`}>
+            <div className = 'flex flex-row content-start, w-full'>
+            <Link href='/' className = 'px-[1vw]'>
+                <h1 className={`${styles.logo} ${headerFont.className} px-[3vw]`}>
                     Jelp
                 </h1>
             </Link>
+            </div>
             <div 
             onClick={clickEmployee} 
             className = {`flex flex-row ${ employee? styles.chosen : styles.unchosen}`}>
