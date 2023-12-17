@@ -6,7 +6,7 @@ import {createClient} from '@/utils/supabase/middleware';
 import * as z from "zod";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { signUpWithEmailAndPassword } from '../actions';
+import { signUpWithEmailAndPassword } from '@/app';
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const userSchema = z
