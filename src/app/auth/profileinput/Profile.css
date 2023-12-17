@@ -1,0 +1,16 @@
+.two-column-layout {
+    display: flex;
+  }
+  
+  .left-column,
+  .right-column {
+    flex: 1;
+    padding: 20px; /* Adjust padding as needed */
+  }
+  
+  .curved-box {
+    border-radius: 8px; /* Adjust border-radius as needed */
+    border: 1px solid #ccc; /* Add a border for styling */
+    padding: 20px; /* Adjust padding as needed */
+    margin: 10px; /* Adjust margin as needed */
+  }
