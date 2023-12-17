@@ -1,16 +1,15 @@
 import Image from 'next/image'
 import style from './style/component.module.css';
-
+import Link from 'next/link'
 
 export default function Home() {
   return (
     <main className="flex min-h-screen  items-center justify-between">
       <div className='flex min-h-screen flex-col min-w-full items-center '>
-        <div className="relative top-0 left-0 flex border-b border-black w-full items-end lg:static lg:h-auto lg:bg-none">
-          <a
-            className={style.customText}
-            target="_blank"
-            rel="noopener noreferrer">Jelp</a>
+        <div className="relative top-0 left-0 flex w-full items-end lg:static lg:h-auto lg:bg-none p-2">
+          <Link href="/">
+            <Image src="/Jelp.png" alt="me" width="100" height="100" />
+          </Link>
         </div>
         
         <div className='relative flex flex-col m-6 space-y-8 bg-white shadow-2xl rounded-2x '>
