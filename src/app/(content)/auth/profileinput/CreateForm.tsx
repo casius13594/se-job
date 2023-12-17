@@ -13,7 +13,7 @@ const CreateForm = () => {
     const[type,setType] = useState('')
     const[intro,setIntro] = useState('')
   return (
-        <form className='w-1/2  ml-11'>
+        <form className='ml-11'>
             <div className='w-full flex flex-col items-start mb-4'>
                 <label htmlFor='name' className='font-bold'>
                 Name <span className='text-red'>*</span>
@@ -107,6 +107,20 @@ const CreateForm = () => {
                 className='p-1 border rounded-md w-full'
             ></input>
             </div>
+
+            <div className='w-full flex flex-col items-start mb-4'>
+            <label htmlFor='intro' className='font-bold'>
+                Introduction <span className='text-red'>*</span>
+            </label>
+            <textarea
+                required
+                autoComplete='off'
+                onChange={(e) => setIntro(e.target.value)}
+                value={intro}
+                className='p-1 border rounded-md w-full'
+            ></textarea>
+            </div>
+            
         </form>
   )
 }

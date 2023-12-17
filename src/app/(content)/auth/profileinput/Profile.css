@@ -14,3 +14,7 @@
     padding: 20px; /* Adjust padding as needed */
     margin: 10px; /* Adjust margin as needed */
   }
+  .scrollable-column {
+    overflow-y: auto; /* Add vertical scrollbar when content overflows */
+    max-height: 100vh; /* Set maximum height to the viewport height */
+  }
