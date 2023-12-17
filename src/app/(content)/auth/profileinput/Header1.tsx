@@ -18,7 +18,7 @@ const Header1 = () => {
 
   return (
     //this is for margin of our whole components>
-    <nav className='flex space-x-6 border-b mb-5 h-20 items-center justify-between ml-4 mr-4'>
+    <nav className='flex space-x-6 border-b h-20 items-center justify-between ml-4 mr-4'>
       <Link href="/">
         <Image src="/Jelp.png" alt="me" width="100" height="100" />
       </Link>
