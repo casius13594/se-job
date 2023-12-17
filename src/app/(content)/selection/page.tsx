@@ -65,7 +65,7 @@ export default function Monitor() {
                             Diversity
                         </h1>
                         <h1 className='text-center'>
-                            Dinamic App
+                            Dynamic App
                         </h1>
                         <h1 className='text-center'>
                             Direct Contact
