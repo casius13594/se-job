@@ -15,10 +15,10 @@ export function Notes({
     function handleSubmit(event: any) {
       event.preventDefault();
       insertNotes(
-        event.target.id.value,
-        event.target.title.value
+        event.target[0].value,
+        event.target[1].value
       );
-      alert('note added');
+      alert('note added {id: ' + event.target[0].value + ', title: ' + event.target[1].value + '}');
     }
 
     // create a table show notes

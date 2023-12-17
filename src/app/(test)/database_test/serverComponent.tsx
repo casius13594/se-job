@@ -16,10 +16,11 @@ export async function selectNotes() {
     );
 }
 
-export async function insertNotes(id: number, title: string) {
+export async function insertNotes(i: number, t: string) {
     const supabase = createClient();
-    await supabase.from('notes')
+    await supabase
+        .from('notes')
         .insert([
-            { id: id, title: title }
+            { id: i, title: t }
     ]);
 }
