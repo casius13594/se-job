@@ -15,3 +15,5 @@ export async function signUpWithEmailAndPassword(data: {
 
 }
 
+export async function signInWithPassword()
+
