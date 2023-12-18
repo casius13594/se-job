@@ -1,9 +1,8 @@
-'use client'
 
 import React from 'react';
 import Link from 'next/link';
 import styles from '../Selection/monitor.module.css'
-import { headerFont, dela_gothic_one, dm_sans } from "./fonts"
+import { headerFont, dela_gothic_one, dm_sans } from "@/components/fonts"
 
 export default function Monitor() {
     const [employee, setEmployee] = React.useState(true);
