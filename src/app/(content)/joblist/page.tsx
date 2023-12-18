@@ -21,7 +21,7 @@ export default function JobList(){
                         <div>
                             <label htmlFor = 'location'>Location</label>
                             <select id = 'location' className = 'rounded-lg bg-gray-300 w-full'>
-                                <option value='*'>All</option>
+                                <option value='%'>All</option>
                                 <option value='Ha Noi'>Ha Noi</option>
                                 <option value='Ho Chi Minh'>Ho Chi Minh</option>
                                 <option value='Da Nang'>Da Nang</option>
@@ -30,7 +30,7 @@ export default function JobList(){
                         <div>
                             <label htmlFor = 'rating'>Category</label>
                             <select id = 'rating' className = 'rounded-lg bg-gray-300 w-full'>
-                                <option value='*'>All</option>
+                                <option value='%'>All</option>
                                 <option value='good'>Good</option>
                                 <option value='acceptable'>Acceptable</option>
                                 <option value='bad'>Bad</option>
@@ -39,16 +39,17 @@ export default function JobList(){
                         <div>
                             <label htmlFor = 'experience'>Experience</label>
                             <select id = 'experience' className = 'rounded-lg bg-gray-300 w-full'>
-                                <option value='*'>All</option>
-                                <option value='0'>None</option>
-                                <option value='1'>1-2 years</option>
-                                <option value='2'>2+ years</option>
+                                <option value='%'>All</option>
+                                <option value='none'>None</option>
+                                <option value='fresher'>Fresher</option>
+                                <option value='mid_level'>Mid-level</option>
+                                <option value='senior'>Senior</option>
                             </select>
                         </div>
                         <div>
                             <label htmlFor = 'type'>Type</label>
                             <select id = 'type' className = 'rounded-lg bg-gray-300 w-full'>
-                                <option value='*'>All</option>
+                                <option value='%'>All</option>
                                 <option value='fulltime'>Fulltime</option>
                                 <option value='parttime'>Parttime</option>
                                 <option value='intern'>Intern</option>
@@ -61,7 +62,6 @@ export default function JobList(){
                                 <input 
                                     type='number' 
                                     id = 'salary-min' 
-                                    placeholder='0'
                                     className = 'rounded-lg bg-gray-300 w-full'
                                 />
                             </div>
@@ -70,7 +70,6 @@ export default function JobList(){
                                 <input 
                                     type='number' 
                                     id = 'salary-max'
-                                    placeholder='100000000'
                                     className = 'rounded-lg bg-gray-300 w-full'
                                 />
                             </div>
