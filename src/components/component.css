@@ -1,0 +1,14 @@
+.circle-button {
+    width: 35px; /* Set the desired width */
+    height: 35px; /* Set the desired height, make it the same as the width for a perfect circle */
+    border-radius: 50%; /* Make it a circle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black; /* Set the background color to black */
+    color: white; /* Set the text/icon color to white, or any other color that provides good contrast */
+  }
+  
+.link-name {
+    margin-top: 5px; /* Adjust the margin as needed for spacing between button and text */
+}
