@@ -5,7 +5,7 @@ import Link from 'next/link';
 import * as z from "zod";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { signUpWithEmailAndPassword, readUserAuth,insertNotes } from '@/app';
+import { signUpWithEmailAndPassword, signOutUser} from '@/app';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useSearchParams,useRouter } from 'next/navigation';
@@ -29,10 +29,7 @@ const userSchema = z
 
 export default function Register() {
   const router = useRouter();
-  const searchParams = useSearchParams()
-  const check_employee = searchParams.get("employee")
   const supabase = createClientComponentClient();
-  const is_employee = check_employee === "true"
   const {
     register,
     handleSubmit,
@@ -52,7 +49,7 @@ export default function Register() {
     const res = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: is_employee?"http://localhost:3000/joblist":"http://localhost:3000/auth/profileinput"
+        redirectTo: "http://localhost:3000/joblist"
       }
     });
     if (res.error) {
@@ -85,11 +82,8 @@ export default function Register() {
           alert("Something went wrong");
         }
       }else{
-        if(check_employee==="true"){
-          router.push("../../joblist");
-        }else{
-          router.push("../../auth/profileinput");
-        }
+          signOutUser()
+          router.push("../../auth/login");
       }
     
 
