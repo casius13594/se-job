@@ -49,7 +49,7 @@ const Navbar = () => {
             btnType="button"
             containerStyles="text-black-100 rounded-full bg-white hover:bg-grey"
           />
-          <Link href="/selection">
+          <Link href="/auth/register">
             <CustomButton
               title="Register Now"
               btnType="button"

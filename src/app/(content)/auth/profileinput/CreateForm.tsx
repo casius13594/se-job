@@ -3,6 +3,8 @@ import React from 'react'
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import './Profile.css'; 
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+
 const defaultformdata = {
     name: "",
     location: "",
@@ -15,6 +17,7 @@ const defaultformdata = {
 const CreateForm = () => {
     const [formData, setFormData] = useState(defaultformdata)
     const { name, location, phone, url, inds,size, type } = formData
+    const supabase = createClientComponentClient();
     const router = useRouter
     {/*const [name, setName] = useState('')
     const[location,setLocation] = useState('')
@@ -36,6 +39,53 @@ const CreateForm = () => {
         e.preventDefault();
         console.log(formData)
         console.log(intro)
+        const res = await supabase.auth.getUser();
+        
+        if (res.data.user?.id) {
+            const existingUser = await supabase
+            .schema("public")
+            .from("Employer")
+            .select("user_id")
+            .eq("user_id", res.data.user.id)
+            .single();
+            
+            if(existingUser.data)
+            {
+                await supabase
+                .schema("public")
+                .from('Employer')
+                .update({
+                    name: name,
+                    verified: false,
+                    location: location,
+                    phone: phone,
+                    url: url,
+                    inds: inds,
+                    size: size,
+                    type: type,
+                    description: intro
+                    })
+                .eq('user_id', res.data.user.id);
+            }
+            else{
+                await supabase
+                .schema("public")
+                .from('Employer')
+                .insert({
+                    user_id: res.data.user.id,
+                    name: name,
+                    verified: false,
+                    location: location,
+                    phone: phone,
+                    url: url,
+                    inds: inds,
+                    size: size,
+                    type: type,
+                    description: intro
+                    });
+
+            }
+        }
         setFormData(defaultformdata)
     }
   return (
