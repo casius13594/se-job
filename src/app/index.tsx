@@ -15,5 +15,20 @@ export async function signUpWithEmailAndPassword(data: {
 
 }
 
-export async function signInWithPassword()
+export async function readUserAuth() {
+    const supabase = await createClient();
+    const userAuth = await supabase.auth.getUser();
+    return userAuth;
+};
+
+export async function insertNotes(i: string, t: string) {
+    const supabase = createClient();
+    await supabase
+        .from('User')
+        .insert([
+            { user_id: i, type: t }
+    ]);
+};
+
+
 

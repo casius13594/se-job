@@ -96,7 +96,9 @@ export default function Monitor() {
                     </h1>
                 </div>
             </div>
-            <Link href='/auth/register' className={`${styles.submitButton} flex items-center`}>   
+            <Link href={{pathname: '/auth/register',query: {
+                employee: employee
+            }}} className={`${styles.submitButton} flex items-center`}>   
                 <h1 className={`${styles.submitButtonText} ${dm_sans.className} w-full text-center`}>
                     { employee? "Explore your career now" : "Start your business now"}
                 </h1>
