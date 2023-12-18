@@ -2,11 +2,15 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
 import styles from '../Selection/monitor.module.css'
 import { headerFont, dela_gothic_one, dm_sans } from "./fonts"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function Monitor() {
     const [employee, setEmployee] = React.useState(true);
+    const supabase = createClientComponentClient();
+    const router = useRouter();
 
     function clickEmployee()
     {
@@ -34,6 +38,35 @@ export default function Monitor() {
                 <circle cx="35" cy="35" r="26" fill="#F2F0F0"/>
             </svg>
         )
+    }
+
+    const getURL = async () => {
+        const res = await supabase.auth.getUser();
+      
+        if (res.data.user?.id) {
+            const userType = employee ? 'employee' : 'employer';
+      
+          // Update the user type in the User table
+            await supabase
+            .from('User')
+            .update({ type: userType })
+            .eq('user_id', res.data.user.id);
+        
+            if(userType === "employee")
+            {
+                await supabase
+                .schema("public")
+                .from("User")
+                .insert([
+                    { user_id: res.data.user.id},
+                ]);
+                router.push("../../joblist");
+            }
+            else{
+                router.push("../../auth/profileinput");
+            }
+        }
+      
     }
 
     return( 
@@ -96,11 +129,11 @@ export default function Monitor() {
                     </h1>
                 </div>
             </div>
-            <Link href={employee? '/joblist':'/profileinput'} className={`${styles.submitButton} flex items-center`}>   
-                <h1 className={`${styles.submitButtonText} ${dm_sans.className} w-full text-center`}>
+            <button onClick = {getURL} className={`${styles.submitButton} flex items-center`}>   
+                <a className={`${styles.submitButtonText} ${dm_sans.className} w-full text-center`}>
                     { employee? "Explore your career now" : "Start your business now"}
-                </h1>
-            </Link>
+                </a>
+            </button>
             <div className={`${dm_sans.className} flex flex-row space-x-[0.5vw] pb-[2vw]`}>
                 <h1 className={`${styles.greenText} `}>
                     Already have an account? 

@@ -33,13 +33,13 @@ export default function CredentialsForm() {
     });
 
     if (!res.error && res.data.user) {
-      router.push("../../joblist");
+      
 
       // Check if the user already exists in the database
       const existingUser = await supabase
         .schema("public")
         .from("User")
-        .select("user_id")
+        .select("user_id,type")
         .eq("user_id", res.data.user.id)
         .single();
 
@@ -51,7 +51,37 @@ export default function CredentialsForm() {
           .from("User")
           .update({ status: "online" })
           .eq("user_id", res.data.user.id);
+        
+        if(existingUser.data.type !== "null")
+        {
+          if(existingUser.data.type === "employer"){
+            const existingEmployer = await supabase
+            .schema("public")
+            .from("Employer")
+            .select("user_id")
+            .eq("user_id", res.data.user.id)
+            .single();
+            if(existingEmployer.data)
+            {
+              // if employer exists in the Employer table
+              // route to company page
+              console.log("Company page")
+            }
+            else{
+              router.push("../../auth/profileinput");
+            }
+            
+          }
+          else{
+            router.push("../../joblist");
+          }
+        }
+        else{
+          router.push("../../selection");
+        }
+        
       } else {
+        router.push("../../selection");
         // If the user doesn't exist, insert a new record
         await supabase
           .schema("public")
@@ -59,6 +89,7 @@ export default function CredentialsForm() {
           .insert([
             { user_id: res.data.user.id, status: "online", type: "null" },
           ]);
+          
       }
     } else {
       console.error(res.error);
