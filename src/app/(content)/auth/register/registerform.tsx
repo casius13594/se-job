@@ -32,7 +32,7 @@ export default function Register() {
   const searchParams = useSearchParams()
   const check_employee = searchParams.get("employee")
   const supabase = createClientComponentClient();
-
+  const is_employee = check_employee === "true"
   const {
     register,
     handleSubmit,
@@ -51,28 +51,13 @@ export default function Register() {
   const handleGoogle = async () => {
     const res = await supabase.auth.signInWithOAuth({
       provider: "google",
-    });
-    if (errors) {
-      router.push("/register");
-    };
-    if(check_employee==="true"){
-      try {
-        const user = await readUserAuth();
-        const id_user = user.data.user?.id;
-      
-        if (id_user) {
-          await insertNotes(id_user, "employee");
-          console.log('Data inserted successfully.');
-        } else {
-          console.error('User ID not available.');
-        }
-      } catch (error) {
-        console.error('An error occurred:', error);
+      options: {
+        redirectTo: is_employee?"http://localhost:3000/joblist":"http://localhost:3000/auth/profileinput"
       }
-      router.push("../../joblist");
-    }else{
-      router.push("../../auth/profileinput");
-    };
+    });
+    if (res.error) {
+      router.push("/register");
+    }
 };
 
   const onSubmit = async (data: z.infer<typeof userSchema>) =>{
@@ -101,19 +86,6 @@ export default function Register() {
         }
       }else{
         if(check_employee==="true"){
-          try {
-            const user = await readUserAuth();
-            const id_user = user.data.user?.id;
-          
-            if (id_user) {
-              await insertNotes(id_user, "employee");
-              console.log('Data inserted successfully.');
-            } else {
-              console.error('User ID not available.');
-            }
-          } catch (error) {
-            console.error('An error occurred:', error);
-          }
           router.push("../../joblist");
         }else{
           router.push("../../auth/profileinput");
@@ -139,8 +111,8 @@ export default function Register() {
         </div>
         
         <div className='relative flex flex-col m-6 space-y-8 bg-white shadow-2xl rounded-2x '>
-          <form onSubmit= {handleSubmit(onSubmit)} className='flex flex-col justify-center p-8 md:p-14'>
-            <div className='relative  flex pr-2 pl-2 pb-2 items-center justify-center border-b border-black'>
+          <div onSubmit= {handleSubmit(onSubmit)} className='flex flex-col justify-center p-8'>
+            <div className='relative  flex pr-2 pl-2 items-center justify-center border-b border-black'>
               <button
               type='button'
               onClick={handleGoogle} 
@@ -149,71 +121,73 @@ export default function Register() {
                 Connect via Google
               </button>
             </div> 
-
-            <div className='p-1 mt-10 mb-2 items-center bg-[#D9D9D9] rounded-2xl'>
-              <img src='/iconPassword.svg' className = " inline ml-2 mr-2 pr-2 border-r border-separate"></img>
-              <input 
-                {...register("email")}
-                type="email" 
-                className='p-2 focus:outline-none focus:bg-[#D9D9D9] focus:text-gray-900 bg-[#D9D9D9] font-semibold'
-                name='email'
-                id='email'
-                placeholder='Username or gmail'                  autoComplete='off'
-                >
-              </input>
-            </div>
-            {errors.email && (
-                <p className='text-red font-semibold'>{`${errors.email.message}`}</p>
-              )}
-
-            <div className='p-1 my-2 items-center bg-[#D9D9D9] rounded-2xl'>
-              <img src='/iconPassword.svg' className = " inline ml-2 mr-2 pr-2 border-r border-separate"></img>
-              <input 
-                {...register("password")}
-                type="password" 
-                className='p-2 focus:outline-none focus:bg-[#D9D9D9] focus:text-gray-900 bg-[#D9D9D9] font-semibold'
-                name='password'
-                id='password'
-                placeholder='Password'
-                autoComplete='off'
-                >
-              </input>
-            </div>
-            {errors.password && (
-                <p className='text-red font-semibold'>{`${errors.password.message}`}</p>
-              )}
             
-            <div className='p-1 my-2 items-center bg-[#D9D9D9] rounded-2xl'>
-              <img src='/iconPassword.svg' className = " inline ml-2 mr-2 pr-2 border-r border-separate"></img>
-              <input 
-                {...register("confirm")}
-                type="password" 
-                className='p-2 focus:outline-none focus:bg-[#D9D9D9] focus:text-gray-900 bg-[#D9D9D9] font-semibold'
-                name='confirm'
-                id='confirm'
-                placeholder='Re-enter'
-                autoComplete='off'
-                >
-              </input> 
-            </div>
-            {errors.confirm && (
-                <p className='text-red font-semibold'>{`${errors.confirm.message}`}</p>
-            )}
-            
-            <button
-              type="submit"
-              className='my-4 p-2 text-center rounded-2xl text-white font-semibold focus:outline-none focus:bg-[#000000] items-center justify-center bg-[#000000] opacity-20 '>
-                Sign in
-            </button>
+            <form onSubmit= {handleSubmit(onSubmit)} className='flex flex-col justify-center'>
+              <div className='p-1 mt-10 mb-2 items-center bg-[#D9D9D9] rounded-2xl'>
+                <img src='/iconPassword.svg' className = " inline ml-2 mr-2 pr-2 border-r border-separate"></img>
+                <input 
+                  {...register("email")}
+                  type="email" 
+                  className='p-2 focus:outline-none focus:bg-[#D9D9D9] focus:text-gray-900 bg-[#D9D9D9] font-semibold'
+                  name='email'
+                  id='email'
+                  placeholder='Username or gmail'                  autoComplete='off'
+                  >
+                </input>
+              </div>
+              {errors.email && (
+                  <p className='text-red font-semibold'>{`${errors.email.message}`}</p>
+                )}
 
-            <div className='text-center text-black font-bold text-xs'>
-              Already have an account? 
-              <span className="font-semibold text-[#505050] text-opacity-70"> Log in now</span>
-            </div>
+              <div className='p-1 my-2 items-center bg-[#D9D9D9] rounded-2xl'>
+                <img src='/iconPassword.svg' className = " inline ml-2 mr-2 pr-2 border-r border-separate"></img>
+                <input 
+                  {...register("password")}
+                  type="password" 
+                  className='p-2 focus:outline-none focus:bg-[#D9D9D9] focus:text-gray-900 bg-[#D9D9D9] font-semibold'
+                  name='password'
+                  id='password'
+                  placeholder='Password'
+                  autoComplete='off'
+                  >
+                </input>
+              </div>
+              {errors.password && (
+                  <p className='text-red font-semibold'>{`${errors.password.message}`}</p>
+                )}
+              
+              <div className='p-1 my-2 items-center bg-[#D9D9D9] rounded-2xl'>
+                <img src='/iconPassword.svg' className = " inline ml-2 mr-2 pr-2 border-r border-separate"></img>
+                <input 
+                  {...register("confirm")}
+                  type="password" 
+                  className='p-2 focus:outline-none focus:bg-[#D9D9D9] focus:text-gray-900 bg-[#D9D9D9] font-semibold'
+                  name='confirm'
+                  id='confirm'
+                  placeholder='Re-enter'
+                  autoComplete='off'
+                  >
+                </input> 
+              </div>
+              {errors.confirm && (
+                  <p className='text-red font-semibold'>{`${errors.confirm.message}`}</p>
+              )}
+              
+              <button
+                type="submit"
+                className='my-4 p-2 text-center rounded-2xl text-white font-semibold focus:outline-none focus:bg-[#000000] items-center justify-center bg-[#000000] opacity-20 '>
+                  Sign in
+              </button>
 
-             
+              <div className='text-center text-black font-bold text-xs'>
+                Already have an account? 
+                <span className="font-semibold text-[#505050] text-opacity-70"> Log in now</span>
+              </div>
 
-          </form>
+              
+
+            </form>
+          </div>
         </div>
       </div>
     </main>
