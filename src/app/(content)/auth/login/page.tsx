@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { DM_Sans } from "next/font/google";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from "@supabase/supabase-js";
 
 const dmsans = DM_Sans({
   subsets: ["latin"],
@@ -25,8 +25,6 @@ export default function CredentialsForm() {
 
   const supabase = createClientComponentClient();
 
-  
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const res = await supabase.auth.signInWithPassword({
@@ -36,6 +34,32 @@ export default function CredentialsForm() {
 
     if (!res.error && res.data.user) {
       router.push("../../joblist");
+
+      // Check if the user already exists in the database
+      const existingUser = await supabase
+        .schema("public")
+        .from("User")
+        .select("user_id")
+        .eq("user_id", res.data.user.id)
+        .single();
+
+      if (existingUser.data) {
+        // If the user exists, update the status
+
+        await supabase
+          .schema("public")
+          .from("User")
+          .update({ status: "online" })
+          .eq("user_id", res.data.user.id);
+      } else {
+        // If the user doesn't exist, insert a new record
+        await supabase
+          .schema("public")
+          .from("User")
+          .insert([
+            { user_id: res.data.user.id, status: "online", type: "null" },
+          ]);
+      }
     } else {
       console.error(res.error);
       setError(res.error?.message || null);
@@ -43,17 +67,48 @@ export default function CredentialsForm() {
   };
 
   const handleGoogle = async () => {
+    // Open Google authentication popup
+
     const res = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: {
-        redirectTo: "http://localhost:3000/joblist"
-      }
     });
+
     if (res.error) {
-      router.push("/login");
-      setError(res.error?.message);
+      console.error("Google authentication error:", res.error.message);
+      return;
+    }
+
+    // If user is successfully authenticated
+    console.log("Successfully authenticated with Google");
+    const user = await supabase.auth.getUser();
+    console.log(user)
+    // Now you can fetch additional user data or perform other actions
+    // For example, fetching user profile data from the Supabase database
+    const existingUser = await supabase
+        .schema("public")
+        .from("User")
+        .select("user_id")
+        .eq("user_id", user.data.user?.id)
+        .single();
+    if (existingUser.data) {
+      // If the user exists, update the status
+      console.log("Updating");
+      await supabase
+        .schema("public")
+        .from("User")
+        .update({ status: "online" })
+        .eq("user_id", user.data?.user?.id);
+    } else {
+      // If the user doesn't exist, insert a new record
+      console.log("Inserting");
+      await supabase
+        .schema("public")
+        .from("User")
+        .insert([
+          { user_id: user.data.user?.id, status: "online", type: "null" },
+        ]);
+    }
   };
-};
 
   return (
     <div className="w-full flex flex-col items-center min-h-screen">
