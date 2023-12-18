@@ -2,24 +2,52 @@
 import React from 'react'
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import './Profile.css'; 
+const defaultformdata = {
+    name: "",
+    location: "",
+    phone: "",
+    url: "",
+    inds: "",
+    size: "",
+    type: "",
+}
 const CreateForm = () => {
+    const [formData, setFormData] = useState(defaultformdata)
+    const { name, location, phone, url, inds,size, type } = formData
     const router = useRouter
-    const [name, setName] = useState('')
+    {/*const [name, setName] = useState('')
     const[location,setLocation] = useState('')
     const[phone, setPhone] = useState('')
     const[url,setUrl] = useState('')
     const[inds, setInds] = useState('')
     const[size, setSize] = useState('')
-    const[type,setType] = useState('')
+    const[type,setType] = useState('')*/}
     const[intro,setIntro] = useState('')
+    const[isLoading, setIsLoading] = useState(false)
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
+        setFormData((prevState) => ({
+            ...prevState,
+            [e.target.id]: e.target.value
+        }))
+    }
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
+        e.preventDefault();
+        console.log(formData)
+        console.log(intro)
+        setFormData(defaultformdata)
+    }
   return (
-        <form className='ml-11'>
-            <div className='w-full flex flex-col items-start mb-4'>
+        <form className='ml-11 flex' onSubmit={handleSubmit}>
+            <div className='left-column curved-box'>
+            <div className='w-full flex flex-col items-start mb-4 '>
                 <label htmlFor='name' className='font-bold'>
                 Name <span className='text-red'>*</span>
                 </label>
                 <input required type = 'text' autoComplete='off'
-                onChange={(e) => setName(e.target.value)}
+                onChange={onChange}
+                id = 'name'
                 value={name}
                 className='p-1 border rounded-md w-full'
                 ></input>
@@ -32,7 +60,8 @@ const CreateForm = () => {
                 required
                 type='text'
                 autoComplete='off'
-                onChange={(e) => setLocation(e.target.value)}
+                id = 'location'
+                onChange={onChange}
                 value={location}
                 className='p-1 border rounded-md w-full'
             ></input>
@@ -46,7 +75,8 @@ const CreateForm = () => {
                 required
                 type='text'
                 autoComplete='off'
-                onChange={(e) => setPhone(e.target.value)}
+                id = 'phone'
+                onChange={onChange}
                 value={phone}
                 className='p-1 border rounded-md w-full'
             ></input>
@@ -60,7 +90,8 @@ const CreateForm = () => {
                 required
                 type='text'
                 autoComplete='off'
-                onChange={(e) => setUrl(e.target.value)}
+                id = 'url'
+                onChange={onChange}
                 value={url}
                 className='p-1 border rounded-md w-full'
             ></input>
@@ -74,12 +105,12 @@ const CreateForm = () => {
                 required
                 type='text'
                 autoComplete='off'
-                onChange={(e) => setInds(e.target.value)}
+                id = 'inds'
+                onChange={onChange}
                 value={inds}
                 className='p-1 border rounded-md w-full'
             ></input>
             </div>
-
             <div className='w-full flex flex-col items-start mb-4'>
             <label htmlFor='size' className='font-bold'>
                 Size <span className='text-red'>*</span>
@@ -88,7 +119,8 @@ const CreateForm = () => {
                 required
                 type='text'
                 autoComplete='off'
-                onChange={(e) => setSize(e.target.value)}
+                id = 'size'
+                onChange={onChange}
                 value={size}
                 className='p-1 border rounded-md w-full'
             ></input>
@@ -102,25 +134,33 @@ const CreateForm = () => {
                 required
                 type='text'
                 autoComplete='off'
-                onChange={(e) => setType(e.target.value)}
+                id = 'type'
+                onChange={onChange}
                 value={type}
                 className='p-1 border rounded-md w-full'
             ></input>
             </div>
-
+            </div>
+            <div className='right-column'>
             <div className='w-full flex flex-col items-start mb-4'>
             <label htmlFor='intro' className='font-bold'>
                 Introduction <span className='text-red'>*</span>
             </label>
             <textarea
-                required
                 autoComplete='off'
                 onChange={(e) => setIntro(e.target.value)}
                 value={intro}
                 className='p-1 border rounded-md w-full'
             ></textarea>
             </div>
-            
+            <div className='w-full flex flex-col items-start mb-4'>
+            I verify that I am an authorized representative of this organization and have the right to act on its behalf in the creation and management of this page. The organization and I agree to the additional terms for Pages.
+                </div>
+            <button className='flex flex-col items-start mb-4 curved-box' disabled = {isLoading}>
+                {isLoading && <span> Applying ...</span>}
+                {!isLoading && <span> Apply </span>}
+            </button>
+            </div>
         </form>
   )
 }
