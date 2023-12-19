@@ -33,8 +33,6 @@ export default function CredentialsForm() {
     });
 
     if (!res.error && res.data.user) {
-      
-
       // Check if the user already exists in the database
       const existingUser = await supabase
         .schema("public")
@@ -51,35 +49,28 @@ export default function CredentialsForm() {
           .from("User")
           .update({ status: "online" })
           .eq("user_id", res.data.user.id);
-        
-        if(existingUser.data.type !== "null")
-        {
-          if(existingUser.data.type === "employer"){
+
+        if (existingUser.data.type !== "null") {
+          if (existingUser.data.type === "employer") {
             const existingEmployer = await supabase
-            .schema("public")
-            .from("Employer")
-            .select("user_id")
-            .eq("user_id", res.data.user.id)
-            .single();
-            if(existingEmployer.data)
-            {
+              .schema("public")
+              .from("Employer")
+              .select("user_id")
+              .eq("user_id", res.data.user.id)
+              .single();
+            if (existingEmployer.data) {
               // if employer exists in the Employer table
               // route to company page
-              console.log("Company page")
-            }
-            else{
+              console.log("Company page");
+            } else {
               router.push("../../auth/profileinput");
             }
-            
-          }
-          else{
+          } else {
             router.push("../../joblist");
           }
-        }
-        else{
+        } else {
           router.push("../../selection");
         }
-        
       } else {
         router.push("../../selection");
         // If the user doesn't exist, insert a new record
@@ -89,10 +80,9 @@ export default function CredentialsForm() {
           .insert([
             { user_id: res.data.user.id, status: "online", type: "null" },
           ]);
-          
       }
     } else {
-      console.log("user: ",res.data.user);
+      console.log("user: ", res.data.user);
       console.error(res.error);
       setError(res.error?.message || null);
     }
@@ -113,15 +103,15 @@ export default function CredentialsForm() {
     // If user is successfully authenticated
     console.log("Successfully authenticated with Google");
     const user = await supabase.auth.getUser();
-    console.log(user)
+    console.log(user);
     // Now you can fetch additional user data or perform other actions
     // For example, fetching user profile data from the Supabase database
     const existingUser = await supabase
-        .schema("public")
-        .from("User")
-        .select("user_id")
-        .eq("user_id", user.data.user?.id)
-        .single();
+      .schema("public")
+      .from("User")
+      .select("user_id")
+      .eq("user_id", user.data.user?.id)
+      .single();
     if (existingUser.data) {
       // If the user exists, update the status
       console.log("Updating");
@@ -163,7 +153,7 @@ export default function CredentialsForm() {
           onSubmit={(event) => handleSubmit(event)}
         >
           {error && (
-            <span className="p-4 mb-2 text-lg font-semibold text-white bg-red rounded-md">
+            <span className="w-full p-4 mb-2 text-lg font-semibold text-white bg-red rounded-md text-center">
               {error}
             </span>
           )}
