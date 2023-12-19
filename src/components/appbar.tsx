@@ -4,7 +4,6 @@ import Link from "next/link";
 import React from "react";
 import Image from 'next/image';
 import { usePathname } from "next/navigation";
-import { BiLogIn} from 'react-icons/bi';
 import './component.css'
 import classnames from 'classnames';
 import { Button, ThemePanel } from "@radix-ui/themes"
