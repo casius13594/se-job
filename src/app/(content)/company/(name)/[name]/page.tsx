@@ -5,13 +5,12 @@ interface pageProps{
     params: {name: string}
 }
 
-export async function check_user_id(name: string){
-    "use server"
-    const supabase = createClient();
+// export async function check_user_id(name: string){
+//     "use server"
+//     const supabase = createClient();
 
-    const user = await supabase.auth.getUser()
-
-}
+    
+// }
 
 const page:FC<pageProps> =  ({params}) =>{
 
