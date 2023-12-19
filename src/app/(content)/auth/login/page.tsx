@@ -92,6 +92,7 @@ export default function CredentialsForm() {
           
       }
     } else {
+      console.log("user: ",res.data.user);
       console.error(res.error);
       setError(res.error?.message || null);
     }
@@ -162,7 +163,7 @@ export default function CredentialsForm() {
           onSubmit={(event) => handleSubmit(event)}
         >
           {error && (
-            <span className="p-4 mb-2 text-lg font-semibold text-white bg-red-500 rounded-md">
+            <span className="p-4 mb-2 text-lg font-semibold text-white bg-red rounded-md">
               {error}
             </span>
           )}
