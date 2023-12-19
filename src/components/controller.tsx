@@ -1,10 +1,11 @@
+'use server'
 
 import { headers, cookies } from 'next/headers'
 import { createClient } from '@/utils/supabase/server'
 import React from 'react'
 
 
-export async function getJob(formData: FormData, keyword: string) {
+export async function getJob(formData: FormData) {
     'use server'
     // get user
     const cookieStore = cookies()
@@ -34,18 +35,21 @@ export async function getJob(formData: FormData, keyword: string) {
         return null
     }
     return (
-        <div className='flex flex-col h-full w-full overflow-scroll'>
+        <div className='flex flex-col h-full w-full'>
             {
                 jobs.map((job) => (
                     <ul>
-                        <li className='flex flex-row justify-evenly w-full border-black rounded-md p-x-[1vw] p-y-[0.5hw]'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="117" height="117" viewBox="0 0 117 117" fill="none">
-                                <circle cx="58.5" cy="58.5" r="58.5" fill="#D9D9D9"/>
-                            </svg>
-                            <div className='flex flex-col justify-between w-full'>
+                        <li className='flex flex-row w-full border-2 border-black rounded-md'>
+                            <div className='flex m-[1vw]'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="117" height="117" viewBox="0 0 117 117" fill="none">
+                                    <circle cx="58.5" cy="58.5" r="58.5" fill="#D9D9D9"/>
+                                    {job.employer_logo}
+                                </svg>
+                            </div>
+                            <div className='flex flex-col justify-between w-full p-[1vw]'>
                                 <div className='flex flex-row justify-between w-full'>
                                     <h1 className='text-xl font-bold'>
-                                        {job.title}
+                                        {job.name}
                                     </h1>
                                     <h1 className='text-xl font-bold'>
                                         {job.salary} Millions
@@ -53,7 +57,7 @@ export async function getJob(formData: FormData, keyword: string) {
                                 </div>
                                 <div className='flex flex-row w-full'>
                                     <h1 className='text-lg'>
-                                        {job.company}
+                                        {job.employer_name}
                                     </h1>
                                 </div>
                                 <div className='flex flex-row w-full'>
@@ -63,7 +67,7 @@ export async function getJob(formData: FormData, keyword: string) {
                                 </div>
                                 <div className='flex flex-row w-full'>
                                     <h1 className='text-md'>
-                                        {job.posted_at}
+                                        {job.post_time}
                                     </h1>
                                 </div>
                             </div>

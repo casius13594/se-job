@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/server';
 import React from 'react';
 import { selectNotes, insertNotes } from './serverComponent';
 
-export function Notes({
+function Notes({
   notesTable,
 }:
   {

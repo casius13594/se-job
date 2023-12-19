@@ -1,14 +1,49 @@
+'use client'
 
 import AppBar from '@/components/appbar';
 import React from 'react';
 import { dm_sans } from '@/components/fonts';
+import { getJob } from '@/components/controller';
 
-export default function JobListClient(jobList: React.ReactNode){
+export default function JobList() {
+    const [jobList, setJobList] = React.useState(null)
+    const formData = new FormData()
+    formData.append('location', '%')
+    formData.append('type', '%')
+    formData.append('experience', '%')
+    formData.append('salary', '%')
 
+    React.useEffect(() => {
+        async function getJobList() {
+            const jobList = await getJob(formData)
+            setJobList(jobList as any)
+        }
+        getJobList()
+    }, [])
     return (
         <>
         <AppBar />
-        <main className = {`flex flex-col h-[100vh] ${dm_sans.className}`}>
+        <main className = {`flex flex-col h-[100vh] ${dm_sans.className} overflow-hidden`}>
+            <JobListClient jobList={jobList} />
+        </main>
+        </>
+    )
+}
+
+function JobListClient({
+    jobList,
+}:
+{
+    jobList: React.ReactNode
+}) {
+
+    // form handler
+    function handdelSubmit(event: any) {
+        event.preventDefault()
+        jobList = getJob(event.target)
+    }
+
+    return (
             <div className = 'flex flex-row min-h-full w-full pt-[7vw] px-[2vh] space-x-[2vw]'>
                 <div className = 'flex flex-col w-[15vw] min-h-full'>
                     <h1 className='flex flex-row w-full text-center text-lg font-bold'>
@@ -17,7 +52,11 @@ export default function JobListClient(jobList: React.ReactNode){
                         </svg>
                         Filter your choices
                     </h1>
-                    <form id = 'filter' className='flex flex-col w-full space-y-[0.5vw]'>
+                    <form 
+                        id = 'filter' 
+                        className='flex flex-col w-full space-y-[0.5vw]'
+                        onSubmit={event => handdelSubmit(event)}
+                    >
                         <div>
                             <label htmlFor = 'location'>Location</label>
                             <select id = 'location' className = 'rounded-lg bg-gray-300 w-full'>
@@ -94,7 +133,7 @@ export default function JobListClient(jobList: React.ReactNode){
                             </select>   
                         </div>
                     </div>
-                    <div className = 'flex flex-col w-full h-full space-y-[2vw] overflow-scroll'>
+                    <div className = 'flex flex-col w-full h-full space-y-[2vw] overflow-y-scroll no-scrollbar'>
                         {jobList}
                     </div>
                 </div>
@@ -130,7 +169,5 @@ export default function JobListClient(jobList: React.ReactNode){
                     </div>
                 </div>
             </div>
-        </main>
-        </>
     )
 }
