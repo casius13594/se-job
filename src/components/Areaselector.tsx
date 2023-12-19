@@ -38,6 +38,7 @@ const Areaselector: React.FC<{
     <>
       <div className="flex">
         <div>
+            <div className="font-bold">Country</div>
           <Selector
             data={countryData}
             selected={country}
@@ -45,9 +46,11 @@ const Areaselector: React.FC<{
           />
         </div>
         <div>
+        <div className="font-bold">City</div>
           <Selector data={stateData} selected={state} setSelected={setState} />
         </div>
         <div>
+        <div className="font-bold">District</div>
           <Selector data={cityData} selected={city} setSelected={setCity} />
         </div>
       </div>

@@ -5,10 +5,12 @@ import { useState } from "react";
 import "./Profile.css";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Areaselector from "@/components/Areaselector";
+import Acceptbutton from "@/components/acceptbutton";
 import { City, Country, State } from "country-state-city";
 // Import Interfaces`
 import { ICountry, IState, ICity } from "country-state-city";
-import Link from "next/link";
+import { IoIosCheckbox,IoIosCheckboxOutline } from "react-icons/io";
+
 
 const defaultformdata = {
   name: "",
@@ -19,10 +21,11 @@ const defaultformdata = {
   size: "",
   type: "",
   icon: "",
+  address: "",
 };
 const CreateForm = () => {
   const [formData, setFormData] = useState(defaultformdata);
-  const { name, location, phone, url, inds, size, type, icon } = formData;
+  const { name, location, phone, url, inds, size, type, icon, address} = formData;
   const supabase = createClientComponentClient();
   const router = useRouter();
   let countryData = Country.getAllCountries();
@@ -42,7 +45,6 @@ const CreateForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [imageSrc, setImageSrc] = useState<File | null>(null);
-
   const onImageHandelr = async (event: React.ChangeEvent<HTMLInputElement>) => {
     let file;
     if (event.target.files) {
@@ -63,6 +65,9 @@ const CreateForm = () => {
   };
   console.log(formData);
   console.log(imageSrc);
+  const locationString = `${city?.name || ' '}  , ${state?.name || ' '} , ${country?.name || ''}`;
+
+
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -125,7 +130,7 @@ const CreateForm = () => {
             name: name,
             logo: url_logo.data.publicUrl,
             verified: false,
-            location: location,
+            location: address  + ' ' + locationString,
             phone: phone,
             url: url,
             inds: inds,
@@ -140,7 +145,7 @@ const CreateForm = () => {
           logo: url_logo.data.publicUrl,
           name: name,
           verified: false,
-          location: location,
+          location: address  + ' ' + locationString,
           phone: phone,
           url: url,
           inds: inds,
@@ -274,11 +279,9 @@ const CreateForm = () => {
           </select>
         </div>
       </div>
+    
       <div className="right-column curved-box">
         <div className="w-full flex flex-col items-start mb-4">
-          <label htmlFor="location" className="font-bold">
-            Location <span className="text-red">*</span>
-          </label>
           <Areaselector
             country={country}
             setCountry={setCountry}
@@ -287,6 +290,34 @@ const CreateForm = () => {
             city={city}
             setCity={setCity}
           ></Areaselector>
+        </div>
+        <label htmlFor='location2' className='font-bold'>
+            Address <span className='text-red'>*</span>
+        </label>
+        <div className="flex">
+        <div className='w-full flex flex-col items-start mb-4'>
+        <input
+            required
+            type='text'
+            autoComplete='off'
+            id='address'
+            onChange={onChange}
+            value={address}
+            className='p-1 border rounded-md w-full'
+        />
+        </div>
+        <div className='w-full flex flex-col items-start mb-4 ml-4'>
+        <input
+            required
+            type='text'
+            autoComplete='off'
+            id='location3'
+            onChange={onChange}
+            value={locationString}
+            readOnly  // This makes the input read-only
+            className='p-1 border rounded-md w-full'
+        />
+        </div>
         </div>
         <div className="w-full flex flex-col items-start mb-4">
           <label htmlFor="intro" className="font-bold">
@@ -318,11 +349,14 @@ const CreateForm = () => {
             </div>
           )}
         </div>
-        <div className="w-full flex flex-col items-start mb-4">
-          I verify that I am an authorized representative of this organization
-          and have the right to act on its behalf in the creation and management
-          of this page. The organization and I agree to the additional terms for
-          Pages.
+        <div className="flex">
+            <div className="mr-4 mt-0.5">  <Acceptbutton></Acceptbutton></div>
+        <div>
+                I verify that I am an authorized representative of this organization
+                and have the right to act on its behalf in the creation and management
+                of this page. The organization and I agree to the additional terms for
+                Pages.
+        </div>
         </div>
         <button
           className="flex flex-col items-start mb-4 curved-box"

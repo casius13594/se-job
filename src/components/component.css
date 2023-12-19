@@ -20,3 +20,17 @@
 .selector {
   margin-right: 20px; /* Space between the two selectors */
 }
+.icon-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.icon-button:focus {
+  outline: none;
+}
+
+.icon-button svg {
+  width: 24px;
+  height: 24px;
+}
