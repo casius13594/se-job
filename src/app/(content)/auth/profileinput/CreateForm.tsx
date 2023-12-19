@@ -1,10 +1,11 @@
 'use client';
 import React from 'react'
-import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import './Profile.css'; 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Areaselector from '@/components/Areaselector';
+import Link from 'next/link';
 
 const defaultformdata = {
     name: "",
@@ -20,7 +21,7 @@ const CreateForm = () => {
     const [formData, setFormData] = useState(defaultformdata)
     const { name, location, phone, url, inds,size, type, icon} = formData
     const supabase = createClientComponentClient();
-    const router = useRouter
+    const router = useRouter(); 
     {/*const [name, setName] = useState('')
     const[location,setLocation] = useState('')
     const[phone, setPhone] = useState('')
@@ -32,6 +33,7 @@ const CreateForm = () => {
     const[isLoading, setIsLoading] = useState(false)
 
     const [imageSrc, setImageSrc] = useState<string | null>(null);
+
 
     const onImageHandelr = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -58,7 +60,7 @@ const CreateForm = () => {
             setFormData((prevState) => ({
                 ...prevState,
                 [id]: value,
-                url: `jelp/company/${formattedName}`
+                url: `company/${formattedName}`
             }));
         } else {
             setFormData((prevState) => ({
@@ -69,8 +71,6 @@ const CreateForm = () => {
     }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
-        console.log(formData)
-        console.log(intro)
         const res = await supabase.auth.getUser();
         
         if (res.data.user?.id) {
@@ -118,7 +118,9 @@ const CreateForm = () => {
 
             }
         }
+        router.push('/'+url);
         setFormData(defaultformdata)
+        
     }
   return (
         <form className='ml-11 flex' onSubmit={handleSubmit}>
@@ -274,12 +276,10 @@ const CreateForm = () => {
             <div className='w-full flex flex-col items-start mb-4'>
             I verify that I am an authorized representative of this organization and have the right to act on its behalf in the creation and management of this page. The organization and I agree to the additional terms for Pages.
                 </div>
-            
             <button className='flex flex-col items-start mb-4 curved-box' disabled = {isLoading}>
                 {isLoading && <span> Applying ...</span>}
                 {!isLoading && <span> Apply </span>}
             </button>
-
             </div>
         </form>
   )

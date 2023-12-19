@@ -18,7 +18,7 @@ const Areaselector = () => {
     },[country])
 
     useEffect(()=>{
-        setCityData(City.getCitiesOfState(country?.isoCode, state?.isoCode));
+        setCityData(City.getCitiesOfState(country?.isoCode, (state!)?.isoCode));
     },[state])
 
 
