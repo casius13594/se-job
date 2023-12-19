@@ -58,7 +58,7 @@ function JobListClient({
                         Filter your choices
                     </h1>
                     <form 
-                        id = 'filter' 
+                        name = 'filter' 
                         className='flex flex-col w-full space-y-[0.5vw]'
                         action={ data => {
                             setFormData(data)}
@@ -66,7 +66,7 @@ function JobListClient({
                     >
                         <div>
                             <label htmlFor = 'location'>Location</label>
-                            <select id = 'location' className = 'rounded-lg bg-gray-300 w-full'>
+                            <select name = 'location' className = 'rounded-lg bg-gray-300 w-full'>
                                 <option value='%'>All</option>
                                 <option value='Ha Noi'>Ha Noi</option>
                                 <option value='Ho Chi Minh'>Ho Chi Minh</option>
@@ -75,7 +75,7 @@ function JobListClient({
                         </div>
                         <div>
                             <label htmlFor = 'rating'>Rating</label>
-                            <select id = 'rating' className = 'rounded-lg bg-gray-300 w-full'>
+                            <select name = 'rating' className = 'rounded-lg bg-gray-300 w-full'>
                                 <option value='%'>All</option>
                                 <option value='good'>Good</option>
                                 <option value='acceptable'>Acceptable</option>
@@ -84,7 +84,7 @@ function JobListClient({
                         </div>
                         <div>
                             <label htmlFor = 'experience'>Experience</label>
-                            <select id = 'experience' className = 'rounded-lg bg-gray-300 w-full'>
+                            <select name = 'experience' className = 'rounded-lg bg-gray-300 w-full'>
                                 <option value='%'>All</option>
                                 <option value='none'>None</option>
                                 <option value='fresher'>Fresher</option>
@@ -94,7 +94,7 @@ function JobListClient({
                         </div>
                         <div>
                             <label htmlFor = 'type'>Type</label>
-                            <select id = 'type' className = 'rounded-lg bg-gray-300 w-full'>
+                            <select name = 'type' className = 'rounded-lg bg-gray-300 w-full'>
                                 <option value='%'>All</option>
                                 <option value='fulltime'>Fulltime</option>
                                 <option value='parttime'>Parttime</option>
@@ -103,7 +103,7 @@ function JobListClient({
                         </div>
                         <div>
                             <label htmlFor = 'salary' className='w-full'>Salary</label>
-                            <select id = 'salary' className = 'rounded-lg bg-gray-300 w-full'>
+                            <select name = 'salary' className = 'rounded-lg bg-gray-300 w-full'>
                                 <option value='%'>All</option>
                                 <option value='0-5'>0 - 5 million</option>
                                 <option value='5-10'>5 - 10 million</option>
@@ -131,7 +131,7 @@ function JobListClient({
                             <label htmlFor = 'sort' className = 'text-center text-xl'>
                                 Sort by:
                             </label>
-                            <select id='sort'>
+                            <select name='sort'>
                                 <option value="none">None</option>
                                 <option value="salary-inc">Salary (increasing)</option>
                                 <option value="salary-des">Salary (descreasing)</option>
