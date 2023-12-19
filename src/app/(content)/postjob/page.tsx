@@ -7,6 +7,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Select from "react-select";
+import { postJob } from "@/components/controller";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { createClient } from "@/utils/supabase/server";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function PostJob() {
   const [error, setError] = useState<string | null>(null);
@@ -43,7 +47,33 @@ export default function PostJob() {
       sliderRef.current.slickPrev();
     }
   };
-  const handleSubmit = async (event: React.FormEvent) => {};
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const form1 = document.getElementById("form1") as HTMLFormElement;
+    const form2 = document.getElementById("form2") as HTMLFormElement;
+
+    // Check if any input or select in form1 is empty
+    const inputsForm1 = form1.querySelectorAll("input, select");
+    for (let i = 0; i < inputsForm1.length; i++) {
+      if ((inputsForm1[i] as HTMLInputElement).value === "") {
+        if (sliderRef.current) {
+          sliderRef.current.slickGoTo(0); // Slide back to the first form
+        }
+        const form1SubmitButton = document.getElementById("form1Submit");
+        if (form1SubmitButton) form1SubmitButton.click();
+        return; // Exit the function
+      }
+    }
+    const formData1 = new FormData(form1);
+    const formData2 = new FormData(form2);
+    console.log(formData1.get("name"));
+    const supabase = createClientComponentClient();
+    const user = await supabase.auth.getUser();
+    console.log(user);
+    if (user.data) {
+      postJob(formData1, formData2, user.data);
+    }
+  };
 
   const Form1 = () => (
     <div className="flex flex-col w-1/2 mx-auto">
@@ -51,27 +81,41 @@ export default function PostJob() {
         Find your talent fast, efficiently
       </h1>
 
-      <form className="w-full text-xl text-black font-semibold flex flex-col bg-white rounded-3xl px-16 py-5">
+      <form
+        id="form1"
+        className="w-full text-xl text-black font-semibold flex flex-col bg-white rounded-3xl px-16 py-5"
+      >
+        <button id="form1Submit" type="submit" style={{ display: "none" }}>
+          a
+        </button>
         <h1 className="place-self-center text-[#13544E] pb-3 font-extrabold text-3xl">
           Job Information
         </h1>
         <div className="grid grid-cols-2 text-base my-2 font-extrabold">
-          <text>General Information</text>
-          <text className="justify-self-end text-red">* Required field</text>
+          <span>General Information</span>
+          <span className="justify-self-end text-red">* Required field</span>
         </div>
 
         <div className="items-center mb-5 text-sm font-bold">
-          <text>
+          <label>
             Job Name <span className="text-red ml-1">*</span>
-          </text>
-          <input className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow p-2"></input>
+          </label>
+          <input
+            name="name"
+            required
+            className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow p-2 font-medium"
+          ></input>
         </div>
 
         <div className="items-center mb-5 text-sm font-bold">
-          <text>
+          <label>
             Workplace Type <span className="text-red ml-1">*</span>
-          </text>
-          <select className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow px-2 font-light">
+          </label>
+          <select
+            name="workplace"
+            required
+            className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow px-2 font-light"
+          >
             <option value="" hidden selected>
               Select a workplace type
             </option>
@@ -82,17 +126,25 @@ export default function PostJob() {
         </div>
 
         <div className="items-center mb-5 text-sm font-bold">
-          <text>
+          <label>
             Employee Location <span className="text-red ml-1">*</span>
-          </text>
-          <input className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow p-2"></input>
+          </label>
+          <input
+            name="location"
+            required
+            className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow p-2 font-medium"
+          ></input>
         </div>
 
         <div className="items-center mb-5 text-sm font-bold">
-          <text>
+          <label>
             Employment Type <span className="text-red ml-1">*</span>
-          </text>
-          <select className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow px-2 font-light">
+          </label>
+          <select
+            name="type"
+            required
+            className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow px-2 font-light"
+          >
             <option value="" hidden selected>
               Select an employment type
             </option>
@@ -118,15 +170,16 @@ export default function PostJob() {
       </h1>
 
       <form
+        id="form2"
+        onSubmit={(e) => handleSubmit(e)}
         className="w-full text-xl text-black font-semibold flex flex-col bg-white rounded-3xl px-16 py-5"
-        onSubmit={(event) => handleSubmit(event)}
       >
         <h1 className="place-self-center text-[#13544E] pb-2 font-extrabold text-3xl">
           Job Information
         </h1>
         <div className="grid grid-cols-2 text-base my-4 font-extrabold">
-          <text>Detailed Information</text>
-          <text className="justify-self-end text-red">* Required field</text>
+          <span>Detailed Information</span>
+          <span className="justify-self-end text-red">* Required field</span>
         </div>
 
         {/* 2 columns form */}
@@ -135,21 +188,30 @@ export default function PostJob() {
           style={{ gridTemplateColumns: "1fr 2fr" }}
         >
           <div className="items-center mb-2 text-sm font-bold col-start-1">
-            <text>
+            <label>
               Minimum Experience <span className="text-red ml-1">*</span>
-            </text>
-            <select className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow px-2 font-light">
+            </label>
+            <select
+              name="exp"
+              required
+              className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow px-2 font-light"
+            >
               <option value="" hidden selected></option>
-              <option value="1year">At least 1 year</option>
-              <option value="2year">At least 2 year</option>
-              <option value="3year">At least 3 year</option>
+              <option value="none">None</option>
+              <option value="fresher">Fresher</option>
+              <option value="junior">Junior</option>
+              <option value="senior">Senior</option>
             </select>
           </div>
           <div className="items-center mb-2 text-sm font-bold col-start-1">
-            <text>
+            <label>
               Salary Range <span className="text-red ml-1">*</span>
-            </text>
-            <select className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow px-2 font-light">
+            </label>
+            <select
+              name="salary"
+              required
+              className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow px-2 font-light"
+            >
               <option value="" hidden selected></option>
               <option value="lessthan10">1,000,000 VND - 10,000,000 VND</option>
               <option value="lessthan20">
@@ -159,15 +221,47 @@ export default function PostJob() {
             </select>
           </div>
           <div className=" row-span-4 row-start-1 col-start-2">
-            <JobDetails />
+            <div className="overflow-y-auto h-[40vh]">
+              <div className="items-center mb-2 text-sm font-bold col-start-1">
+                <label>
+                  About The Job <span className="text-red ml-1">*</span>
+                </label>
+                <textarea is="webview"
+                  name="content"
+                  required
+                  className="w-full h-[15vh] border-black border border-r-2 border-b-2 rounded-lg shadow p-2 font-medium resize-none"
+                ></textarea>
+              </div>
+              <div className="items-center mb-2 text-sm font-bold col-start-1">
+                <label>
+                  Requirements <span className="text-red ml-1">*</span>
+                </label>
+                <textarea is="webview"
+                  name="requirements"
+                  required
+                  className="w-full h-[15vh] border-black border border-r-2 border-b-2 rounded-lg shadow p-2 font-medium resize-none"
+                ></textarea>
+              </div>
+              <div className="items-center mb-2 text-sm font-bold col-start-1">
+                <label>
+                  Benefits <span className="text-red ml-1">*</span>
+                </label>
+                <textarea is="webview"
+                  name="benefits"
+                  required
+                  className="w-full h-[15vh] border-black border border-r-2 border-b-2 rounded-lg shadow p-2 font-medium resize-none"
+                ></textarea>
+              </div>
+            </div>
           </div>
           <div className="items-center mb-2 text-sm font-bold col-start-1">
-            <text>
+            <label>
               Tags <span className="text-red ml-1">*</span>
-            </text>
+            </label>
             <Select
-              isMulti
               name="tags"
+              required
+              isMulti
               options={options}
               className="basic-multi-select"
               classNamePrefix="select"
@@ -193,10 +287,10 @@ export default function PostJob() {
                 dropdownIndicator: (provided) => ({
                   ...provided,
                   color: "#000",
-                  paddingRight: '0',
-                  paddingLeft: '5px',
-                  marginRight: '-3px',
-                  transform: 'scale(0.75)',
+                  paddingRight: "0",
+                  paddingLeft: "5px",
+                  marginRight: "-3px",
+                  transform: "scale(0.75)",
                   ":hover": {},
                 }),
                 multiValue: (provided) => ({
@@ -238,28 +332,6 @@ export default function PostJob() {
           </button>
         </div>
       </form>
-    </div>
-  );
-  const JobDetails = () => (
-    <div className="overflow-y-auto h-[40vh]">
-      <div className="items-center mb-2 text-sm font-bold col-start-1">
-        <text>
-          About The Job <span className="text-red ml-1">*</span>
-        </text>
-        <textarea className="w-full h-[15vh] border-black border border-r-2 border-b-2 rounded-lg shadow p-2 font-medium resize-none"></textarea>
-      </div>
-      <div className="items-center mb-2 text-sm font-bold col-start-1">
-        <text>
-          Requirements <span className="text-red ml-1">*</span>
-        </text>
-        <textarea className="w-full h-[15vh] border-black border border-r-2 border-b-2 rounded-lg shadow p-2 font-medium resize-none"></textarea>
-      </div>
-      <div className="items-center mb-2 text-sm font-bold col-start-1">
-        <text>
-          Benefits <span className="text-red ml-1">*</span>
-        </text>
-        <textarea className="w-full h-[15vh] border-black border border-r-2 border-b-2 rounded-lg shadow p-2 font-medium resize-none"></textarea>
-      </div>
     </div>
   );
 
