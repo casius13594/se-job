@@ -84,6 +84,30 @@ const CreateForm = () => {
             .eq("user_id", res.data.user.id)
             .single();
             
+            const {data,error} = await supabase
+                .storage
+                .from('icon')
+                .upload(res.data.user.id + '/' + imageSrc?.name,imageSrc as File,{
+                    upsert: true
+                });
+            if(data){
+                console.log(data);
+            }else if(error){
+                console.log(error)
+            }
+
+            const url_logo = await supabase
+            .storage
+            .from('icon')
+            .getPublicUrl(res.data.user.id+'/'+imageSrc?.name)
+            
+            if(url_logo.data){
+                console.log("url logo:",url_logo.data);
+            }else
+            {
+                console.log("not found url logo")
+            }
+
             if(existingUser.data)
             {
                 await supabase
@@ -91,6 +115,7 @@ const CreateForm = () => {
                 .from('Employer')
                 .update({
                     name: name,
+                    logo: url_logo.data.publicUrl,
                     verified: false,
                     location: location,
                     phone: phone,
@@ -108,6 +133,7 @@ const CreateForm = () => {
                 .from('Employer')
                 .insert({
                     user_id: res.data.user.id,
+                    logo: url_logo.data.publicUrl,
                     name: name,
                     verified: false,
                     location: location,
@@ -119,18 +145,6 @@ const CreateForm = () => {
                     description: intro
                     });
             };
-
-            const {data,error} = await supabase
-                .storage
-                .from('icon')
-                .upload(res.data.user.id + '/' + imageSrc?.name,imageSrc as File,{
-                    upsert: true
-                });
-            if(data){
-                console.log(data);
-            }else if(error){
-                console.log(error)
-            }
         }
         router.push('/'+url);
         setFormData(defaultformdata)
