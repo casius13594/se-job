@@ -32,22 +32,25 @@ const CreateForm = () => {
     const[intro,setIntro] = useState('')
     const[isLoading, setIsLoading] = useState(false)
 
-    const [imageSrc, setImageSrc] = useState<string | null>(null);
+    const [imageSrc, setImageSrc] = useState<File | null>(null);
 
 
-    const onImageHandelr = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
+    const onImageHandelr = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        let file;
+        if (event.target.files) {
+            file = event.target.files?.[0];
+            setImageSrc(file)
+        //   const reader = new FileReader();
     
-        if (file) {
-          const reader = new FileReader();
+        //   reader.onloadend = () => {
+        //     if (typeof reader.result === 'string') {
+        //       setImageSrc(reader.result);
+        //     }
+        //   };
     
-          reader.onloadend = () => {
-            if (typeof reader.result === 'string') {
-              setImageSrc(reader.result);
-            }
-          };
-    
-          reader.readAsDataURL(file);
+        //   reader.readAsDataURL(file);
+        }else{
+            console.log("Image not found")
         }
       };
     console.log(formData)
@@ -115,7 +118,18 @@ const CreateForm = () => {
                     type: type,
                     description: intro
                     });
+            };
 
+            const {data,error} = await supabase
+                .storage
+                .from('icon')
+                .upload(res.data.user.id + '/' + imageSrc?.name,imageSrc as File,{
+                    upsert: true
+                });
+            if(data){
+                console.log(data);
+            }else if(error){
+                console.log(error)
             }
         }
         router.push('/'+url);

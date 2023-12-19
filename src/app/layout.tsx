@@ -1,5 +1,5 @@
 
-import { Navbar } from './(content)/hero'
+import { Navbar } from '@/app/(content)/Hero'
 import './globals.css'
 
 export const metadata = {
