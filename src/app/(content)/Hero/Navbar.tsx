@@ -28,7 +28,7 @@ const Navbar = () => {
           />
         </Link>
 
-        <div className="flex flex-row space-x-3">
+        <div className="flex justify-center items-center space-x-3">
           <CustomButton
             title="Home"
             btnType="button"
