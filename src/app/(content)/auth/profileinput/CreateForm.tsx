@@ -60,7 +60,7 @@ const CreateForm = () => {
             setFormData((prevState) => ({
                 ...prevState,
                 [id]: value,
-                url: `jelp/company/${formattedName}`
+                url: `company/${formattedName}`
             }));
         } else {
             setFormData((prevState) => ({
@@ -118,7 +118,7 @@ const CreateForm = () => {
 
             }
         }
-        router.push('/');
+        router.push('/'+url);
         setFormData(defaultformdata)
         
     }
