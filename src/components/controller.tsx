@@ -39,18 +39,15 @@ export async function getJob(formData: FormData) {
       <ul className="flex flex-col h-full w-full space-y-[2vh]">
         {jobs.map((job) => (
           // eslint-disable-next-line react/jsx-key
-          <li className="flex flex-row w-full border-2 border-black rounded-md">
+          <li 
+            className="flex flex-row w-full border-2 border-black rounded-md" 
+            >
             <div className="flex m-[1vw]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="117"
-                height="117"
-                viewBox="0 0 117 117"
-                fill="none"
-              >
-                <circle cx="58.5" cy="58.5" r="58.5" fill="#D9D9D9" />
-                {job.employer_logo}
-              </svg>
+                <img
+                    className="w-[10vw] h-[10vw]"
+                    src={job.employer_logo}
+                    alt=""
+                />
             </div>
             <div className="flex flex-col justify-between w-full p-[1vw]">
               <div className="flex flex-row justify-between w-full">
