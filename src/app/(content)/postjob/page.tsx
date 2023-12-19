@@ -171,12 +171,6 @@ export default function PostJob() {
               options={options}
               className="basic-multi-select"
               classNamePrefix="select"
-              onMenuOpen={() => {
-                document.body.style.overflow = "hidden";
-              }}
-              onMenuClose={() => {
-                document.body.style.overflow = "auto";
-              }}
               styles={{
                 control: (provided) => ({
                   ...provided,
@@ -186,8 +180,24 @@ export default function PostJob() {
                   borderRadius: "0.5rem", // rounded-lg
                   boxShadow:
                     "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)", // shadow
-
                   fontWeight: "300", // font-light
+                  ":hover": {
+                    borderColor: "black",
+                    boxShadow:
+                      "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)", // shadow
+                  },
+                }),
+                indicatorSeparator: (provided) => ({
+                  ...provided,
+                }),
+                dropdownIndicator: (provided) => ({
+                  ...provided,
+                  color: "#000",
+                  paddingRight: '0',
+                  paddingLeft: '5px',
+                  marginRight: '-3px',
+                  transform: 'scale(0.75)',
+                  ":hover": {},
                 }),
                 multiValue: (provided) => ({
                   ...provided,
@@ -254,7 +264,7 @@ export default function PostJob() {
   );
 
   return (
-    <div className="w-full flex flex-col items-center min-h-screen bg-[#13544E]">
+    <div className="w-full flex flex-col items-center min-h-screen bg-[#13544E] ">
       <Link href="/" className="flex place-self-start ml-16 mt-5">
         <Image
           src="/logo_white.svg"
