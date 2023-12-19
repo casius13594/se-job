@@ -12,3 +12,11 @@
 .link-name {
     margin-top: 5px; /* Adjust the margin as needed for spacing between button and text */
 }
+.horizontal-container {
+  display: flex;
+  align-items: center; /* Vertically align items */
+}
+
+.selector {
+  margin-right: 20px; /* Space between the two selectors */
+}

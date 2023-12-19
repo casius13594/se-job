@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import './Profile.css'; 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import Areaselector from '@/components/Areaselector';
 
 const defaultformdata = {
     name: "",
@@ -192,6 +193,12 @@ const CreateForm = () => {
             </div>
             </div>
             <div className='right-column'>
+            <div className='w-full flex flex-col items-start mb-4'>
+            <label htmlFor='location' className='font-bold'>
+                Location <span className='text-red'>*</span>
+            </label>
+                    <Areaselector></Areaselector>
+                    </div>
             <div className='w-full flex flex-col items-start mb-4'>
             <label htmlFor='intro' className='font-bold'>
                 Introduction <span className='text-red'>*</span>
