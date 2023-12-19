@@ -5,11 +5,57 @@ import { CustomButton } from ".";
 import Link from "next/link";
 
 const Hero = () => {
+  const [isCityDialogVisible, setCityDialogVisibility] = React.useState(false);
+  const [dialogWidth, setDialogWidth] = React.useState(0);
+  const [selectedCity, setSelectedCity] = React.useState("");
+  const [isOverlayVisible, setOverlayVisibility] = React.useState(false);
+  const [filteredCities, setFilteredCities] = React.useState([]);
+
   const handleScroll = () => {};
+
+  const handleCityClick = () => {
+    setCityDialogVisibility(true);
+    setOverlayVisibility(true); // Toggle overlay visibility
+
+    // Get the width of the input field for cities
+    const inputCityWidth = document.getElementById("inputCity").offsetWidth;
+
+    // Set the width of the city dialog
+    setDialogWidth(inputCityWidth);
+
+    // Set the initial list of cities when the dialog is opened
+    setFilteredCities(initialCities);
+  };
+
+  const handleCitySelect = (city) => {
+    setSelectedCity(city);
+    setCityDialogVisibility(false);
+    setOverlayVisibility(false); // Hide overlay on city select
+  };
+
+  const handleInputChange = (e) => {
+    const inputValue = e.target.value;
+
+    // Filter the cities based on the input value
+    const filtered = initialCities.filter((city) =>
+      city.toLowerCase().includes(inputValue.toLowerCase())
+    );
+
+    setFilteredCities(filtered);
+    setSelectedCity(inputValue);
+  };
+
+  const handleOverlayClick = () => {
+    setCityDialogVisibility(false);
+    setOverlayVisibility(false); // Hide overlay on overlay click
+  };
+
+  // Initial list of cities
+  const initialCities = ["Da Nang", "Ha Noi", "Ho Chi Minh City"];
 
   return (
     <div className="Hero">
-      <div className="pt-36 padding-x">
+      <div className="mt-28 padding-x">
         <div
           className="hero__container-0 flex flex-col justify-between items-center pt-4 pb-10 padding-x -mb-8 bg-green rounded-t-3xl"
           style={{ height: "200px" }}
@@ -27,13 +73,33 @@ const Hero = () => {
               />
             </div>
 
-            <div className="py-3 px-7 bg-gray-300 rounded-xl mx-2">
-              <input
-                className="search__keyword bg-gray-300 focus:outline-none"
-                placeholder="Cities"
-                type="text"
-              />
+            <div className="flex flex-col rounded-xl mx-2 z-10">
+              <div className="position-relative">
+                <input
+                  id="inputCity"
+                  className="search__keyword py-3 px-7 bg-gray-300 rounded-xl focus:outline-none"
+                  placeholder="Cities"
+                  type="text"
+                  value={selectedCity}
+                  onClick={handleCityClick}
+                  onChange={handleInputChange}
+                />
+                {isCityDialogVisible && (
+                  <div
+                    className="city-dialog fixed bg-white p-2 border rounded-xl mt-2"
+                    style={{ width: `${dialogWidth}px` }}
+                  >
+                    {/* Display filtered cities */}
+                    {filteredCities.map((city) => (
+                      <p key={city} onClick={() => handleCitySelect(city)}>
+                        {city}
+                      </p>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
+
             <div className="py-3 px-7 bg-gray-300 rounded-xl mx-2">
               <input
                 className="search__keyword bg-gray-300 focus:outline-none"
@@ -46,7 +112,7 @@ const Hero = () => {
               style={{ width: "135px" }}
             >
               <img src="/iconSearch.svg" />
-              <b className="text-gray-300">Search</b>
+              <b className="text-white">Search</b>
             </div>
           </div>
         </div>
@@ -91,6 +157,22 @@ const Hero = () => {
             />
           </div>
         </div>
+
+        {isOverlayVisible && (
+          <div
+            className="overlay"
+            onClick={handleOverlayClick}
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.5)", // Grey color with 50% opacity
+              zIndex: 8, // Ensure the overlay is behind the dialog (z-index: 10)
+            }}
+          />
+        )}
       </div>
     </div>
   );

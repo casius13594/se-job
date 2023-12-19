@@ -1,22 +1,22 @@
-"use client"
-import React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // Import the useRouter
-import Image from 'next/image';
-import CustomButton from './CustomButton';
+"use client";
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation"; // Import the useRouter
+import Image from "next/image";
+import CustomButton from "./CustomButton";
 
 const Navbar = () => {
   const pathname = usePathname(); // Initialize the router
 
   // Check if the current route is the main page (index)
-  const isMainPage = pathname === '/';
+  const isMainPage = pathname === "/";
 
   if (!isMainPage) {
     return null; // If not the main page, don't render the navbar
   }
 
   return (
-    <header className="w-full absolute z-10">
+    <header className="w-full absolute z-7">
       <nav className="max-w-[1440p] mx-auto flex justify-between items-center sm:px-16 px-6 py-4">
         <Link href="/" className="flex justify-center items-center">
           <Image
