@@ -14,10 +14,11 @@ const defaultformdata = {
     inds: "",
     size: "",
     type: "",
+    icon: "",
 }
 const CreateForm = () => {
     const [formData, setFormData] = useState(defaultformdata)
-    const { name, location, phone, url, inds,size, type } = formData
+    const { name, location, phone, url, inds,size, type, icon} = formData
     const supabase = createClientComponentClient();
     const router = useRouter
     {/*const [name, setName] = useState('')
@@ -30,7 +31,25 @@ const CreateForm = () => {
     const[intro,setIntro] = useState('')
     const[isLoading, setIsLoading] = useState(false)
 
+    const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+    const onImageHandelr = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+    
+        if (file) {
+          const reader = new FileReader();
+    
+          reader.onloadend = () => {
+            if (typeof reader.result === 'string') {
+              setImageSrc(reader.result);
+            }
+          };
+    
+          reader.readAsDataURL(file);
+        }
+      };
     console.log(formData)
+    console.log(imageSrc)
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
     
@@ -215,7 +234,7 @@ const CreateForm = () => {
                     </select>
                 </div>
             </div>
-            <div className='right-column'>
+            <div className='right-column curved-box'>
             <div className='w-full flex flex-col items-start mb-4'>
             <label htmlFor='location' className='font-bold'>
                 Location <span className='text-red'>*</span>
@@ -234,12 +253,33 @@ const CreateForm = () => {
             ></textarea>
             </div>
             <div className='w-full flex flex-col items-start mb-4'>
+                <label htmlFor='icon' className='font-bold'>
+                    Icon <span className='text-red'>*</span>
+                </label>
+                <input
+                    required
+                    type='file'
+                    autoComplete='off'
+                    id='icon'
+                    onChange={onImageHandelr}
+                    accept='image/*'
+                    className='p-1 border rounded-md w-full'
+                ></input>
+                        {imageSrc && (
+                    <div className='mt-4'>
+                    <img src={imageSrc} alt='Uploaded Icon' className='max-w-xs' />
+                    </div>
+                )}
+            </div>
+            <div className='w-full flex flex-col items-start mb-4'>
             I verify that I am an authorized representative of this organization and have the right to act on its behalf in the creation and management of this page. The organization and I agree to the additional terms for Pages.
                 </div>
+            
             <button className='flex flex-col items-start mb-4 curved-box' disabled = {isLoading}>
                 {isLoading && <span> Applying ...</span>}
                 {!isLoading && <span> Apply </span>}
             </button>
+
             </div>
         </form>
   )
