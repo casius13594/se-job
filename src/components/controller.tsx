@@ -36,9 +36,9 @@ export async function getJob(formData: FormData) {
     }
     return (
         <div className='flex flex-col h-full w-full'>
-            {
-                jobs.map((job) => (
-                    <ul>
+            <ul className = 'flex flex-col h-full w-full space-y-[2vh]'>
+                {
+                    jobs.map((job) => (
                         <li className='flex flex-row w-full border-2 border-black rounded-md'>
                             <div className='flex m-[1vw]'>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="117" height="117" viewBox="0 0 117 117" fill="none">
@@ -72,9 +72,9 @@ export async function getJob(formData: FormData) {
                                 </div>
                             </div>
                         </li>
-                    </ul>
-                ))
-            }
+                    ))
+                }
+            </ul>
         </div>
     )
 }

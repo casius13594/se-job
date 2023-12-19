@@ -1,30 +1,40 @@
 'use client'
 
 import AppBar from '@/components/appbar';
-import React from 'react';
+import React, { use } from 'react';
 import { dm_sans } from '@/components/fonts';
 import { getJob } from '@/components/controller';
+import { get } from 'http';
 
 export default function JobList() {
-    const [jobList, setJobList] = React.useState(null)
-    const formData = new FormData()
-    formData.append('location', '%')
-    formData.append('type', '%')
-    formData.append('experience', '%')
-    formData.append('salary', '%')
+
+    const defaultFormData = new FormData()
+    defaultFormData.append('location', '%')
+    defaultFormData.append('rating', '%')
+    defaultFormData.append('experience', '%')
+    defaultFormData.append('type', '%')
+    defaultFormData.append('salary', '%')
+
+    const [formData, setFormData] = React.useState(defaultFormData)
+    const [jobList, setJobList] = React.useState<React.ReactNode>()
+    
+    const getJobList = (formData: FormData) => {
+        const jobList = getJob(formData)
+        return jobList
+    }
 
     React.useEffect(() => {
-        async function getJobList() {
-            const jobList = await getJob(formData)
-            setJobList(jobList as any)
-        }
-        getJobList()
-    }, [])
+        const jobList = getJobList(formData)
+        setJobList(jobList)
+    }, [formData])
+
     return (
         <>
         <AppBar />
         <main className = {`flex flex-col h-[100vh] ${dm_sans.className} overflow-hidden`}>
-            <JobListClient jobList={jobList} />
+            <JobListClient 
+                jobList={jobList} 
+                setFormData = {data => setFormData(data)}/>
         </main>
         </>
     )
@@ -32,17 +42,12 @@ export default function JobList() {
 
 function JobListClient({
     jobList,
+    setFormData,
 }:
 {
     jobList: React.ReactNode
+    setFormData: (formData: FormData) => void
 }) {
-
-    // form handler
-    function handdelSubmit(event: any) {
-        event.preventDefault()
-        jobList = getJob(event.target)
-    }
-
     return (
             <div className = 'flex flex-row min-h-full w-full pt-[7vw] px-[2vh] space-x-[2vw]'>
                 <div className = 'flex flex-col w-[15vw] min-h-full'>
@@ -55,7 +60,9 @@ function JobListClient({
                     <form 
                         id = 'filter' 
                         className='flex flex-col w-full space-y-[0.5vw]'
-                        onSubmit={event => handdelSubmit(event)}
+                        action={ data => {
+                            setFormData(data)}
+                        }
                     >
                         <div>
                             <label htmlFor = 'location'>Location</label>
@@ -67,7 +74,7 @@ function JobListClient({
                             </select>
                         </div>
                         <div>
-                            <label htmlFor = 'rating'>Category</label>
+                            <label htmlFor = 'rating'>Rating</label>
                             <select id = 'rating' className = 'rounded-lg bg-gray-300 w-full'>
                                 <option value='%'>All</option>
                                 <option value='good'>Good</option>
