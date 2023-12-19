@@ -3,13 +3,13 @@ import AppBar from '@/components/appbar';
 import React from 'react';
 import { dm_sans } from '@/components/fonts';
 
-export default function JobList(){
+export default function JobListClient(jobList: React.ReactNode){
 
     return (
         <>
         <AppBar />
         <main className = {`flex flex-col h-[100vh] ${dm_sans.className}`}>
-            <div className = 'flex flex-row min-h-full w-full pt-[7vw] px-[1vw] space-x-[2vw]'>
+            <div className = 'flex flex-row min-h-full w-full pt-[7vw] px-[2vh] space-x-[2vw]'>
                 <div className = 'flex flex-col w-[15vw] min-h-full'>
                     <h1 className='flex flex-row w-full text-center text-lg font-bold'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
@@ -57,22 +57,12 @@ export default function JobList(){
                         </div>
                         <div>
                             <label htmlFor = 'salary' className='w-full'>Salary</label>
-                            <div className = 'flex flex-row w-full'>
-                                <label htmlFor = 'salary-min'>Min:</label>
-                                <input 
-                                    type='number' 
-                                    id = 'salary-min' 
-                                    className = 'rounded-lg bg-gray-300 w-full'
-                                />
-                            </div>
-                            <div className = 'flex flex-row w-full'>
-                                <label htmlFor = 'salary-max'>Max:</label>
-                                <input 
-                                    type='number' 
-                                    id = 'salary-max'
-                                    className = 'rounded-lg bg-gray-300 w-full'
-                                />
-                            </div>
+                            <select id = 'salary' className = 'rounded-lg bg-gray-300 w-full'>
+                                <option value='%'>All</option>
+                                <option value='0-5'>0 - 5 million</option>
+                                <option value='5-10'>5 - 10 million</option>
+                                <option value='10-20'>10 - 20 million</option>
+                            </select>
                         </div>
                         <button>
                             Apply
@@ -86,7 +76,7 @@ export default function JobList(){
                         </div>
                     </form>
                 </div>
-                <div className = 'flex flex-col min-h-full w-[55vw]'>
+                <div className = 'flex flex-col h-full w-[55vw]'>
                     <div className = 'flex flex-row w-full justify-between'>
                         <h1 className = 'flex flex-row text-center text-2xl font-bold'>
                             Results:
@@ -103,6 +93,9 @@ export default function JobList(){
                                 <option value="rating-des">Rating (descreasing)</option>
                             </select>   
                         </div>
+                    </div>
+                    <div className = 'flex flex-col w-full h-full space-y-[2vw] overflow-scroll'>
+                        {jobList}
                     </div>
                 </div>
                 <div className = 'flex flex-col min-h-full w-[25vw] justify-between'>
