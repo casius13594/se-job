@@ -34,43 +34,7 @@ export async function getJob(formData: FormData) {
   if (error) {
     return null;
   }
-  return (
-    <div className="flex flex-col h-full w-full">
-      <ul className="flex flex-col h-full w-full space-y-[2vh]">
-        {jobs.map((job) => (
-          // eslint-disable-next-line react/jsx-key
-          <li 
-            className="flex flex-row w-full border-2 border-black rounded-md" 
-            >
-            <div className="flex m-[1vw]">
-                <img
-                    className="w-[10vw] h-[10vw]"
-                    src={job.employer_logo}
-                    alt=""
-                />
-            </div>
-            <div className="flex flex-col justify-between w-full p-[1vw]">
-              <div className="flex flex-row justify-between w-full">
-                <h1 className="text-xl font-bold">{job.name}</h1>
-                <h1 className="text-xl font-bold">{job.salary} Millions</h1>
-              </div>
-              <div className="flex flex-row w-full">
-                <h1 className="text-lg">{job.employer_name}</h1>
-              </div>
-              <div className="flex flex-row w-full">
-                <h1 className="text-lg">
-                  {job.location}({job.type})
-                </h1>
-              </div>
-              <div className="flex flex-row w-full">
-                <h1 className="text-md">{job.post_time}</h1>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return jobs;
 }
 
 export async function postJob(
