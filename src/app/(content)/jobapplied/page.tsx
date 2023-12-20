@@ -28,16 +28,6 @@ export default function page(){
     
         fetchDataFromSupabase();
       }, []);
-    // const mockJobData: Jobapplied = {
-    //     job_id: 'd326',
-    //     name: 'Mock Job',
-    //     employer_name: 'Mock Company',
-    //     location: 'Mock Location',
-    //     type: 'Mock Type',
-    //     post_time: 'Mock Post Day',
-    //     tag: 'Applied',
-    //     employer_logo: 'Mock Avata',
-    //   };
     return(
         <>  
             <AppBar />
