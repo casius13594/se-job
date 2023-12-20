@@ -34,3 +34,10 @@
   width: 24px;
   height: 24px;
 }
+
+.circle-image {
+  width: 100%; /* Set the desired width */
+  height: 100%; /* Set the desired height */
+  overflow: hidden;
+  border-radius: 50%; /* This creates a circular border */
+}

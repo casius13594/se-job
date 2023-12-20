@@ -1,30 +1,36 @@
 
+import { UUID } from 'crypto';
 import React from 'react';
+
+
 export interface Jobapplied {
-    job_name: string;
-    company_name: string;
+    job_id: UUID;
+    name: string;
+    employer_name: string;
     location: string;
     type: string;
-    post_day: string;
+    post_time: string;
     tag: string;
-    avata: string;
+    employer_logo: string;
 } 
 
-const CardApplied:React.FC<Jobapplied> = ({job_name, company_name, location, type, post_day,tag}) =>{
+const CardApplied:React.FC<Jobapplied> = ({name, employer_name, location, type, post_time,tag,employer_logo}) =>{
     const check_applied = tag==="Applied"
     const button_app = check_applied ? "View response" : "Apply now"
     return(
-        <div className='flex flex-row bottom-2 border-black w-full p-x-[1vw] p-y-[0.5vh]'>
+        <div className='flex flex-row border-2 border-black w-full py-2 m-2 rounded-md'>
             <div className='flex-shrink-0 w-1/5 mx-[0.5vw]'>
-                <svg className='w-full' xmlns="http://www.w3.org/2000/svg" width="117" height="117" viewBox="0 0 117 117" fill="none">
-                                    <circle cx="58.5" cy="58.5" r="58.5" fill="#D9D9D9"/>
-                </svg>
+                <img
+                    className="w-full"
+                    src={employer_logo}
+                    alt=""
+                />
             </div>
             <div className='flex flex-col justify-between w-3/5'>
-                <h1 className='text-xl' >{job_name}</h1>
-                <h1 className='text-lg'>{company_name}</h1>
+                <h1 className='text-xl' >{name}</h1>
+                <h1 className='text-lg'>{employer_name}</h1>
                 <h1 className='text-lg'>{location} ({type})</h1>
-                <h2 className='text-sm'>{post_day}</h2>
+                <h2 className='text-sm'>{post_time}</h2>
             </div>
             <div className='flex flex-col items-center justify-between w-2/5 '>
                 <div className='text-center  rounded-full bg-gray-400 w-1/2'>

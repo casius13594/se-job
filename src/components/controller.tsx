@@ -4,12 +4,14 @@ import { headers, cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import React from "react";
 import { UserResponse } from "@supabase/supabase-js";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Jobapplied } from "./cardjobapplied";
 
 export async function getJob(formData: FormData) {
   "use server";
   // get user
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  // const cookieStore = cookies();
+  const supabase = createServerComponentClient({cookies});
   // filter value
   const location = formData.get("location") as string;
   const type = formData.get("type") as string;
@@ -39,8 +41,9 @@ export async function getJob(formData: FormData) {
 
 export async function saveJob(job_id: string) {
   "use server";
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  // const cookieStore = cookies();
+  // const supabase = createClient(cookieStore);
+  const supabase = createServerComponentClient({cookies});
   const user = (await supabase.auth.getSession()).data.session?.user.id;
   if (!user) {
     return false;
@@ -125,4 +128,33 @@ export async function addEmployee(
     console.log("Success", data);
   }
   return error;
+}
+
+export async function fetchData(function_query: string, customTag: string) {
+  "use server"
+  const supabase = createServerComponentClient({cookies});
+  const currentuser = await supabase.auth.getUser()
+  console.log(currentuser)
+  if(currentuser.data){
+    const {data,error} = await supabase.rpc(function_query,{userid: currentuser.data.user?.id})
+
+  if(error){
+      console.error('Error fetching data:', error);
+      return []
+  }
+
+  const results: Jobapplied[] = data.map((item:Jobapplied) =>({
+      job_id: item.job_id,
+      name: item.name,
+      employer_name: item.employer_name,
+      location: item.location,
+      type: item.type,
+      employer_logo: item.employer_logo,
+      tag:customTag,
+      post_time:new Date(item.post_time).toLocaleDateString()}))
+  
+  return results;
+  }
+  return []
+  
 }

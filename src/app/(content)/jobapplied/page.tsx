@@ -1,41 +1,43 @@
-
+'use client'
+import { useEffect, useState } from 'react';
 import AppBar from '@/components/appbar';
 import CardApplied, {Jobapplied} from '@/components/cardjobapplied'
 import { createClient } from '@/utils/supabase/server'
 import { Result } from 'postcss';
-
-export async function fetchData(tableName: string, customTag: string) {
-    "use server"
-    const supabase = createClient();
-    const currentuser = await supabase.auth.getUser()
-    const {data,error} = await supabase
-    .from(tableName)
-    .select('job_id, Job (job_id)')
-    .eq("employee_id", currentuser.data.user?.id)
+import { cookies } from 'next/headers';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { fetchData } from '@/components/controller';
 
 
-    if(error){
-        console.error('Error fetching data:', error);
-        return []
-    }
-
-    // const results: Jobapplied[] = data.map((item) =>({
-    //     ...item,
-    //     tag:customTag,
-    //     post_day:new Date(item.post_id).toLocaleDateString()}))
-
-}
 
 export default function page(){
-    const mockJobData: Jobapplied = {
-        job_name: 'Mock Job',
-        company_name: 'Mock Company',
-        location: 'Mock Location',
-        type: 'Mock Type',
-        post_day: 'Mock Post Day',
-        tag: 'Applied',
-        avata: 'Mock Avata',
-      };
+    const [data, setData] = useState<Jobapplied[]>([]);
+    useEffect(() => {
+        const fetchDataFromSupabase = async () => {
+          // Fetch data from "Applied" table with a custom tag
+          const appliedData = await fetchData('listappliedjob', 'Applied');
+    
+          // Fetch data from "Jobtab" table with a custom tag
+          const savedData = await fetchData('listsavejob', 'Saved');
+    
+          // Combine the results from both tables
+          const combinedResults = [...appliedData, ...savedData];
+    
+          setData(combinedResults);
+        };
+    
+        fetchDataFromSupabase();
+      }, []);
+    // const mockJobData: Jobapplied = {
+    //     job_id: 'd326',
+    //     name: 'Mock Job',
+    //     employer_name: 'Mock Company',
+    //     location: 'Mock Location',
+    //     type: 'Mock Type',
+    //     post_time: 'Mock Post Day',
+    //     tag: 'Applied',
+    //     employer_logo: 'Mock Avata',
+    //   };
     return(
         <>  
             <AppBar />
@@ -45,7 +47,10 @@ export default function page(){
 
                     </div>
                     <div className='flex-row w-2/5'>
-                         <CardApplied {...mockJobData}/>
+                    {data.map((item) => (
+                        <CardApplied {...item}/>
+                    ))}
+                         
                     </div>
              </div>
             </main>
