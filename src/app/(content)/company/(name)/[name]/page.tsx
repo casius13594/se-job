@@ -1,13 +1,14 @@
 import {FC} from "react";
 import { createClient } from '@/utils/supabase/server'
-
+import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 interface pageProps{
     params: {name: string}
 }
 
 export async function check_employer_id(name: string){
     "use server"
-    const supabase =await createClient()
+    const supabase =await createServerComponentClient({cookies})
     const user = await supabase.auth.getUser();
     console.log(user.data)
     
@@ -60,7 +61,7 @@ const page:FC<pageProps> = async ({params}) =>{
         <h1> other names are: {params.name}</h1>
         </div>
     }else{
-        alert("You do not have permission to access another company page")
+        return null
     }
     
 }
