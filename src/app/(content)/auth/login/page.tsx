@@ -55,13 +55,12 @@ export default function CredentialsForm() {
             const existingEmployer = await supabase
               .schema("public")
               .from("Employer")
-              .select("user_id")
+              .select("user_id,url")
               .eq("user_id", res.data.user.id)
               .single();
             if (existingEmployer.data) {
               // if employer exists in the Employer table
-              // route to company page
-              console.log("Company page");
+              router.push("/" + existingEmployer.data.url);
             } else {
               router.push("../../auth/profileinput");
             }
