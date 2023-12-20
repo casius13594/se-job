@@ -37,6 +37,30 @@ export async function getJob(formData: FormData) {
   return jobs;
 }
 
+export async function saveJob(job_id: string) {
+  'use server';
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const user = (await supabase.auth.getSession()).data.session?.user.id;
+  if (!user) {
+    return false;
+  }
+  const { data, error } = await supabase.from('SaveJob').insert([
+    {
+      employee_id: user as string,
+      job_id: job_id,
+    }
+  ]);
+  if (error) {
+    console.log(error);
+    return false
+  } else {
+    console.log("Success", data);
+    return true
+  }
+}
+
+
 export async function postJob(
   formData1: FormData,
   formData2: FormData,
