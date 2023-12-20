@@ -85,9 +85,6 @@ export default function PostJob() {
         id="form1"
         className="w-full text-xl text-black font-semibold flex flex-col bg-white rounded-3xl px-16 py-5"
       >
-        <button id="form1Submit" type="submit" style={{ display: "none" }}>
-          a
-        </button>
         <h1 className="place-self-center text-[#13544E] pb-3 font-extrabold text-3xl">
           Job Information
         </h1>

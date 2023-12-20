@@ -59,7 +59,7 @@ export default function Monitor() {
                 .insert([
                     { user_id: res.data.user.id},
                 ]);
-                router.push("../../joblist");
+                router.push("../../auth/employeeProfile");
             }
             else{
                 router.push("../../auth/profileinput");

@@ -65,7 +65,17 @@ export default function CredentialsForm() {
               router.push("../../auth/profileinput");
             }
           } else {
-            router.push("../../joblist");
+            const existingEmployee = await supabase
+              .schema("public")
+              .from("Employee")
+              .select("user_id")
+              .eq("user_id", res.data.user.id)
+              .single();
+            if (existingEmployee.data) {
+              router.push("../../joblist");
+            } else {
+              router.push("../../auth/employeeProfile");
+            }
           }
         } else {
           router.push("../../selection");

@@ -38,18 +38,18 @@ export async function getJob(formData: FormData) {
 }
 
 export async function saveJob(job_id: string) {
-  'use server';
+  "use server";
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   const user = (await supabase.auth.getSession()).data.session?.user.id;
   if (!user) {
     return false;
   }
-  const { data, error } = await supabase.from('SaveJob').insert([
+  const { data, error } = await supabase.from("SaveJob").insert([
     {
       employee_id: user as string,
       job_id: job_id,
-    }
+    },
   ]);
   if (error) {
     console.log(error);
@@ -58,7 +58,6 @@ export async function saveJob(job_id: string) {
   }
   return true;
 }
-
 
 export async function postJob(
   formData1: FormData,
@@ -81,7 +80,7 @@ export async function postJob(
       employer_id: user.user?.id,
       name: formData1.get("name"),
       employer_name: employer_name,
-      employer_logo: employer_logo??"",
+      employer_logo: employer_logo ?? "",
       status: "open",
       location: formData1.get("location"),
       salary: formData2.get("salary"),
@@ -98,4 +97,32 @@ export async function postJob(
   } else {
     console.log("Success", data);
   }
+}
+
+export async function addEmployee(
+  formData: FormData,
+  dob: Date,
+  user: UserResponse["data"]
+) {
+  "use server";
+  // get user
+  const cookieStore = cookies();
+  const supabase = createClient();
+
+  console.log(user);
+  const { data, error } = await supabase.from("Employee").insert([
+    {
+      user_id: user.user?.id,
+      logo: "",
+      name: formData.get("name"),
+      location: formData.get("location"),
+      dob: dob,
+    },
+  ]);
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("Success", data);
+  }
+  return error;
 }
