@@ -53,11 +53,10 @@ export async function saveJob(job_id: string) {
   ]);
   if (error) {
     console.log(error);
-    return false
   } else {
     console.log("Success", data);
-    return true
   }
+  return true;
 }
 
 

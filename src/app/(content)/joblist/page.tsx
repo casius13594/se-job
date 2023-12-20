@@ -4,6 +4,7 @@ import AppBar from '@/components/appbar';
 import React, { use } from 'react';
 import { dm_sans } from '@/components/fonts';
 import { getJob, saveJob } from '@/components/controller';
+import { requireLogin } from '@/components/popupModal';
 
 export default function JobList() {
 
@@ -16,6 +17,7 @@ export default function JobList() {
 
     const [formData, setFormData] = React.useState(defaultFormData)
     const [jobs, setJobs] = React.useState<any[]>([])
+    const [loginRequired, setLoginRequired] = React.useState<boolean>(false)
     
     const getJobList = (formData: FormData) => {
         const jobList = getJob(formData)
@@ -33,9 +35,13 @@ export default function JobList() {
         <>
         <AppBar />
         <main className = {`flex flex-col h-[100vh] ${dm_sans.className} overflow-hidden`}>
+            {
+                requireLogin(loginRequired, () => setLoginRequired(false))
+            }
             <JobListClient 
                 jobs={jobs} 
-                setFormData = {data => setFormData(data)}/>
+                setFormData = {data => setFormData(data)}
+                setLoginRequired={setLoginRequired}/>
         </main>
         </>
     )
@@ -44,10 +50,12 @@ export default function JobList() {
 function JobListClient({
     jobs,
     setFormData,
+    setLoginRequired,
 }:
 {
     jobs: any[]
     setFormData: (formData: FormData) => void
+    setLoginRequired: (logedIn: boolean) => void
 }) {
     return (
             <div className = 'flex flex-row min-h-full w-full pt-[7vw] px-[2vh] space-x-[2vw]'>
@@ -181,7 +189,7 @@ function JobListClient({
                                     className="flex m-[1vw]"
                                     xmlns="http://www.w3.org/2000/svg" width="16" height="22" viewBox="0 0 16 22" fill="none"
                                     onClick={()=>{
-                                        saveJob(job.job_id).then((res) => res == false ? alert('Error') : alert(job.job_id as string + ' saved'))
+                                        saveJob(job.job_id).then((res) => res == false ? setLoginRequired(true) : alert(job.job_id as string + ' saved'))
                                     }}>
                                     <path d="M1 7.90976C1 4.65247 1 3.02382 1.76884 2.01191C2.53769 1 3.77513 1 6.25 1H9.75C12.2249 1 13.4623 1 14.2312 2.01191C15 3.02382 15 4.65247 15 7.90976V15.7726C15 18.8627 15 20.4078 14.2612 20.8804C13.5225 21.353 12.5994 20.3984 10.7532 18.4892L10.1624 17.8782C9.1243 16.8048 8.60526 16.268 8 16.268C7.39474 16.268 6.8757 16.8048 5.83762 17.8782L5.24678 18.4892C3.4006 20.3984 2.47751 21.353 1.73876 20.8804C1 20.4078 1 18.8627 1 15.7726V7.90976Z" stroke="#33363F" stroke-width="2"/>
                                 </svg>
