@@ -345,7 +345,7 @@ const CreateForm = () => {
           ></input>
           {imageSrc && (
             <div className="mt-4">
-              <img src={imageSrc} alt="Uploaded Icon" className="max-w-xs" />
+              <img src={URL.createObjectURL(imageSrc)} alt="Uploaded Icon" className="max-w-xs" />
             </div>
           )}
         </div>
