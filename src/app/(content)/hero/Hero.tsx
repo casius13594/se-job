@@ -10,6 +10,8 @@ const Hero = () => {
   const [selectedCity, setSelectedCity] = React.useState("");
   const [isOverlayVisible, setOverlayVisibility] = React.useState(false);
   const [filteredCities, setFilteredCities] = React.useState([]);
+  // Initial list of cities
+  const initialCities: string[] = ["Da Nang", "Ha Noi", "Ho Chi Minh City"];
 
   const handleScroll = () => {};
 
@@ -18,13 +20,16 @@ const Hero = () => {
     setOverlayVisibility(true); // Toggle overlay visibility
 
     // Get the width of the input field for cities
-    const inputCityWidth = document.getElementById("inputCity").offsetWidth;
+    const inputCityElement = document.getElementById("inputCity");
+    if (inputCityElement) {
+      const inputCityWidth = inputCityElement.offsetWidth;
 
-    // Set the width of the city dialog
-    setDialogWidth(inputCityWidth);
+      // Set the width of the city dialog
+      setDialogWidth(inputCityWidth);
 
-    // Set the initial list of cities when the dialog is opened
-    setFilteredCities(initialCities);
+      // Set the initial list of cities when the dialog is opened
+      setFilteredCities(initialCities);
+    }
   };
 
   const handleCitySelect = (city) => {
@@ -49,9 +54,6 @@ const Hero = () => {
     setCityDialogVisibility(false);
     setOverlayVisibility(false); // Hide overlay on overlay click
   };
-
-  // Initial list of cities
-  const initialCities = ["Da Nang", "Ha Noi", "Ho Chi Minh City"];
 
   return (
     <div className="Hero">
@@ -107,13 +109,15 @@ const Hero = () => {
                 type="text"
               />
             </div>
-            <div
-              className="py-3 px-7 flex flex-row justify-between items-center bg-red rounded-xl ml-2 cursor-pointer"
-              style={{ width: "135px" }}
-            >
-              <img src="/iconSearch.svg" />
-              <b className="text-white">Search</b>
-            </div>
+            <Link href="./joblist">
+              <div
+                className="py-3 px-7 flex flex-row justify-between items-center bg-red rounded-xl ml-2 cursor-pointer"
+                style={{ width: "135px" }}
+              >
+                <img src="/iconSearch.svg" />
+                <b className="text-white">Search</b>
+              </div>
+            </Link>
           </div>
         </div>
         <div className="hero__container-1 flex flex-row justify-between items-center padding-y  padding-x mt-2 bg-light-green rounded-3xl">
