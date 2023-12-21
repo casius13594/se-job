@@ -2,6 +2,8 @@ import {FC} from "react";
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import AppBar from "@/components/appbar";
+import Profilepage from "@/components/profilepage";
 interface pageProps{
     params: {name: string}
 }
@@ -57,9 +59,11 @@ const page:FC<pageProps> = async ({params}) =>{
     const check_employer_page = await check_employer_id(params.name)
 
     if(check_employer_page){
-        return <div>
-        <h1> other names are: {params.name}</h1>
-        </div>
+        return (
+            <>
+            <div> <Profilepage></Profilepage> </div>
+            </>
+        )
     }else{
         return null
     }

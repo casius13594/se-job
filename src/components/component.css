@@ -8,6 +8,17 @@
     background-color: black; /* Set the background color to black */
     color: white; /* Set the text/icon color to white, or any other color that provides good contrast */
   }
+
+.circle-button2 {
+    width: 60px; /* Set the desired width */
+    height: 30px; /* Set the desired height, make it the same as the width for a perfect circle */
+    border-radius: 5%; /* Make it a circle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black; /* Set the background color to black */
+    color: white; /* Set the text/icon color to white, or any other color that provides good contrast */
+  }
   
 .link-name {
     margin-top: 5px; /* Adjust the margin as needed for spacing between button and text */
@@ -40,4 +51,34 @@
   height: 100%; /* Set the desired height */
   overflow: hidden;
   border-radius: 50%; /* This creates a circular border */
+}
+.profilepage {
+  margin-left: 5%;
+}
+.placeholder-image {
+  width: 120px;
+  height: 120px;
+  display: block;
+  background-color: white;
+  margin-right: 10px;
+  border-radius: 50%;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  border-style: solid;  /* Set border style to solid */
+  border-width: 1px;    /* Set border width */
+  border-color: black;  /* Set border color */
+}
+.profilebg-container {
+  width: 70%;             /* Set the width to span 70% of the parent container's width */
+  height: 150px;          /* Set the height to 100px */
+  background-color: #DBDFD0;
+  /* Add any other styles or properties as needed */
+}
+
+.color-tabbg{
+  background-color: #DBDFD0;
+  /* Add any other styles or properties as needed */
+}
+.color-chosetab{
+  background-color: #13544E;
 }
