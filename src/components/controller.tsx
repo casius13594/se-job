@@ -11,14 +11,19 @@ export async function getJob(formData: FormData) {
   "use server";
   // get user
   // const cookieStore = cookies();
-  const supabase = createServerComponentClient({cookies});
+  const supabase = createServerComponentClient({ cookies });
   // filter value
   const location = formData.get("location") as string;
   const type = formData.get("type") as string;
   const experience = formData.get("experience") as string;
   const salary = formData.get("salary") as string;
   // compose query
-  let query = supabase.from("Job").select("job_id, name, employer_name, employer_logo, location, type, post_time, salary, experience").eq("status", "open");
+  let query = supabase
+    .from("Job")
+    .select(
+      "job_id, name, employer_name, employer_logo, location, type, post_time, salary, experience"
+    )
+    .eq("status", "open");
   if (location != "All") {
     query = query.eq("location", location);
   }
@@ -42,7 +47,7 @@ export async function getJob(formData: FormData) {
 export async function getJobDetail(job_id: string) {
   "use server";
   // const cookieStore = cookies();
-  const supabase = createServerComponentClient({cookies});
+  const supabase = createServerComponentClient({ cookies });
   const { data: job, error } = await supabase
     .from("Job")
     .select("*")
@@ -58,7 +63,7 @@ export async function saveJob(job_id: string) {
   "use server";
   // const cookieStore = cookies();
   // const supabase = createClient(cookieStore);
-  const supabase = createServerComponentClient({cookies});
+  const supabase = createServerComponentClient({ cookies });
   const user = (await supabase.auth.getSession()).data.session?.user.id;
   if (!user) {
     return false;
@@ -123,7 +128,7 @@ export async function addEmployee(
   user: UserResponse["data"]
 ) {
   "use server";
-  const supabase = createServerComponentClient({cookies});
+  const supabase = createServerComponentClient({ cookies });
 
   console.log(user);
   const { data, error } = await supabase.from("Employee").insert([
@@ -144,65 +149,60 @@ export async function addEmployee(
 }
 
 export async function fetchData(function_query: string, customTag: string) {
-  "use server"
-  const supabase = createServerComponentClient({cookies});
-  const currentuser = await supabase.auth.getUser()
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const currentuser = await supabase.auth.getUser();
 
-  if(currentuser.data){
-    const {data,error} = await supabase.rpc(function_query,{userid: currentuser.data.user?.id})
+  if (currentuser.data) {
+    const { data, error } = await supabase.rpc(function_query, {
+      userid: currentuser.data.user?.id,
+    });
 
-  if(error){
-      return []
-  }
+    if (error) {
+      return [];
+    }
 
-  const results: Jobapplied[] = data.map((item:Jobapplied) =>({
+    const results: Jobapplied[] = data.map((item: Jobapplied) => ({
       job_id: item.job_id,
       name: item.name,
       employer_name: item.employer_name,
       location: item.location,
       type: item.type,
       employer_logo: item.employer_logo,
-      tag:customTag,
-      post_time:new Date(item.post_time).toLocaleDateString()}))
-  
-  return results;
+      tag: customTag,
+      post_time: new Date(item.post_time).toLocaleDateString(),
+    }));
+
+    return results;
   }
-  return []
-  
+  return [];
 }
-export async function is_user(){
-  "use server"
-  const supabase = createServerComponentClient({cookies});
+export async function is_user() {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
   const currentuser = await supabase.auth.getUser();
-  if(currentuser.data)
-  {
-      const employer = await supabase
-      .schema('public')
-      .from('User')
-      .select('type')
+  if (currentuser.data) {
+    const employer = await supabase
+      .schema("public")
+      .from("User")
+      .select("type")
       .eq("user_id", currentuser.data.user?.id)
-      .single()
+      .single();
 
-      if(employer.data)
-      {
-        if(employer.data.type==='null')
-        {
-          return false;
-        }
-
-        if(employer.data.type ==="employer")
-        {
-          return false;
-        }
-
-        return true;
-        
-      }
-      else{
-        // case not account in User table
+    if (employer.data) {
+      if (employer.data.type === "null") {
         return false;
       }
-     
+
+      if (employer.data.type === "employer") {
+        return false;
+      }
+
+      return true;
+    } else {
+      // case not account in User table
+      return false;
+    }
   }
   return false;
 }

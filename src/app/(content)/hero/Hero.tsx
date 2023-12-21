@@ -108,13 +108,15 @@ const Hero = () => {
                 type="text"
               />
             </div>
-            <div
-              className="py-3 px-7 flex flex-row justify-between items-center bg-red rounded-xl ml-2 cursor-pointer"
-              style={{ width: "135px" }}
-            >
-              <img src="/iconSearch.svg" />
-              <b className="text-white">Search</b>
-            </div>
+            <Link href="./joblist">
+              <div
+                className="py-3 px-7 flex flex-row justify-between items-center bg-red rounded-xl ml-2 cursor-pointer"
+                style={{ width: "135px" }}
+              >
+                <img src="/iconSearch.svg" />
+                <b className="text-white">Search</b>
+              </div>
+            </Link>
           </div>
         </div>
         <div className="hero__container-1 flex flex-row justify-between items-center padding-y  padding-x mt-2 bg-light-green rounded-3xl">
