@@ -2,7 +2,6 @@ import {FC} from "react";
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import AppBar from "@/components/appbar";
 import Profilepage from "@/components/profilepage";
 import Custom404 from "@/components/404page";
 interface pageProps{
@@ -22,14 +21,13 @@ export async function check_server_exist(name: string){
             const user_e = await supabase.schema('public').
             from('Employer').
             select("*")
-            .eq("user_id", user.data.user?.id)
             .eq("url",'company/'+name)
             .single();
 
-            if (user_e.data != null){
-                return user_e;
+            if (user_e.data != null && user_e.data.user_id == user.data.user?.id){
+                return [user_e,1];
             }
-            else {return 'guest'}
+            else {return  [user_e,0]}
         }
     }
 }
@@ -37,12 +35,31 @@ export async function check_server_exist(name: string){
 const page:FC<pageProps> = async ({params}) =>{
     const check_server_exist_ed = await check_server_exist(params.name)
 
-    if (check_server_exist_ed != null){
-        if (check_server_exist_ed == 'guest'){
-            return (<>Hello guest</>)
+    if (check_server_exist_ed != null && typeof check_server_exist_ed[0] !== 'number'){
+        if (check_server_exist_ed[1] == 0){
+            return (<>
+            Hello guest
+            <Profilepage companyName= {check_server_exist_ed[0].data.name}
+            industry= {check_server_exist_ed[0].data.inds}
+            location= {check_server_exist_ed[0].data.location}
+            introduction={check_server_exist_ed[0].data.description}
+            logo = {check_server_exist_ed[0].data.logo}
+            size = {check_server_exist_ed[0].data.size}
+            ></Profilepage>
+            </>
+            )
         }
         else{
-            return(<>Hello owner</>)
+            console.log(check_server_exist_ed[0].data)
+            return(<>
+            <Profilepage companyName= {check_server_exist_ed[0].data.name}
+            industry= {check_server_exist_ed[0].data.inds}
+            location= {check_server_exist_ed[0].data.location}
+            introduction={check_server_exist_ed[0].data.description}
+            logo = {check_server_exist_ed[0].data.logo}
+            size = {check_server_exist_ed[0].data.size}
+            ></Profilepage>
+            </>)
         }
     }
     else {
