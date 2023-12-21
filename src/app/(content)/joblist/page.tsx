@@ -9,6 +9,7 @@ import Areaselector from '@/components/Areaselector';
 import { ICity, ICountry, IState } from 'country-state-city';
 import { Country } from 'country-state-city';
 import Modal from 'react-modal';
+import { redirect } from 'next/navigation';
 
 export default function JobList() {
 
@@ -22,11 +23,6 @@ export default function JobList() {
     const [formData, setFormData] = React.useState(defaultFormData)
     const [jobs, setJobs] = React.useState<any[]>([])
     const [loginRequired, setLoginRequired] = React.useState<boolean>(false)
-    
-    const getJobList = (formData: FormData) => {
-        const jobList = getJob(formData)
-        return jobList
-    }
 
     React.useEffect(() => {
         const jobList = getJob(formData)
@@ -37,7 +33,7 @@ export default function JobList() {
 
     return (
         <>
-        <AppBar />
+        <AppBar/>
         <main className = {`flex flex-col h-[100vh] ${dm_sans.className} overflow-hidden`}>
             {
                 requireLogin(loginRequired, () => setLoginRequired(false))
@@ -69,7 +65,7 @@ function JobListClient({
     const [selectLocation, setSelectLocation] = React.useState<boolean>(false);
     const [isAll, setIsAll] = React.useState<boolean>(true);
     return (
-            <div className = 'flex flex-row min-h-full w-full pt-[7vw] px-[2vh] space-x-[2vw]'>
+            <div className = 'flex flex-row min-h-full w-full pt-[10vh] space-x-[2vw]'>
                 <Modal 
                     isOpen={selectLocation}
                     onRequestClose={() => setSelectLocation(false)}
@@ -204,7 +200,11 @@ function JobListClient({
                             <li className="flex flex-row w-full border-2 border-black rounded-md">
                                 <div 
                                     className='flex flex-row w-full'
-                                    onClick={() => alert(job.name)}
+                                    onClick={() => {
+                                        const job_id = job.job_id as string
+                                        localStorage.setItem('job_id', job_id)
+                                        window.location.href = '/jobdetail'
+                                    }}
                                 >
                                     <div className="flex m-[1vw]">
                                         <img
