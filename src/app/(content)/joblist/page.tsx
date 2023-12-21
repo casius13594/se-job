@@ -5,11 +5,15 @@ import React, { use } from 'react';
 import { dm_sans } from '@/components/fonts';
 import { getJob, saveJob } from '@/components/controller';
 import { requireLogin } from '@/components/popupModal';
+import Areaselector from '@/components/Areaselector';
+import { ICity, ICountry, IState } from 'country-state-city';
+import { Country } from 'country-state-city';
+import Modal from 'react-modal';
 
 export default function JobList() {
 
     const defaultFormData = new FormData()
-    defaultFormData.append('location', '%')
+    defaultFormData.append('location', 'All')
     defaultFormData.append('rating', '%')
     defaultFormData.append('experience', '%')
     defaultFormData.append('type', '%')
@@ -57,8 +61,51 @@ function JobListClient({
     setFormData: (formData: FormData) => void
     setLoginRequired: (logedIn: boolean) => void
 }) {
+    let countryData = Country.getAllCountries();
+    const [country, setCountry] = React.useState<ICountry>(countryData[0]);
+    const [state, setState] = React.useState<IState | undefined>(undefined);
+    const [city, setCity] = React.useState<ICity | undefined>(undefined);
+    const locationString = `${city?.name || ''} ${', ' + state?.name || ''} ${', ' + country?.name || ''}`;
+    const [selectLocation, setSelectLocation] = React.useState<boolean>(false);
+    const [isAll, setIsAll] = React.useState<boolean>(true);
     return (
             <div className = 'flex flex-row min-h-full w-full pt-[7vw] px-[2vh] space-x-[2vw]'>
+                <Modal 
+                    isOpen={selectLocation}
+                    onRequestClose={() => setSelectLocation(false)}
+                >
+                    <div className='flex flex-col items-center justify-center'>
+                        <Areaselector
+                            city = {city}
+                            setCity = {setCity}
+                            country = {country}
+                            setCountry = {setCountry}
+                            state = {state}
+                            setState = {setState}
+                        />
+                        <button 
+                            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4'
+                            onClick={() => {
+                                setSelectLocation(false)
+                                setIsAll(false)
+                            }}
+                        >
+                            Apply
+                        </button>
+                        <button
+                            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4' 
+                            onClick={() => {
+                                setCity(undefined)
+                                setState(undefined)
+                                setCountry(countryData[0])
+                                setSelectLocation(false)
+                                setIsAll(true)
+                            }}
+                        >
+                            Reset    
+                        </button>
+                    </div>
+                </Modal>
                 <div className = 'flex flex-col w-[15vw] min-h-full'>
                     <h1 className='flex flex-row w-full text-center text-lg font-bold'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
@@ -75,12 +122,13 @@ function JobListClient({
                     >
                         <div>
                             <label htmlFor = 'location'>Location</label>
-                            <select name = 'location' className = 'rounded-lg bg-gray-300 w-full'>
-                                <option value='%'>All</option>
-                                <option value='Ha Noi'>Ha Noi</option>
-                                <option value='Ho Chi Minh'>Ho Chi Minh</option>
-                                <option value='Da Nang'>Da Nang</option>
-                            </select>
+                            <input 
+                                name='location' 
+                                placeholder='All' 
+                                defaultValue={ isAll ? 'All' : locationString}
+                                onClick={() => setSelectLocation(true)}
+                                className='rounded-lg bg-gray-300 w-full'
+                            />
                         </div>
                         <div>
                             <label htmlFor = 'rating'>Rating</label>

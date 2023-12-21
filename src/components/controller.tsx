@@ -19,7 +19,7 @@ export async function getJob(formData: FormData) {
   const salary = formData.get("salary") as string;
   // compose query
   let query = supabase.from("Job").select("*");
-  if (location != "%") {
+  if (location != "All") {
     query = query.eq("location", location);
   }
   if (type != "%") {
