@@ -132,12 +132,11 @@ export async function fetchData(function_query: string, customTag: string) {
   "use server"
   const supabase = createServerComponentClient({cookies});
   const currentuser = await supabase.auth.getUser()
-  console.log(currentuser)
+
   if(currentuser.data){
     const {data,error} = await supabase.rpc(function_query,{userid: currentuser.data.user?.id})
 
   if(error){
-      console.error('Error fetching data:', error);
       return []
   }
 
@@ -155,4 +154,40 @@ export async function fetchData(function_query: string, customTag: string) {
   }
   return []
   
+}
+export async function is_user(){
+  "use server"
+  const supabase = createServerComponentClient({cookies});
+  const currentuser = await supabase.auth.getUser();
+  if(currentuser.data)
+  {
+      const employer = await supabase
+      .schema('public')
+      .from('User')
+      .select('type')
+      .eq("user_id", currentuser.data.user?.id)
+      .single()
+
+      if(employer.data)
+      {
+        if(employer.data.type==='null')
+        {
+          return false;
+        }
+
+        if(employer.data.type ==="employer")
+        {
+          return false;
+        }
+
+        return true;
+        
+      }
+      else{
+        // case not account in User table
+        return false;
+      }
+     
+  }
+  return false;
 }
