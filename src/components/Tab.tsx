@@ -7,7 +7,7 @@ function classNames(...classes: (string | undefined | null)[]): string {
 
 export default function ExampleTab() {
   let [categories] = useState({
-    Recent: [
+    Jobs: [
       {
         id: 1,
         title: 'Does drinking coffee make you smarter?',
@@ -39,7 +39,7 @@ export default function ExampleTab() {
         shareCount: 12,
       },
     ],
-    Trending: [
+    About: [
       {
         id: 1,
         title: 'Ask Me Anything: 10 answers to your questions about coffee',
@@ -67,7 +67,7 @@ export default function ExampleTab() {
               className={({ selected }) =>
                 classNames(
                   'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
-                  'ring-white/60 ring-offset-2 ring-offset-green-400 focus:outline-none focus:ring-2',
+                  'ring-green/60 ring-offset-2 ring-offset-green-400 focus:outline-none focus:ring-2',
                   selected
                     ? 'color-tabbg text-black'
                     : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
@@ -84,7 +84,7 @@ export default function ExampleTab() {
               key={idx}
               className={classNames(
                 'rounded-xl bg-white p-3',
-                'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+                'ring-white/60 ring-offset-2 ring-offset-green-400 focus:outline-none focus:ring-2'
               )}
             >
               <ul>

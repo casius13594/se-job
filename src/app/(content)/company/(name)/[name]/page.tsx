@@ -7,7 +7,16 @@ import Profilepage from "@/components/profilepage";
 interface pageProps{
     params: {name: string}
 }
-
+export async function check_server_exist(name: string){
+    "use server"
+    const supabase =await createServerComponentClient({cookies})
+    const server_url = await supabase.schema('public').from('Employer').select('url').eq('url','company/'+name).single();
+    console.log(server_url)
+    if (server_url.data == null){
+        return false
+    }
+    return true
+}
 export async function check_employer_id(name: string){
     "use server"
     const supabase =await createServerComponentClient({cookies})
@@ -54,19 +63,26 @@ export async function check_employer_id(name: string){
     }
     
 }
-
 const page:FC<pageProps> = async ({params}) =>{
+    const check_server_exist_ed = await check_server_exist(params.name)
+    if (check_server_exist_ed){
     const check_employer_page = await check_employer_id(params.name)
 
     if(check_employer_page){
+        
         return (
             <>
             <div> <Profilepage></Profilepage> </div>
             </>
         )
     }else{
-        return null
+        return(
+            <> Hello outsider</>
+        )
     }
+    }
+    return (<>404</>)
+
     
 }
 export default page
