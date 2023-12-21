@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import AppBar from "@/components/appbar";
 import Profilepage from "@/components/profilepage";
+import Custom404 from "@/components/404page";
 interface pageProps{
     params: {name: string}
 }
@@ -11,77 +12,42 @@ export async function check_server_exist(name: string){
     "use server"
     const supabase =await createServerComponentClient({cookies})
     const server_url = await supabase.schema('public').from('Employer').select('url').eq('url','company/'+name).single();
-    console.log(server_url)
     if (server_url.data == null){
-        return false
-    }
-    return true
-}
-export async function check_employer_id(name: string){
-    "use server"
-    const supabase =await createServerComponentClient({cookies})
-    const user = await supabase.auth.getUser();
-    console.log(user.data)
-    
-    // check user login or not
-    if(user.data){
-        const user_employer = await supabase
-        .schema('public')
-        .from('User')
-        .select("user_id,type")
-        .eq("user_id", user.data.user?.id)
-        .eq("type","employer")
-        .single();
-
-        // check user is employer position
-        if(user_employer.data)
-        {
-            const exist_employer = await supabase
-            .schema('public')
-            .from('Employer')
-            .select("user_id,url")
-            .eq("user_id",user.data.user?.id)
-            .single();
-
-            // check user create company page or not
-            if(exist_employer.data)
-            {
-                const temp_url = "company/"+name;
-                const company_url = exist_employer.data.url;
-
-                return temp_url===company_url;
-            }
-            else
-                return false;
-        }
-        else{
-            return true;
-        }
+        return null
     }
     else{
-        return true;
+        const user = await supabase.auth.getUser();
+        console.log(user);
+        if (user.data){
+            const user_e = await supabase.schema('public').
+            from('Employer').
+            select("*")
+            .eq("user_id", user.data.user?.id)
+            .eq("url",'company/'+name)
+            .single();
+
+            if (user_e.data != null){
+                return user_e;
+            }
+            else {return 'guest'}
+        }
     }
-    
 }
+
 const page:FC<pageProps> = async ({params}) =>{
     const check_server_exist_ed = await check_server_exist(params.name)
-    if (check_server_exist_ed){
-    const check_employer_page = await check_employer_id(params.name)
 
-    if(check_employer_page){
-        
-        return (
-            <>
-            <div> <Profilepage></Profilepage> </div>
-            </>
-        )
-    }else{
-        return(
-            <> Hello outsider</>
-        )
+    if (check_server_exist_ed != null){
+        if (check_server_exist_ed == 'guest'){
+            return (<>Hello guest</>)
+        }
+        else{
+            return(<>Hello owner</>)
+        }
     }
+    else {
+        return (<><Custom404></Custom404></>)
     }
-    return (<>404</>)
 
     
 }
