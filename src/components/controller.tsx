@@ -18,7 +18,7 @@ export async function getJob(formData: FormData) {
   const experience = formData.get("experience") as string;
   const salary = formData.get("salary") as string;
   // compose query
-  let query = supabase.from("Job").select("*");
+  let query = supabase.from("Job").select("job_id, name, employer_name, employer_logo, location, type, post_time, salary, experience").eq("status", "open");
   if (location != "All") {
     query = query.eq("location", location);
   }
@@ -37,6 +37,21 @@ export async function getJob(formData: FormData) {
     return null;
   }
   return jobs;
+}
+
+export async function getJobDetail(job_id: string) {
+  "use server";
+  // const cookieStore = cookies();
+  const supabase = createServerComponentClient({cookies});
+  const { data: job, error } = await supabase
+    .from("Job")
+    .select("*")
+    .eq("job_id", job_id)
+    .single();
+  if (error) {
+    return null;
+  }
+  return job;
 }
 
 export async function saveJob(job_id: string) {
