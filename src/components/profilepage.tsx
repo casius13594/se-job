@@ -8,6 +8,8 @@ import './component.css'
 import { FiEdit3 } from "react-icons/fi";
 import ExampleTab from './Tab';
 import AppBar2 from './appbaraltcompany';
+import Menu_Choose from '@/app/(content)/company/(name)/[name]/menu';
+import Popover_profile from '@/app/(content)/company/(name)/[name]/popover';
 interface ProfilepageProps {
   companyName: string;
   location: string;
@@ -35,7 +37,7 @@ const Profilepage: React.FC<ProfilepageProps> = ({ companyName, location, indust
                 </button>
             </div>
     </div>
-    <div> Hi</div>
+    <div className='mx-auto'> <Popover_profile/></div>
     </div>
     <div className='flex'> 
         <img src={logo} className='placeholder-image  -translate-y-10'/> 
