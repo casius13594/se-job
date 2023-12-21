@@ -42,11 +42,11 @@
 }
 
 .hero__title {
-  @apply text-[65px] font-bold leading-none;
+  @apply text-[5vw] font-bold leading-none;
 }
 
 .hero__subtitle {
-  @apply text-[24px] text-black-100 font-normal mt-5;
+  @apply text-[1.5vw] text-black-100 font-normal mt-5;
 }
 
 .hero__image-container {

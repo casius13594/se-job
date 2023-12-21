@@ -17,6 +17,7 @@
     "@supabase/auth-helpers-nextjs": "^0.8.7",
     "@supabase/ssr": "^0.0.10",
     "@supabase/supabase-js": "^2.39.0",
+    "axios": "^1.6.2",
     "country-state-city": "^3.2.1",
     "geist": "^1.2.0",
     "heroicons": "^2.1.1",
