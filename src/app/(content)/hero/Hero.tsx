@@ -9,9 +9,8 @@ const Hero = () => {
   const [dialogWidth, setDialogWidth] = React.useState(0);
   const [selectedCity, setSelectedCity] = React.useState("");
   const [isOverlayVisible, setOverlayVisibility] = React.useState(false);
-  const [filteredCities, setFilteredCities] = React.useState([]);
-  // Initial list of cities
-  const initialCities: string[] = ["Da Nang", "Ha Noi", "Ho Chi Minh City"];
+  const [filteredCities, setFilteredCities] = React.useState<string[]>([]);
+  const initialCities = ["Da Nang", "Ha Noi", "Ho Chi Minh"];
 
   const handleScroll = () => {};
 
@@ -32,13 +31,13 @@ const Hero = () => {
     }
   };
 
-  const handleCitySelect = (city) => {
+  const handleCitySelect = (city: string) => {
     setSelectedCity(city);
     setCityDialogVisibility(false);
     setOverlayVisibility(false); // Hide overlay on city select
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { value: any } }) => {
     const inputValue = e.target.value;
 
     // Filter the cities based on the input value
@@ -109,15 +108,13 @@ const Hero = () => {
                 type="text"
               />
             </div>
-            <Link href="./joblist">
-              <div
-                className="py-3 px-7 flex flex-row justify-between items-center bg-red rounded-xl ml-2 cursor-pointer"
-                style={{ width: "135px" }}
-              >
-                <img src="/iconSearch.svg" />
-                <b className="text-white">Search</b>
-              </div>
-            </Link>
+            <div
+              className="py-3 px-7 flex flex-row justify-between items-center bg-red rounded-xl ml-2 cursor-pointer"
+              style={{ width: "135px" }}
+            >
+              <img src="/iconSearch.svg" />
+              <b className="text-white">Search</b>
+            </div>
           </div>
         </div>
         <div className="hero__container-1 flex flex-row justify-between items-center padding-y  padding-x mt-2 bg-light-green rounded-3xl">
