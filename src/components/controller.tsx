@@ -108,9 +108,7 @@ export async function addEmployee(
   user: UserResponse["data"]
 ) {
   "use server";
-  // get user
-  const cookieStore = cookies();
-  const supabase = createClient();
+  const supabase = createServerComponentClient({cookies});
 
   console.log(user);
   const { data, error } = await supabase.from("Employee").insert([
