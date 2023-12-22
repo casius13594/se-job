@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import AppBar from '@/components/appbar';
 import CardApplied, {Jobapplied} from '@/components/cardjobapplied'
 import { fetchData,is_user } from '@/components/controller';
@@ -86,6 +86,9 @@ export default function page(){
     
         fetchDataFromSupabase();
     }, [isClick,search_jobapplied]);
+    const memoizedData = useMemo(() => {
+        return data;
+      }, [data]);
 
     if(!isuser){
         return (
@@ -130,7 +133,7 @@ export default function page(){
                                 <h1 className='font-bold'>{bt.name}</h1></button>))}
                         </div>
                         <div className='flex-row w-3/5 h-full mx-[2vw]'>
-                            {data.map((item) => (
+                            {memoizedData.map((item) => (
                                 <CardApplied {...item}/>
                             ))}
                             
