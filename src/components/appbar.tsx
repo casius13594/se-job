@@ -46,7 +46,8 @@ const AppBar: React.FC<AppBarProps>= ({profile_img, name}) => {
   };
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      console.log(searchInput);
+      setSearchInput(searchInput)
+      handleSearchInputChange(searchInput)
     }
   };
   return (
