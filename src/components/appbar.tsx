@@ -24,6 +24,21 @@ const AppBar = () => {
       name: "Notifications",
     },
   ];
+  const handleSearchInputChange = (value: string) => {
+    setSearchInput(value);
+    const path_jobapplied = '/jobapplied'
+    // Check if the current path matches the target path
+    if(currentPath)
+    {
+      const isCurrentPath = currentPath === path_jobapplied;
+      if(isCurrentPath)
+      {
+        localStorage.setItem('search_jobapplied', value)
+      }else{
+        localStorage.setItem('search_jobapplied', '')
+      }
+    }
+  };
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       console.log(searchInput);
@@ -46,7 +61,7 @@ const AppBar = () => {
             className=" bg-[#d9d9d9] pl-10 rounded-lg h-[5vh] w-full"
             placeholder="Search"
             value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
+            onChange={(e) => handleSearchInputChange(e.target.value)}
             onKeyDown={handleKeyPress}
           />
           <span className="absolute left-2 top-1/2 transform -translate-y-1/2">

@@ -7,12 +7,12 @@ import { IoMdHome,IoIosWarning   } from "react-icons/io";
 import { TbError404 } from "react-icons/tb";
 import { requireLogin } from '@/components/popupModal';
 
-
-
 export default function page(){
     const [data, setData] = useState<Jobapplied[]>([]);
     const [isClick, setIsClick] = useState<number>(1);
     const [isuser, setIsuser] = useState<boolean>(true);
+    const search_jobapplied = localStorage.getItem("search_jobapplied") || "";
+
     const button = [
         // put property in here.
         {id: 1,icon: <IoMdHome />,name: 'Saved and Applied Job' },
@@ -31,34 +31,43 @@ export default function page(){
             if(check_user){               
                 // Fetch data from "Applied" table with a custom tag
                 const appliedData = await fetchData('listappliedjob', 'Applied');
-                appliedData.sort((a, b) => b.time_date_post.getTime() - a.time_date_post.getTime());
-
+                
                 // Fetch data from "Jobtab" table with a custom tag
                 const savedData = await fetchData('listsavejob', 'Saved');
-                savedData.sort((a, b) => b.time_date_post.getTime() - a.time_date_post.getTime());
-
+                
                 // Combine the results from both tables
-                const combinedResults = [...appliedData, ...savedData];
-                combinedResults.sort((a, b) => b.time_date_post.getTime() - a.time_date_post.getTime());
+                let combinedResults:Jobapplied[] = [];
                 
                 switch(isClick)
                 {
                     case 1:
-                        setData(combinedResults);
+                        combinedResults = [...appliedData, ...savedData];
                         break;
                     case 2:
-                        setData(savedData);
+                        combinedResults = [...savedData];
                         break;
                     case 3:
-                        setData(appliedData);
+                        combinedResults = [...appliedData];
                         break;
                 }
+                combinedResults.sort((a, b) => b.time_date_post.getTime() - a.time_date_post.getTime());
+                if(search_jobapplied !=='')
+                {
+                    combinedResults = combinedResults.filter((job) => {
+                        const containsSearchTerm =
+                          job.name.includes(search_jobapplied) ||
+                          job.employer_name.includes(search_jobapplied) ||
+                          job.type.includes(search_jobapplied);
+                        return containsSearchTerm;
+                      });
+                }
+                setData(combinedResults);
             }
         
         };
     
         fetchDataFromSupabase();
-    }, [isClick]);
+    }, [isClick,search_jobapplied]);
 
     if(!isuser){
         return (
