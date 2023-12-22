@@ -90,9 +90,7 @@
   background-color: white;
   margin-right: 10px;
   border-radius: 50%;
-  margin-left: 20px;
-  margin-bottom: 20px;
   border-style: solid;  /* Set border style to solid */
   border-width: 1px;    /* Set border width */
-  border-color: black;  /* Set border color */
+  border-color: rgb(133, 125, 125);  /* Set border color */
 }

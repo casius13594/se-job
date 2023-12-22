@@ -9,7 +9,6 @@ import Areaselector from '@/components/Areaselector';
 import { ICity, ICountry, IState } from 'country-state-city';
 import { Country } from 'country-state-city';
 import Modal from 'react-modal';
-import { redirect } from 'next/navigation';
 
 export default function JobList() {
 
@@ -33,7 +32,7 @@ export default function JobList() {
 
     return (
         <>
-        <AppBar/>
+        <AppBar profile_img='' name='abc'/>
         <main className = {`flex flex-col h-[100vh] ${dm_sans.className} overflow-hidden translate-y-4`}>
             {
                 requireLogin(loginRequired, () => setLoginRequired(false))

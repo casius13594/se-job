@@ -10,8 +10,12 @@ import { Button, ThemePanel } from "@radix-ui/themes";
 import { IoIosNotifications, IoMdHome, IoMdDocument } from "react-icons/io";
 import { useState } from "react";
 import Menu_Profile from "./Appbar_components/dropdown_menu";
+interface AppBarProps {
+  profile_img: string;
+  name: string;
+}
 
-const AppBar = () => {
+const AppBar: React.FC<AppBarProps>= ({profile_img, name}) => {
   const [searchInput, setSearchInput] = useState("");
   const currentPath = usePathname();
   console.log(currentPath);
@@ -91,7 +95,8 @@ const AppBar = () => {
           ))}
           </div>
           <div className="translate-y-2">
-               <Menu_Profile></Menu_Profile>
+               <Menu_Profile profile_img = {profile_img}
+               name = {name}></Menu_Profile>
                </div>
           </div>
       </nav>
