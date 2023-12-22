@@ -89,8 +89,7 @@ export async function postJob(
 ) {
   "use server";
   // get user
-  const cookieStore = cookies();
-  const supabase = createClient();
+  const supabase = createServerComponentClient({cookies});
   const employerData = await supabase
     .from("Employer")
     .select("*")
@@ -149,33 +148,39 @@ export async function addEmployee(
 }
 
 export async function fetchData(function_query: string, customTag: string) {
-  "use server";
-  const supabase = createServerComponentClient({ cookies });
-  const currentuser = await supabase.auth.getUser();
+  "use server"
+  const supabase = createServerComponentClient({cookies});
+  const currentuser = await supabase.auth.getUser()
 
-  if (currentuser.data) {
-    const { data, error } = await supabase.rpc(function_query, {
-      userid: currentuser.data.user?.id,
-    });
+  if(currentuser.data){
+    const {data,error} = await supabase.rpc(function_query,{userid: currentuser.data.user?.id})
 
-    if (error) {
-      return [];
-    }
+  if(error){
+      return []
+  }
+  const formatDateToDDMMYYYY = (date: Date): string => {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
 
-    const results: Jobapplied[] = data.map((item: Jobapplied) => ({
+    return `${day}-${month}-${year}`;
+  };
+
+  const results: Jobapplied[] = data.map((item:Jobapplied) =>({
       job_id: item.job_id,
       name: item.name,
       employer_name: item.employer_name,
       location: item.location,
       type: item.type,
       employer_logo: item.employer_logo,
-      tag: customTag,
-      post_time: new Date(item.post_time).toLocaleDateString(),
-    }));
-
-    return results;
+      tag:customTag,
+      post_time:formatDateToDDMMYYYY(new Date(item.post_time)),
+      time_date_post: new Date(item.post_time)}))
+  
+  return results;
   }
-  return [];
+  return []
+  
 }
 export async function is_user() {
   "use server";

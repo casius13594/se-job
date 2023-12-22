@@ -12,6 +12,7 @@ export interface Jobapplied {
     post_time: string;
     tag: string;
     employer_logo: string;
+    time_date_post: Date;
 } 
 
 const CardApplied:React.FC<Jobapplied> = ({name, employer_name, location, type, post_time,tag,employer_logo}) =>{

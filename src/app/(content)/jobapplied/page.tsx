@@ -31,12 +31,15 @@ export default function page(){
             if(check_user){               
                 // Fetch data from "Applied" table with a custom tag
                 const appliedData = await fetchData('listappliedjob', 'Applied');
-            
+                appliedData.sort((a, b) => b.time_date_post.getTime() - a.time_date_post.getTime());
+
                 // Fetch data from "Jobtab" table with a custom tag
                 const savedData = await fetchData('listsavejob', 'Saved');
-            
+                savedData.sort((a, b) => b.time_date_post.getTime() - a.time_date_post.getTime());
+
                 // Combine the results from both tables
                 const combinedResults = [...appliedData, ...savedData];
+                combinedResults.sort((a, b) => b.time_date_post.getTime() - a.time_date_post.getTime());
                 
                 switch(isClick)
                 {
