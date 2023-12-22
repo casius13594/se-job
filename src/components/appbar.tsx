@@ -28,6 +28,7 @@ const AppBar = () => {
   const handleSearchInputChange = (value: string) => {
     setSearchInput(value);
     const path_jobapplied = '/jobapplied'
+    const path_joblist = '/joblist'
     // Check if the current path matches the target path
     if(currentPath)
     {
@@ -38,11 +39,22 @@ const AppBar = () => {
       }else{
         localStorage.setItem('search_jobapplied', '')
       }
+      const isCurrentPath_joblist = currentPath === path_joblist;
+      if(isCurrentPath_joblist)
+      {
+        localStorage.setItem('search_joblist', value)
+      }else{
+        localStorage.setItem('search_joblist', '')
+      }
     }
   };
-  const handleKeyPress = (event) => {
+  const handleKeyPress = (event: any) => {
     if (event.key === "Enter") {
       console.log(searchInput);
+      if(currentPath === '/joblist')
+      {
+        localStorage.setItem('joblist_reset', 'true')
+      }
     }
   };
   return (

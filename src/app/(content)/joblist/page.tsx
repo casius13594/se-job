@@ -1,7 +1,7 @@
 'use client'
 
 import AppBar from '@/components/appbar';
-import React, { use } from 'react';
+import React, { use, useEffect } from 'react';
 import { dm_sans } from '@/components/fonts';
 import { getJob, saveJob } from '@/components/controller';
 import { requireLogin } from '@/components/popupModal';
@@ -9,7 +9,6 @@ import Areaselector from '@/components/Areaselector';
 import { ICity, ICountry, IState } from 'country-state-city';
 import { Country } from 'country-state-city';
 import Modal from 'react-modal';
-import { redirect } from 'next/navigation';
 
 export default function JobList() {
 
@@ -19,6 +18,21 @@ export default function JobList() {
     defaultFormData.append('experience', '%')
     defaultFormData.append('type', '%')
     defaultFormData.append('salary', '%')
+
+    const [keywords, setKeywords] = React.useState(localStorage.getItem('search_joblist'))
+
+    useEffect(() => {
+        // listen to enter clicked
+        window.addEventListener('keypress', (e) => {
+            if (e.key == 'Enter') {
+                if (localStorage.getItem('joblist_reset') == 'true') {
+                    localStorage.setItem('joblist_reset', 'false')
+                    setKeywords(localStorage.getItem('search_joblist'))
+                    setFormData(defaultFormData)
+                }
+            }
+        }, false)        
+    }, [])
 
     const [formData, setFormData] = React.useState(defaultFormData)
     const [jobs, setJobs] = React.useState<any[]>([])
@@ -34,14 +48,15 @@ export default function JobList() {
     return (
         <>
         <AppBar/>
-        <main className = {`flex flex-col h-[100vh] ${dm_sans.className} overflow-hidden translate-y-4`}>
+        <main className = {`flex flex-col h-[100vh] ${dm_sans.className} overflow-hidden`}>
             {
                 requireLogin(loginRequired, () => setLoginRequired(false))
             }
             <JobListClient 
                 jobs={jobs} 
                 setFormData = {data => setFormData(data)}
-                setLoginRequired={setLoginRequired}/>
+                setLoginRequired={setLoginRequired}
+                keywords={keywords || ''}/>
         </main>
         </>
     )
@@ -51,11 +66,13 @@ function JobListClient({
     jobs,
     setFormData,
     setLoginRequired,
+    keywords,
 }:
 {
     jobs: any[]
     setFormData: (formData: FormData) => void
     setLoginRequired: (logedIn: boolean) => void
+    keywords: string
 }) {
     let countryData = Country.getAllCountries();
     const [country, setCountry] = React.useState<ICountry>(countryData[0]);
@@ -64,6 +81,17 @@ function JobListClient({
     const locationString = `${city?.name || ''} ${', ' + state?.name || ''} ${', ' + country?.name || ''}`;
     const [selectLocation, setSelectLocation] = React.useState<boolean>(false);
     const [isAll, setIsAll] = React.useState<boolean>(true);
+    const keywordsArray = keywords.split(' ')
+
+    const filteredJobs = jobs.filter((job) => {
+        let isMatch = true
+        keywordsArray.forEach((keyword) => {
+            if (job.name.toLowerCase().indexOf(keyword.toLowerCase()) == -1) {
+                isMatch = false
+            }
+        })
+        return isMatch
+    })
 
     const formatDateToDDMMYYYY = (date: Date): string => {
         const day = String(date.getDate()).padStart(2, '0');
@@ -74,7 +102,7 @@ function JobListClient({
     }
 
     return (
-            <div className = 'flex flex-row min-h-full w-full pt-[10vh] space-x-[2vw]'>
+            <div className = 'flex flex-row min-h-full w-full pt-[15vh] space-x-[2vw]'>
                 <Modal 
                     isOpen={selectLocation}
                     onRequestClose={() => setSelectLocation(false)}
@@ -206,7 +234,8 @@ function JobListClient({
                     <div className = 'flex flex-col w-full h-full space-y-[2vw] overflow-y-scroll no-scrollbar'>
                     <div className="flex flex-col h-full w-full">
                         <ul className="flex flex-col h-full w-full space-y-[2vh]">
-                            {jobs.map((job) => (
+                            {
+                            filteredJobs.map((job) => (
                             <li className="flex flex-row w-full border-2 border-black rounded-md">
                                 <div 
                                     className='flex flex-row w-full'
