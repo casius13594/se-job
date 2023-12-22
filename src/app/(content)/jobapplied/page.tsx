@@ -11,7 +11,25 @@ export default function page(){
     const [data, setData] = useState<Jobapplied[]>([]);
     const [isClick, setIsClick] = useState<number>(1);
     const [isuser, setIsuser] = useState<boolean>(true);
-    const search_jobapplied = localStorage.getItem("search_jobapplied") || "";
+    const [search_jobapplied, setSearchJobapplied] = useState<string>('');
+
+    useEffect(() => {
+        const handleStorageChange = () => {
+          const newSearchJobapplied = localStorage.getItem('search_jobapplied') || '';
+          setSearchJobapplied(newSearchJobapplied);
+        };
+    
+        // Add event listener for storage change
+        window.addEventListener('storage', handleStorageChange);
+    
+        // Initial update of search_jobapplied
+        handleStorageChange();
+    
+        // Remove event listener when component unmounts
+        return () => {
+          window.removeEventListener('storage', handleStorageChange);
+        };
+      });
 
     const button = [
         // put property in here.

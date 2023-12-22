@@ -39,6 +39,8 @@ const AppBar: React.FC<AppBarProps>= ({profile_img, name}) => {
       if(isCurrentPath)
       {
         localStorage.setItem('search_jobapplied', value)
+        const storageEvent = new Event('storage');
+        window.dispatchEvent(storageEvent);
       }else{
         localStorage.setItem('search_jobapplied', '')
       }
@@ -48,6 +50,7 @@ const AppBar: React.FC<AppBarProps>= ({profile_img, name}) => {
     if (event.key === "Enter") {
       setSearchInput(searchInput)
       handleSearchInputChange(searchInput)
+      
     }
   };
   return (
