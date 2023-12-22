@@ -34,7 +34,7 @@ export default function JobList() {
     return (
         <>
         <AppBar/>
-        <main className = {`flex flex-col h-[100vh] ${dm_sans.className} overflow-hidden`}>
+        <main className = {`flex flex-col h-[100vh] ${dm_sans.className} overflow-hidden translate-y-4`}>
             {
                 requireLogin(loginRequired, () => setLoginRequired(false))
             }

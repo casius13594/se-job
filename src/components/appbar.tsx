@@ -9,6 +9,7 @@ import classnames from "classnames";
 import { Button, ThemePanel } from "@radix-ui/themes";
 import { IoIosNotifications, IoMdHome, IoMdDocument } from "react-icons/io";
 import { useState } from "react";
+import Menu_Profile from "./Appbar_components/dropdown_menu";
 
 const AppBar = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -16,12 +17,12 @@ const AppBar = () => {
   console.log(currentPath);
   const links = [
     // put property in here.
-    { href: "/auth/login", icon: <IoMdHome />, name: "Home" },
-    { href: "/auth/login", icon: <IoMdDocument />, name: "Documents" },
+    { href: "/auth/login", icon: <IoMdHome />, name: "" },
+    { href: "/auth/login", icon: <IoMdDocument />, name: "" },
     {
       href: "/auth/login",
       icon: <IoIosNotifications />,
-      name: "Notifications",
+      name: "",
     },
   ];
   const handleSearchInputChange = (value: string) => {
@@ -68,7 +69,8 @@ const AppBar = () => {
             <Image src="search.svg" alt="search" width={20} height={20} />
           </span>
         </div>
-        <ul className="flex space-x-6">
+        <div className="flex space-x-6">
+          <div className="translate-y-4 flex space-x-6"> 
           {links.map((link) => (
             <Link
               key={link.href}
@@ -85,8 +87,13 @@ const AppBar = () => {
               </Button>
               <p className="link-name font-sans text-sm">{link.name}</p>
             </Link>
+            
           ))}
-        </ul>
+          </div>
+          <div className="translate-y-2">
+               <Menu_Profile></Menu_Profile>
+               </div>
+          </div>
       </nav>
     </header>
   );

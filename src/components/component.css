@@ -82,3 +82,17 @@
 .color-chosetab{
   background-color: #13544E;
 }
+
+.placeholder-profile-img{
+  width: 50px;
+  height: 50px;
+  display: block;
+  background-color: white;
+  margin-right: 10px;
+  border-radius: 50%;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  border-style: solid;  /* Set border style to solid */
+  border-width: 1px;    /* Set border width */
+  border-color: black;  /* Set border color */
+}
