@@ -64,6 +64,15 @@ function JobListClient({
     const locationString = `${city?.name || ''} ${', ' + state?.name || ''} ${', ' + country?.name || ''}`;
     const [selectLocation, setSelectLocation] = React.useState<boolean>(false);
     const [isAll, setIsAll] = React.useState<boolean>(true);
+
+    const formatDateToDDMMYYYY = (date: Date): string => {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+    
+        return `${day}-${month}-${year}`;
+    }
+
     return (
             <div className = 'flex flex-row min-h-full w-full pt-[10vh] space-x-[2vw]'>
                 <Modal 
@@ -224,13 +233,13 @@ function JobListClient({
                                         <div className="flex flex-row w-full">
                                             <h1 className="text-lg">{job.employer_name}</h1>
                                         </div>
-                                        <div className="flex flex-row w-full">
-                                            <h1 className="text-lg">
-                                            {job.location}({job.type})
-                                            </h1>
+                                        <div className="flex flex-row w-full max-w-full">
+                                            <p className="text-lg">
+                                                {job.location} ({job.type})
+                                            </p>
                                         </div>
                                         <div className="flex flex-row w-full">
-                                            <h1 className="text-md">{job.post_time}</h1>
+                                            <h1 className="text-md">{formatDateToDDMMYYYY(new Date(job.post_time))}</h1>
                                         </div>
                                     </div>
                                 </div>

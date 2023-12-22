@@ -32,6 +32,14 @@ function JobDetailPage({
     job: any
 })
  {
+    const formatDateToDDMMYYYY = (date: Date): string => {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+    
+        return `${day}-${month}-${year}`;
+    }
+
     return(
         <div className = 'flex flex-row min-h-full w-full pt-[10vh] space-x-[0.5vw] justify-evenly'>
             <div className = 'flex flex-col w-[45vw] h-full space-y-[2vh]'>
@@ -62,12 +70,12 @@ function JobDetailPage({
                                 </h1>
                             </div>
                             <div className="flex flex-row w-full">
-                                <h1 className="text-md">{job.post_time}</h1>
+                                <h1 className="text-md">{formatDateToDDMMYYYY(new Date(job.post_time))}</h1>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col w-full items-center">                
+                <div className="flex flex-col w-full items-center">
                     <div className = 'flex flex-row rounded-full bg-[#D9D9D9] text-lg p-[1vw]'>
                         You might interested in
                     </div>
@@ -82,12 +90,12 @@ function JobDetailPage({
                         <h1 className='text-2xl font-bold'>
                             {job.name}
                         </h1>
-                        <ul className='flex flex-row'>
+                        <ul className='flex flex-row list-disc list-inside space-x-[1vw]'>
                             <li className='text-xl'>
                                 {job.location}
                             </li>
                             <li className='text-xl'>
-                                {job.post_time}
+                                {formatDateToDDMMYYYY(new Date(job.post_time))}
                             </li>
                         </ul>
                     </div>
