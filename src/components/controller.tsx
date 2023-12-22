@@ -6,6 +6,7 @@ import React from "react";
 import { UserResponse } from "@supabase/supabase-js";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Jobapplied } from "./cardjobapplied";
+import { IState } from "country-state-city";
 
 export async function getJob(formData: FormData) {
   "use server";
@@ -85,7 +86,8 @@ export async function saveJob(job_id: string) {
 export async function postJob(
   formData1: FormData,
   formData2: FormData,
-  user: UserResponse["data"]
+  user: UserResponse["data"],
+  city: IState,
 ) {
   "use server";
   // get user
@@ -104,7 +106,7 @@ export async function postJob(
       employer_name: employer_name,
       employer_logo: employer_logo ?? "",
       status: "open",
-      location: formData1.get("location"),
+      location: city,
       salary: formData2.get("salary"),
       type: formData1.get("type"),
       content: formData2.get("content"),

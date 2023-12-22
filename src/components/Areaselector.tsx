@@ -11,7 +11,16 @@ const Areaselector: React.FC<{
   setState: React.Dispatch<React.SetStateAction<IState | undefined>>;
   city: ICity | undefined;
   setCity: React.Dispatch<React.SetStateAction<ICity | undefined>>;
-}> = ({ country, setCountry, state, setState, city, setCity }) => {
+  showDistrict: boolean;
+}> = ({
+  country,
+  setCountry,
+  state,
+  setState,
+  city,
+  setCity,
+  showDistrict,
+}) => {
   let countryData = Country.getAllCountries();
   //const [country, setCountry] = useState<ICountry>(countryData[0]); // Assuming ICountry is also exported from 'country-state-city'
   const [stateData, setStateData] = useState<IState[]>([]);
@@ -38,7 +47,7 @@ const Areaselector: React.FC<{
     <>
       <div className="flex">
         <div>
-            <div className="font-bold">Country</div>
+          <div className="font-bold">Country</div>
           <Selector
             data={countryData}
             selected={country}
@@ -46,13 +55,15 @@ const Areaselector: React.FC<{
           />
         </div>
         <div>
-        <div className="font-bold">City</div>
+          <div className="font-bold">City</div>
           <Selector data={stateData} selected={state} setSelected={setState} />
         </div>
-        <div>
-        <div className="font-bold">District</div>
-          <Selector data={cityData} selected={city} setSelected={setCity} />
-        </div>
+        {showDistrict && (
+          <div>
+            <div className="font-bold">District</div>
+            <Selector data={cityData} selected={city} setSelected={setCity} />
+          </div>
+        )}
       </div>
     </>
   );
