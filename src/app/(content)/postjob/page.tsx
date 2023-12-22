@@ -56,6 +56,7 @@ export default function PostJob() {
     }
   };
   const handleSubmit = async (event: React.FormEvent) => {
+    console.log(city)
     event.preventDefault();
     console.log("Submitting");
     const form1 = document.getElementById("form1") as HTMLFormElement;

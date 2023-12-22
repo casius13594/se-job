@@ -106,7 +106,7 @@ export async function postJob(
       employer_name: employer_name,
       employer_logo: employer_logo ?? "",
       status: "open",
-      location: city,
+      location: city?.name,
       salary: formData2.get("salary"),
       type: formData1.get("type"),
       content: formData2.get("content"),

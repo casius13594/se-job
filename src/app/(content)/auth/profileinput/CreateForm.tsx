@@ -289,6 +289,7 @@ const CreateForm = () => {
             setState={setState}
             city={city}
             setCity={setCity}
+            showDistrict={true}
           ></Areaselector>
         </div>
         <label htmlFor='location2' className='font-bold'>
