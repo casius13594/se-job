@@ -47,7 +47,7 @@ export default function JobList() {
 
     return (
         <>
-        <AppBar/>
+        <AppBar profile_img='' name='abc'/>
         <main className = {`flex flex-col h-[100vh] ${dm_sans.className} overflow-hidden`}>
             {
                 requireLogin(loginRequired, () => setLoginRequired(false))

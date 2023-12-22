@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import AppBar from '@/components/appbar';
 import CardApplied, {Jobapplied} from '@/components/cardjobapplied'
 import { fetchData,is_user } from '@/components/controller';
@@ -11,7 +11,25 @@ export default function page(){
     const [data, setData] = useState<Jobapplied[]>([]);
     const [isClick, setIsClick] = useState<number>(1);
     const [isuser, setIsuser] = useState<boolean>(true);
-    const search_jobapplied = localStorage.getItem("search_jobapplied") || "";
+    const [search_jobapplied, setSearchJobapplied] = useState<string>('');
+
+    useEffect(() => {
+        const handleStorageChange = () => {
+          const newSearchJobapplied = localStorage.getItem('search_jobapplied') || '';
+          setSearchJobapplied(newSearchJobapplied);
+        };
+    
+        // Add event listener for storage change
+        window.addEventListener('storage', handleStorageChange);
+    
+        // Initial update of search_jobapplied
+        handleStorageChange();
+    
+        // Remove event listener when component unmounts
+        return () => {
+          window.removeEventListener('storage', handleStorageChange);
+        };
+      });
 
     const button = [
         // put property in here.
@@ -68,11 +86,14 @@ export default function page(){
     
         fetchDataFromSupabase();
     }, [isClick,search_jobapplied]);
+    const memoizedData = useMemo(() => {
+        return data;
+      }, [data]);
 
     if(!isuser){
         return (
             <>
-                <AppBar />
+                <AppBar profile_img="" name="TEST USER ABC"/>
                 <main className = {`flex flex-col h-full w-full items-center justify-center p-[8vh]`}>
                     <svg stroke="red" fill="red" stroke-width="0" viewBox="0 0 512 512" height="300" width="300" xmlns="http://www.w3.org/2000/svg">
                         <path d="M228.9 79.9L51.8 403.1C40.6 423.3 55.5 448 78.9 448h354.3c23.3 0 38.2-24.7 
@@ -93,7 +114,7 @@ export default function page(){
     else{
         return(
             <>  
-                <AppBar />
+                <AppBar profile_img="" name="TEST USER ABC"/>
                 <main className = {`flex flex-col h-[100vh] overflow-hidden`}>
                     <div className='flex flex-row pt-[7vw] mt-[0.5vh]'>
                         <div className='flex-col w-1/5 ml-[2vw]'>
@@ -112,7 +133,7 @@ export default function page(){
                                 <h1 className='font-bold'>{bt.name}</h1></button>))}
                         </div>
                         <div className='flex-row w-3/5 h-full mx-[2vw]'>
-                            {data.map((item) => (
+                            {memoizedData.map((item) => (
                                 <CardApplied {...item}/>
                             ))}
                             
