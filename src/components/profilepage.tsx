@@ -50,8 +50,8 @@ const Profilepage: React.FC<ProfilepageProps> = ({ companyName, location, indust
     <>
     <AppBar2 profile_img={logo} name={companyName}></AppBar2>
     <div id='parent' className='profilepage'>
-      <div className='flex'>
-        <div className='w-max'>
+      <div className='flex w-full'>
+        <div className='w-2/3'>
     <div className="profilebg-container" >
        <div className='circle-button2 ml-auto mr-2 translate-y-2'>
                 <button onClick={toggleEditMode}>
@@ -84,6 +84,8 @@ const Profilepage: React.FC<ProfilepageProps> = ({ companyName, location, indust
         <ExampleTab></ExampleTab>
         </div>
     </div>
+
+    
     <div className='ml-11'>
     <div className='font-sans font-bold'> 
     Utilities 

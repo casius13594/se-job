@@ -37,7 +37,6 @@ const page:FC<pageProps> = async ({params}) =>{
     if (check_server_exist_ed != null && typeof check_server_exist_ed[0] !== 'number'){
         if (check_server_exist_ed[1] == 0){
             return (<>
-            Hello guest
             <Profilepage companyName= {check_server_exist_ed[0].data.name}
             industry= {check_server_exist_ed[0].data.inds}
             location= {check_server_exist_ed[0].data.location}

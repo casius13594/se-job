@@ -3,6 +3,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { IoIosExit, IoMdExit } from "react-icons/io";
 import Image from "next/image";
+import Link from "next/link";
 interface MenuProfileProps {
   profile_img: string;
   name: string;
@@ -34,6 +35,7 @@ const Menu_Profile: React.FC<MenuProfileProps> = ({ profile_img, name }) => {
         >
           <Menu.Items className="absolute right-0 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
             <div className="px-1 py-1 ">
+              <Link href = 'member/info'>
               <Menu.Item>
                 {({ active }) => (
                   <button
@@ -52,6 +54,7 @@ const Menu_Profile: React.FC<MenuProfileProps> = ({ profile_img, name }) => {
                   </button>
                 )}
               </Menu.Item>
+              </Link>
             </div>
             <div className="px-1 py-1">
               <Menu.Item>

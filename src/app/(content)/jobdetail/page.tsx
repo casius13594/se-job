@@ -18,7 +18,7 @@ export default function JobDetail() {
     if(!job) return <p>{job_id}</p>;
     return(
         <>
-            <AppBar profile_img="" name="TEST USER ABC"/>
+            <AppBar/>
             <main className = {`flex flex-col w-[100vw] h-[100vh] ${dm_sans.className} pt-[8vh] overflow-hidden`}>
                 <JobDetailPage job={job}/>
             </main>

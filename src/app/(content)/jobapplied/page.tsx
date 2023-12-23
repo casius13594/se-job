@@ -93,7 +93,7 @@ export default function page(){
     if(!isuser){
         return (
             <>
-                <AppBar profile_img="" name="TEST USER ABC"/>
+                <AppBar/>
                 <main className = {`flex flex-col h-full w-full items-center justify-center p-[8vh]`}>
                     <svg stroke="red" fill="red" stroke-width="0" viewBox="0 0 512 512" height="300" width="300" xmlns="http://www.w3.org/2000/svg">
                         <path d="M228.9 79.9L51.8 403.1C40.6 423.3 55.5 448 78.9 448h354.3c23.3 0 38.2-24.7 
@@ -114,7 +114,7 @@ export default function page(){
     else{
         return(
             <>  
-                <AppBar profile_img="" name="TEST USER ABC"/>
+                <AppBar/>
                 <main className = {`flex flex-col h-[100vh] overflow-hidden`}>
                     <div className='flex flex-row pt-[7vw] mt-[0.5vh]'>
                         <div className='flex-col w-1/5 ml-[2vw]'>
