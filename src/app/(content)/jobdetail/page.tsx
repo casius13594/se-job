@@ -1,7 +1,7 @@
 "use client";
 
 import { getJobDetail } from "@/components/controller";
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@/components/appbar";
 import { dm_sans } from "@/components/fonts";
 import Link from "next/link";
@@ -301,12 +301,27 @@ function JobDetailPage({
 }
 
 function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
-  const handleSubmit = (e) => {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setSelectedFile(file);
+  };
+
+  const handleFileRemove = () => {
+    setSelectedFile(null);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add logic to handle form submission
-    // You can access form data using e.target.name.value, e.target.email.value, etc.
-    // You may want to perform validation before submission.
+    // Handle form submission with the selected file (selectedFile)
+    // ...
+
+    // Clear the selected file after submission if needed
+    setSelectedFile(null);
+
     // Close the pop-up after submission using onClosePopup()
+    onClosePopup();
   };
 
   return (
@@ -323,7 +338,7 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
       }}
     >
       <div
-        className="popup-container w-[822px] bg-gray-300 p-6 border rounded-xl mt-14 text-xl font-bold"
+        className="popup-container w-[822px] bg-white p-6 border rounded-xl mt-14 text-xl font-bold"
         style={{
           position: "absolute",
           left: "50%",
@@ -404,7 +419,39 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
               <span className="mb-1">
                 Upload your CV <span className="text-red">*</span>
               </span>
-              <input type="file" name="cv" accept=".pdf" required />
+              <div className="flex items-center justify-between">
+                <span className="font-normal">
+                  Maximum size 5MB, pdf format only
+                </span>
+                {selectedFile ? (
+                  <div className="flex items-center space-x-2">
+                    <span>{selectedFile.name}</span>
+                    <button
+                      type="button"
+                      onClick={handleFileRemove}
+                      className="text-red"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ) : (
+                  <label
+                    className="px-14 py-1 font-normal rounded-xl cursor-pointer hover:bg-gray-400"
+                    style={{
+                      border: "1px solid rgba(0, 0, 0, 1)",
+                    }}
+                  >
+                    Upload CV
+                    <input
+                      type="file"
+                      name="cv"
+                      accept=".pdf"
+                      onChange={handleFileChange}
+                      className="hidden"
+                    />
+                  </label>
+                )}
+              </div>
             </label>
             <label className="flex flex-col mt-2">
               <span className="mb-1">Proposal letter</span>
@@ -419,12 +466,36 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
               />
             </label>
           </form>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Apply
-          </button>
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col font-normal">
+              <span className="py-1 text-xs">
+                This form is provided by{" "}
+                <span
+                  style={{
+                    color: "#13544E",
+                    fontFamily: "DM Serif Display",
+                    fontSize: "30px",
+                    fontStyle: "italic",
+                    fontWeight: 700,
+                    lineHeight: "29.333px",
+                    letterSpacing: "-0.4px",
+                  }}
+                >
+                  Jelp
+                </span>
+              </span>
+              <span className="py-1 text-xs">
+                Employee should conduct clear research before applying the
+                company
+              </span>
+            </div>
+            <button
+              type="submit"
+              className="px-20 py-2 rounded-3xl bg-[#13544ED1] italic text-white hover:bg-green"
+            >
+              Apply
+            </button>
+          </div>
         </div>
       </div>
     </div>
