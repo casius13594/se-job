@@ -1,18 +1,26 @@
-import { Menu, Transition } from '@headlessui/react'
-import { Fragment, useEffect, useRef, useState } from 'react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { IoIosExit, IoMdExit  } from "react-icons/io";
+import { Menu, Transition } from "@headlessui/react";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { IoIosExit, IoMdExit } from "react-icons/io";
+import Image from "next/image";
 interface MenuProfileProps {
-    profile_img: string;
-    name: string;
-  }
-const Menu_Profile: React.FC<MenuProfileProps> = ({ profile_img, name }) =>{
+  profile_img: string;
+  name: string;
+}
+const Menu_Profile: React.FC<MenuProfileProps> = ({ profile_img, name }) => {
   return (
     <div className="top-16 text-right">
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex w-full justify-center rounded-md text-sm font-medium text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
-           <img src = {profile_img} className='placeholder-profile-img'></img>
+            
+            <Image
+              src={profile_img || "default_logo.svg"}
+              className="placeholder-profile-img"
+              width="20"
+              height="20"
+              alt="logo"
+            ></Image>
           </Menu.Button>
         </div>
         <Transition
@@ -30,11 +38,17 @@ const Menu_Profile: React.FC<MenuProfileProps> = ({ profile_img, name }) =>{
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? 'bg-green text-white' : 'text-gray-900'
+                      active ? "bg-green text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm `}
                   >
-                    <img src = {profile_img} className='placeholder-profile-img'></img>
-                   <div className='text-lg'>{name}</div>
+                    <Image
+                      src={profile_img || "default_logo.svg"}
+                      className="placeholder-profile-img"
+                      width="20"
+                      height="20"
+                      alt="logo"
+                    ></Image>
+                    <div className="text-lg">{name}</div>
                   </button>
                 )}
               </Menu.Item>
@@ -44,13 +58,15 @@ const Menu_Profile: React.FC<MenuProfileProps> = ({ profile_img, name }) =>{
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? 'bg-red text-white' : 'text-gray-900'
+                      active ? "bg-red text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2`}
                   >
-                  {active ? 
-                  
-                  < IoIosExit className = 'text-lg'></IoIosExit> : <IoMdExit className = 'text-lg'></IoMdExit>}
-                  <div className='ml-5'></div>
+                    {active ? (
+                      <IoIosExit className="text-lg"></IoIosExit>
+                    ) : (
+                      <IoMdExit className="text-lg"></IoMdExit>
+                    )}
+                    <div className="ml-5"></div>
                     Sign out
                   </button>
                 )}
@@ -60,6 +76,6 @@ const Menu_Profile: React.FC<MenuProfileProps> = ({ profile_img, name }) =>{
         </Transition>
       </Menu>
     </div>
-  )
-}
-export default Menu_Profile
+  );
+};
+export default Menu_Profile;

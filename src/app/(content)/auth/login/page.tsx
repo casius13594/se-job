@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { DM_Sans } from "next/font/google";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { createClient } from "@supabase/supabase-js";
 
 const dmsans = DM_Sans({
   subsets: ["latin"],
@@ -31,7 +30,7 @@ export default function CredentialsForm() {
       email,
       password,
     });
-
+    console.log(res.data.user)
     if (!res.error && res.data.user) {
       // Check if the user already exists in the database
       const existingUser = await supabase
@@ -40,10 +39,10 @@ export default function CredentialsForm() {
         .select("user_id,type")
         .eq("user_id", res.data.user.id)
         .single();
-
+      
       if (existingUser.data) {
         // If the user exists, update the status
-
+        console.log(existingUser.data.type)
         await supabase
           .schema("public")
           .from("User")
@@ -65,15 +64,19 @@ export default function CredentialsForm() {
               router.push("../../auth/profileinput");
             }
           } else {
+            console.log(res.data.user.id)
             const existingEmployee = await supabase
               .schema("public")
               .from("Employee")
               .select("user_id")
               .eq("user_id", res.data.user.id)
               .single();
+            
             if (existingEmployee.data) {
+              console.log(existingEmployee.data)
               router.push("../../joblist");
             } else {
+              console.log(existingEmployee.error)
               router.push("../../auth/employeeProfile");
             }
           }

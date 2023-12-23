@@ -8,17 +8,36 @@ import "./component.css";
 import classnames from "classnames";
 import { Button, ThemePanel } from "@radix-ui/themes";
 import { IoIosNotifications, IoMdHome, IoMdDocument } from "react-icons/io";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Menu_Profile from "./Appbar_components/dropdown_menu";
-interface AppBarProps {
-  profile_img: string;
-  name: string;
-}
+import { getUser } from "./controller";
 
-const AppBar: React.FC<AppBarProps>= ({profile_img, name}) => {
+
+const AppBar = () => {
+  const [profileImg, setProfileImg] = useState("");
+  const [profileName, setProfileName] = useState("");
   const [searchInput, setSearchInput] = useState("");
+  const [userActive, setUserActive] = useState(false);
   const currentPath = usePathname();
+
+
   console.log(currentPath);
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const user = await getUser();
+
+      if (user) {
+        // Assuming profile_img and name are stored in user_metadata
+        setProfileImg(user.logo);
+        setProfileName(user.name);
+        setUserActive(true);
+      } else {
+        setUserActive(false);
+      }
+    };
+
+    fetchProfile();
+  }, []);
   const links = [
     // put property in here.
     { href: "/auth/login", icon: <IoMdHome />, name: "" },
@@ -29,39 +48,39 @@ const AppBar: React.FC<AppBarProps>= ({profile_img, name}) => {
       name: "",
     },
   ];
+
+  const handleLogin = (router: any) => {
+    router.push('/auth/login');
+  }
   const handleSearchInputChange = (value: string) => {
     setSearchInput(value);
-    const path_jobapplied = '/jobapplied'
-    const path_joblist = '/joblist'
+    const path_jobapplied = "/jobapplied";
+    const path_joblist = "/joblist";
     // Check if the current path matches the target path
-    if(currentPath)
-    {
+    if (currentPath) {
       const isCurrentPath = currentPath === path_jobapplied;
-      if(isCurrentPath)
-      {
-        localStorage.setItem('search_jobapplied', value)
-        const storageEvent = new Event('storage');
+      if (isCurrentPath) {
+        localStorage.setItem("search_jobapplied", value);
+        const storageEvent = new Event("storage");
         window.dispatchEvent(storageEvent);
-      }else{
-        localStorage.setItem('search_jobapplied', '')
+      } else {
+        localStorage.setItem("search_jobapplied", "");
       }
       const isCurrentPath_joblist = currentPath === path_joblist;
-      if(isCurrentPath_joblist)
-      {
-        localStorage.setItem('search_joblist', value)
-      }else{
-        localStorage.setItem('search_joblist', '')
+      if (isCurrentPath_joblist) {
+        localStorage.setItem("search_joblist", value);
+      } else {
+        localStorage.setItem("search_joblist", "");
       }
     }
   };
   const handleKeyPress = (event: any) => {
     if (event.key === "Enter") {
-      setSearchInput(searchInput)
-      handleSearchInputChange(searchInput)
-      
-      if(currentPath === '/joblist')
-      {
-        localStorage.setItem('joblist_reset', 'true')
+      setSearchInput(searchInput);
+      handleSearchInputChange(searchInput);
+
+      if (currentPath === "/joblist") {
+        localStorage.setItem("joblist_reset", "true");
       }
     }
   };
@@ -89,32 +108,41 @@ const AppBar: React.FC<AppBarProps>= ({profile_img, name}) => {
             <Image src="search.svg" alt="search" width={20} height={20} />
           </span>
         </div>
-        <div className="flex space-x-6">
-          <div className="translate-y-4 flex space-x-6"> 
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              className={classnames({
-                "text-zinc-900": link.href === currentPath,
-                "text-zinc-500": link.href !== currentPath,
-                "hover:text-zinc-800 transition-colors": true,
-                "flex flex-col items-center text-center": true, // Added flex styles for centering
-              })}
-              href={link.href}
-            >
-              <Button className="circle-button">
-                {link.icon} {/* Use the icon React component here */}
-              </Button>
-              <p className="link-name font-sans text-sm">{link.name}</p>
+        <div className="flex justify-betwee">
+          {userActive ? (
+            <div className="flex space-x-6">
+              <div className="translate-y-4 flex space-x-6">
+                {links.map((link) => (
+                  <Link
+                    key={link.href}
+                    className={classnames({
+                      "text-zinc-900": link.href === currentPath,
+                      "text-zinc-500": link.href !== currentPath,
+                      "hover:text-zinc-800 transition-colors": true,
+                      "flex flex-col items-center text-center": true, // Added flex styles for centering
+                    })}
+                    href={link.href}
+                  >
+                    <Button className="circle-button">
+                      {link.icon} {/* Use the icon React component here */}
+                    </Button>
+                    <p className="link-name font-sans text-sm">{link.name}</p>
+                  </Link>
+                ))}
+              </div>
+              <div className="translate-y-2">
+                <Menu_Profile
+                  profile_img={profileImg}
+                  name={profileName}
+                ></Menu_Profile>
+              </div>
+            </div>
+          ) : (
+            <Link className="bg-[#13544E] rounded-3xl px-5 py-2 w-full text-white" href="/auth/login">
+              Log in
             </Link>
-            
-          ))}
-          </div>
-          <div className="translate-y-2">
-               <Menu_Profile profile_img = {profile_img}
-               name = {name}></Menu_Profile>
-               </div>
-          </div>
+          )}
+        </div>
       </nav>
     </header>
   );
