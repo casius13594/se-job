@@ -16,7 +16,6 @@ export async function check_server_exist(name: string){
     }
     else{
         const user = await supabase.auth.getUser();
-        console.log(user);
         if (user.data){
             const user_e = await supabase.schema('public').
             from('Employer').
@@ -50,7 +49,6 @@ const page:FC<pageProps> = async ({params}) =>{
             )
         }
         else{
-            console.log(check_server_exist_ed[0].data)
             return(<>
             <Profilepage companyName= {check_server_exist_ed[0].data.name}
             industry= {check_server_exist_ed[0].data.inds}
