@@ -301,24 +301,39 @@ function JobDetailPage({
 }
 
 function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [cv, setCv] = useState<File | null>(null);
+
+  const isFormValid = name && email && phone && cv;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    setSelectedFile(file);
+    setCv(file);
   };
 
   const handleFileRemove = () => {
-    setSelectedFile(null);
+    setCv(null);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission with the selected file (selectedFile)
+
+    // Check if the form is valid before submission
+    if (!isFormValid) {
+      // Handle invalid form (e.g., show error messages)
+      return;
+    }
+
+    // Handle form submission with the form data
     // ...
 
-    // Clear the selected file after submission if needed
-    setSelectedFile(null);
+    // Clear the form state after submission if needed
+    setName("");
+    setEmail("");
+    setPhone("");
+    setCv(null);
 
     // Close the pop-up after submission using onClosePopup()
     onClosePopup();
@@ -370,6 +385,7 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
               border: "1px solid rgba(0, 0, 0, 0.29)",
             }}
           >
+            {/* Other form elements */}
             <label className="flex flex-col mt-2">
               <span className="mb-1">
                 Name <span className="text-red">*</span>
@@ -383,6 +399,8 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
                 name="name"
                 autoComplete="name"
                 required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </label>
             <label className="flex flex-col mt-2">
@@ -398,6 +416,8 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
                 name="email"
                 autoComplete="email"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </label>
             <label className="flex flex-col mt-2">
@@ -413,6 +433,8 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
                 name="phone"
                 autoComplete="phone"
                 required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
               />
             </label>
             <label className="flex flex-col mt-2">
@@ -423,9 +445,9 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
                 <span className="font-normal">
                   Maximum size 5MB, pdf format only
                 </span>
-                {selectedFile ? (
+                {cv ? (
                   <div className="flex items-center space-x-2">
-                    <span>{selectedFile.name}</span>
+                    <span>{cv.name}</span>
                     <button
                       type="button"
                       onClick={handleFileRemove}
@@ -448,6 +470,7 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
                       accept=".pdf"
                       onChange={handleFileChange}
                       className="hidden"
+                      required
                     />
                   </label>
                 )}
@@ -456,7 +479,7 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
             <label className="flex flex-col mt-2">
               <span className="mb-1">Proposal letter</span>
               <textarea
-                className="px-1 rounded-md focus:outline-none font-normal"
+                className="p-1  rounded-md focus:outline-none font-normal"
                 style={{
                   border: "1px solid rgba(0, 0, 0, 0.5)",
                 }}
@@ -489,9 +512,15 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
                 company
               </span>
             </div>
+
             <button
               type="submit"
-              className="px-20 py-2 rounded-3xl bg-[#13544ED1] italic text-white hover:bg-green"
+              className={`px-20 py-2 rounded-3xl ${
+                isFormValid
+                  ? "bg-[#13544ED1] hover:bg-green"
+                  : "bg-gray-400 cursor-not-allowed"
+              } italic text-white`}
+              disabled={!isFormValid}
             >
               Apply
             </button>
