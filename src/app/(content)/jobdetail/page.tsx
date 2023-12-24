@@ -5,6 +5,11 @@ import React, { useState } from "react";
 import AppBar from "@/components/appbar";
 import { dm_sans } from "@/components/fonts";
 import Link from "next/link";
+import {
+  createClientComponentClient,
+  createServerComponentClient,
+} from "@supabase/auth-helpers-nextjs";
+// import { cookies } from "next/headers";
 
 export default function JobDetail() {
   const [job, setJob] = React.useState(null);
@@ -301,12 +306,15 @@ function JobDetailPage({
 }
 
 function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
-  const [name, setName] = useState("");
+  const [nameApply, setNameApply] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [proposal, setProposal] = useState("");
   const [cv, setCv] = useState<File | null>(null);
+  // const supabase = createServerComponentClient({ cookies });
+  const supabase = createClientComponentClient();
 
-  const isFormValid = name && email && phone && cv;
+  const isFormValid = nameApply && email && phone && cv;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
@@ -317,20 +325,46 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
     setCv(null);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Check if the form is valid before submission
     if (!isFormValid) {
-      // Handle invalid form (e.g., show error messages)
       return;
     }
 
-    // Handle form submission with the form data
-    // ...
+    const currentUser = await supabase.auth.getUser();
+    const user_id = currentUser.data?.user?.id;
 
+    await supabase.storage.from("cv").upload(`cv/${user_id}/${cv.name}`, cv);
+
+    // Set the CV file path in the application data
+    const cv_path = `cv/${user_id}/${cv.name}`;
+
+    // Include proposal letter in the application data if provided
+    let proposalText = "";
+    if (proposal) {
+      proposalText = proposal;
+    }
+
+    // Save job application data to the "Applied" table
+    await supabase
+      .schema("public")
+      .from("Applied")
+      .insert([
+        {
+          job_id: localStorage.getItem("job_id") || "",
+          // employee_id: user_id!,
+          employee_id: "2d52d092-e1e9-4315-8f0d-081b50ec5ce0",
+          time: new Date(),
+          name: nameApply,
+          email: email,
+          phone: phone,
+          cv_path: cv_path,
+          propo_letter: proposalText,
+        },
+      ]);
     // Clear the form state after submission if needed
-    setName("");
+    setNameApply("");
     setEmail("");
     setPhone("");
     setCv(null);
@@ -399,8 +433,8 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
                 name="name"
                 autoComplete="name"
                 required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={nameApply}
+                onChange={(e) => setNameApply(e.target.value)}
               />
             </label>
             <label className="flex flex-col mt-2">
@@ -484,47 +518,49 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
                   border: "1px solid rgba(0, 0, 0, 0.5)",
                 }}
                 name="proposal"
+                value={proposal}
+                onChange={(e) => setProposal(e.target.value)}
                 rows={4}
                 placeholder="Write your ability, skills, and experience so that employers understand your potential better"
               />
             </label>
-          </form>
-          <div className="flex items-center justify-between">
-            <div className="flex flex-col font-normal">
-              <span className="py-1 text-xs">
-                This form is provided by{" "}
-                <span
-                  style={{
-                    color: "#13544E",
-                    fontFamily: "DM Serif Display",
-                    fontSize: "30px",
-                    fontStyle: "italic",
-                    fontWeight: 700,
-                    lineHeight: "29.333px",
-                    letterSpacing: "-0.4px",
-                  }}
-                >
-                  Jelp
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col font-normal">
+                <span className="py-1 text-xs">
+                  This form is provided by{" "}
+                  <span
+                    style={{
+                      color: "#13544E",
+                      fontFamily: "DM Serif Display",
+                      fontSize: "30px",
+                      fontStyle: "italic",
+                      fontWeight: 700,
+                      lineHeight: "29.333px",
+                      letterSpacing: "-0.4px",
+                    }}
+                  >
+                    Jelp
+                  </span>
                 </span>
-              </span>
-              <span className="py-1 text-xs">
-                Employee should conduct clear research before applying the
-                company
-              </span>
-            </div>
+                <span className="py-1 text-xs">
+                  Employee should conduct clear research before applying the
+                  company
+                </span>
+              </div>
 
-            <button
-              type="submit"
-              className={`px-20 py-2 rounded-3xl ${
-                isFormValid
-                  ? "bg-[#13544ED1] hover:bg-green"
-                  : "bg-gray-400 cursor-not-allowed"
-              } italic text-white`}
-              disabled={!isFormValid}
-            >
-              Apply
-            </button>
-          </div>
+              <button
+                type="submit"
+                className={`px-20 py-2 rounded-3xl ${
+                  isFormValid
+                    ? "bg-[#13544ED1] hover:bg-green"
+                    : "bg-gray-400 cursor-not-allowed"
+                } italic text-white`}
+                disabled={!isFormValid}
+              >
+                Apply
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
