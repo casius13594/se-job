@@ -5,10 +5,7 @@ import React, { useState } from "react";
 import AppBar from "@/components/appbar";
 import { dm_sans } from "@/components/fonts";
 import Link from "next/link";
-import {
-  createClientComponentClient,
-  createServerComponentClient,
-} from "@supabase/auth-helpers-nextjs";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 // import { cookies } from "next/headers";
 
 export default function JobDetail() {
@@ -311,7 +308,6 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
   const [phone, setPhone] = useState("");
   const [proposal, setProposal] = useState("");
   const [cv, setCv] = useState<File | null>(null);
-  // const supabase = createServerComponentClient({ cookies });
   const supabase = createClientComponentClient();
 
   const isFormValid = nameApply && email && phone && cv;
@@ -334,27 +330,26 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
 
     const currentUser = await supabase.auth.getUser();
     const user_id = currentUser.data?.user?.id;
-
-    await supabase.storage.from("cv").upload(`cv/${user_id}/${cv.name}`, cv);
-
-    // Set the CV file path in the application data
     const cv_path = `cv/${user_id}/${cv.name}`;
 
-    // Include proposal letter in the application data if provided
+    await supabase.storage
+      .from("cv")
+      .upload(user_id + "/" + cv?.name, cv as File, {
+        upsert: true,
+      });
+
     let proposalText = "";
     if (proposal) {
       proposalText = proposal;
     }
 
-    // Save job application data to the "Applied" table
     await supabase
       .schema("public")
       .from("Applied")
       .insert([
         {
           job_id: localStorage.getItem("job_id") || "",
-          // employee_id: user_id!,
-          employee_id: "2d52d092-e1e9-4315-8f0d-081b50ec5ce0",
+          employee_id: user_id!,
           time: new Date(),
           name: nameApply,
           email: email,
@@ -363,13 +358,12 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
           propo_letter: proposalText,
         },
       ]);
-    // Clear the form state after submission if needed
+
+    // Clear the form state after submission
     setNameApply("");
     setEmail("");
     setPhone("");
     setCv(null);
-
-    // Close the pop-up after submission using onClosePopup()
     onClosePopup();
   };
 

@@ -11,6 +11,7 @@ import {
 import { Jobapplied } from "./cardjobapplied";
 import { IState } from "country-state-city";
 import { boolean } from "zod";
+import { Interface } from "readline";
 
 export async function getJob(formData: FormData) {
   "use server";
@@ -222,7 +223,7 @@ export async function is_user() {
 
 export async function getUser() {
   "use server";
-  console.log("getting user")
+  console.log("getting user");
   const supabase = createServerComponentClient({ cookies });
   const currentuser = await supabase.auth.getUser();
   if (currentuser.data) {
@@ -244,8 +245,8 @@ export async function getUser() {
         if (error) {
           return null;
         }
-        console.log("Returning employee")
-        return {data, isEmployee: true};
+        console.log("Returning employee");
+        return { data, isEmployee: true };
       } else if (res.data.type == "employer") {
         const { data, error } = await supabase
           .from("Employer")
@@ -255,15 +256,13 @@ export async function getUser() {
         if (error) {
           return null;
         }
-        console.log("Returning employer")
-        return {data, isEmployee: false};
+        console.log("Returning employer");
+        return { data, isEmployee: false };
       }
     }
     return null;
   }
 }
-
-
 
 export async function GoogleSignIn() {
   "use server";
@@ -308,3 +307,67 @@ export async function GoogleSignIn() {
       ]);
   }
 }
+
+// export async function submitJobApplication(jobID: string, cv: File | null) {
+//   "use server";
+//   const supabase = createServerComponentClient({ cookies });
+//   const currentUser = await supabase.auth.getUser();
+//   const user_id = currentUser.data?.user?.id;
+//   const userExists = await supabase
+//     .schema("public")
+//     .from("User")
+//     .select("user_id")
+//     .eq("user_id", user_id)
+//     .single();
+
+//   try {
+//     const { data, error } = await supabase.storage
+//       .from("cv")
+//       .upload(user_id + "/" + cv?.name, cv as File, {
+//         upsert: true,
+//       });
+//     if (error) {
+//       // Handle the error (log it or perform error-specific logic)
+//       console.error("Error UPLOAD", error.message);
+//     } else {
+//       // Log success or perform success-specific logic
+//       console.log("UPLOAD successfully:", data);
+//     }
+//   } catch (error) {
+//     console.error("Error uploading CV:", error.message);
+//     // Handle the error, e.g., display an error message to the user
+//     return;
+//   }
+
+//   if (!userExists.data) {
+//     console.error("User does not exist:", user_id);
+//     // Handle the error, e.g., return or throw an error
+//     return;
+//   }
+//   try {
+//     // Insert job application data into the "Applied" table
+//     const { data, error } = await supabase.from("Applied").insert([
+//       {
+//         job_id: jobID,
+//         employee_id: "2d52d092-e1e9-4315-8f0d-081b50ec5ce0",
+//         time: new Date(),
+//         name: "nameApply",
+//         email: "email",
+//         phone: "phone",
+//         cv_path: "cv_path",
+//         propo_letter: "proposalText",
+//       },
+//     ]);
+
+//     if (error) {
+//       // Handle the error (log it or perform error-specific logic)
+//       console.error("Error inserting job application:", error.message);
+//     } else {
+//       // Log success or perform success-specific logic
+//       console.log("Job application submitted successfully:", data);
+//     }
+//   } catch (error) {
+//     // Handle unexpected errors (e.g., network issues)
+//     console.error("Unexpected error:", error.message);
+//   }
+// }
