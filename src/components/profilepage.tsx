@@ -55,7 +55,7 @@ const Profilepage: React.FC<ProfilepageProps> = ({
 
   return (
     <>
-      <AppBar profile_img={logo} name={companyName}></AppBar>
+      <AppBar />
       <div id="parent" className="profilepage z-0">
         <div className="flex w-full">
           <div className="w-2/3">
