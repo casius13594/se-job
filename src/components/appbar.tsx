@@ -90,7 +90,7 @@ const AppBar = () => {
     }
   };
   return (
-    <header className="w-full z-100">
+    <header className="w-full z-10">
       <nav className="max-w-[1440p] mx-auto flex justify-between items-center px-6 py-2">
         <Link href="/" className="flex justify-center items-center">
           <Image
@@ -113,7 +113,7 @@ const AppBar = () => {
             <Image src="/search.svg" alt="search" width={20} height={20} />
           </span>
         </div>
-        <div className="flex justify-betwee">
+        <div className="flex justify-between">
           {userActive ? (
             <div className="flex space-x-6">
               <div className="translate-y-4 flex space-x-6">
@@ -135,7 +135,7 @@ const AppBar = () => {
                   </Link>
                 ))}
               </div>
-              <div className="translate-y-2">
+              <div className="translate-y-2 z-10">
                 <Menu_Profile
                   profile_img={profileImg}
                   name={profileName}

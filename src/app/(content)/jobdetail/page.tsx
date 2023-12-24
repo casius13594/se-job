@@ -27,7 +27,7 @@ export default function JobDetail() {
     <>
       <AppBar />
       <main
-        className={`flex flex-col w-[100vw] h-[100vh] ${dm_sans.className} pt-[8vh] overflow-hidden`}
+        className={`flex flex-col w-[100vw] h-[100vh] ${dm_sans.className} pt-[2vh] overflow-hidden`}
       >
         <JobDetailPage job={job} onApplyNowClick={handleApplyNowClick} />
         {isPopupVisible && <ApplicationPopup onClosePopup={handleClosePopup} />}
@@ -52,7 +52,7 @@ function JobDetailPage({
   };
 
   return (
-    <div className="flex flex-row min-h-full w-full pt-[10vh] space-x-[0.5vw] justify-evenly">
+    <div className="flex flex-row min-h-full w-full space-x-[0.5vw] justify-evenly">
       <div className="flex flex-col w-[45vw] h-full space-y-[2vh]">
         <div className="flex flex-row w-full border-2 border-black rounded-3xl bg-[#13544E26]">
           <div className="flex flex-row w-full">

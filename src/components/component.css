@@ -51,6 +51,7 @@
   height: 100%; /* Set the desired height */
   overflow: hidden;
   border-radius: 50%; /* This creates a circular border */
+
 }
 .profilepage {
   margin-left: 5%;
@@ -94,4 +95,5 @@
   border-style: solid;  /* Set border style to solid */
   border-width: 1px;    /* Set border width */
   border-color: rgb(133, 125, 125);  /* Set border color */
+  padding: 2px;
 }
