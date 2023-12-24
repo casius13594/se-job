@@ -67,6 +67,7 @@
   border-style: solid;  /* Set border style to solid */
   border-width: 1px;    /* Set border width */
   border-color: black;  /* Set border color */
+  padding: 10px;
 }
 .profilebg-container {
   width: 100%;             /* Set the width to span 70% of the parent container's width */

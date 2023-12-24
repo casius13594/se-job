@@ -67,7 +67,7 @@ const Profilepage: React.FC<ProfilepageProps> = ({
               </div>
             </div>
             <div className="flex">
-              <img src={logo} className="placeholder-image  -translate-y-10" />
+              <img src={logo || "/logo.svg"} className="placeholder-image  -translate-y-10" />
               <div className="ml-5 w-full">
                 <div className="text-3xl font-bold">{companyName}</div>
                 <div>

@@ -23,7 +23,7 @@ const CardApplied:React.FC<Jobapplied> = ({name, employer_name, location, type, 
             <div className='flex w-1/5 mx-[0.01vw] rounded-full overflow-hidden items-center justify-center'>
                 <img
                     className="w-3/5 rounded-full object-contain no-drag"
-                    src={employer_logo ? employer_logo : ""}
+                    src={employer_logo ? employer_logo : "/logo.svg"}
                     alt=""
                 />
             </div>

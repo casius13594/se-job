@@ -15,7 +15,6 @@ import Areaselector from "@/components/Areaselector";
 import { Country, ICity, ICountry, IState } from "country-state-city";
 
 export default function PostJob() {
-  const [error, setError] = useState<string | null>(null);
   const sliderRef = useRef<Slider>(null);
   const settings = {
     dots: false,
@@ -179,8 +178,8 @@ export default function PostJob() {
                 <option value="" hidden selected>
                   Select an employment type
                 </option>
-                <option value="fulltime">Full-time</option>
-                <option value="parttime">Part-time</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
               </select>
             </div>
 
@@ -243,13 +242,13 @@ export default function PostJob() {
                   className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow px-2 font-light"
                 >
                   <option value="" hidden selected></option>
-                  <option value="lessthan10">
+                  <option value="1-10">
                     1,000,000 VND - 10,000,000 VND
                   </option>
-                  <option value="lessthan20">
+                  <option value="10-20">
                     10,000,000 VND - 20,000,000 VND
                   </option>
-                  <option value="morethan20">More than 20,000,000 VND</option>
+                  <option value="More than 20">More than 20,000,000 VND</option>
                 </select>
               </div>
               <div className=" row-span-4 row-start-1 col-start-2">
