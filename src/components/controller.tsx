@@ -4,9 +4,13 @@ import { headers, cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import React from "react";
 import { UserResponse } from "@supabase/supabase-js";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import {
+  createClientComponentClient,
+  createServerComponentClient,
+} from "@supabase/auth-helpers-nextjs";
 import { Jobapplied } from "./cardjobapplied";
 import { IState } from "country-state-city";
+import { boolean } from "zod";
 
 export async function getJob(formData: FormData) {
   "use server";
@@ -218,18 +222,89 @@ export async function is_user() {
 
 export async function getUser() {
   "use server";
+  console.log("getting user")
   const supabase = createServerComponentClient({ cookies });
   const currentuser = await supabase.auth.getUser();
   if (currentuser.data) {
-    const { data, error } = await supabase
-      .from("Employee")
+    const res = await supabase
+      .from("User")
       .select("*")
       .eq("user_id", currentuser.data.user?.id)
       .single();
-    if (error) {
-      return null;
+    if (res.error) {
+      console.log(res.error);
+    } else {
+      console.log(res.data);
+      if (res.data.type == "employee") {
+        const { data, error } = await supabase
+          .from("Employee")
+          .select("*")
+          .eq("user_id", currentuser.data.user?.id)
+          .single();
+        if (error) {
+          return null;
+        }
+        console.log("Returning employee")
+        return {data, isEmployee: true};
+      } else if (res.data.type == "employer") {
+        const { data, error } = await supabase
+          .from("Employer")
+          .select("*")
+          .eq("user_id", currentuser.data.user?.id)
+          .single();
+        if (error) {
+          return null;
+        }
+        console.log("Returning employer")
+        return {data, isEmployee: false};
+      }
     }
-    return data;
+    return null;
   }
-  return null;
+}
+
+
+
+export async function GoogleSignIn() {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const res = await supabase.auth.signInWithOAuth({
+    provider: "google",
+  });
+
+  if (res.error) {
+    console.error("Google authentication error:", res.error.message);
+    return;
+  }
+
+  // If user is successfully authenticated
+  console.log("Successfully authenticated with Google");
+  const user = await supabase.auth.getUser();
+  console.log(user);
+  // Now you can fetch additional user data or perform other actions
+  // For example, fetching user profile data from the Supabase database
+  const existingUser = await supabase
+    .schema("public")
+    .from("User")
+    .select("user_id")
+    .eq("user_id", user.data.user?.id)
+    .single();
+  if (existingUser.data) {
+    // If the user exists, update the status
+    console.log("Updating");
+    await supabase
+      .schema("public")
+      .from("User")
+      .update({ status: "online" })
+      .eq("user_id", user.data?.user?.id);
+  } else {
+    // If the user doesn't exist, insert a new record
+    console.log("Inserting");
+    await supabase
+      .schema("public")
+      .from("User")
+      .insert([
+        { user_id: user.data.user?.id, status: "online", type: "null" },
+      ]);
+  }
 }
