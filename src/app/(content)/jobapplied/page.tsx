@@ -116,7 +116,7 @@ export default function page(){
             <>  
                 <AppBar/>
                 <main className = {`flex flex-col h-[100vh] overflow-hidden`}>
-                    <div className='flex flex-row pt-[7vw] mt-[0.5vh]'>
+                    <div className='flex flex-row'>
                         <div className='flex-col w-1/5 ml-[2vw]'>
                             <h1 className='font-bold text-2xl'>Save and Applied Job</h1>
                             {button.map((bt) => (
@@ -138,7 +138,7 @@ export default function page(){
                             ))}
                             
                         </div>
-                </div>
+                    </div>
                 </main>
                 
                 

@@ -15,7 +15,7 @@ export interface Jobapplied {
     time_date_post: Date;
 } 
 
-const CardApplied:React.FC<Jobapplied> = ({name, employer_name, location, type, post_time,tag,employer_logo}) =>{
+const CardApplied:React.FC<Jobapplied> = ({job_id,name, employer_name, location, type, post_time,tag,employer_logo}) =>{
     const check_applied = tag==="Applied"
     const button_app = check_applied ? "View response" : "Apply now"
     return(
@@ -37,7 +37,13 @@ const CardApplied:React.FC<Jobapplied> = ({name, employer_name, location, type, 
                 <div className='text-center  rounded-full bg-gray-400 m-[1vh] px-[1vw]'>
                 {tag}
                 </div>
-                <button className='text-center bg-[#3e736e] hover:bg-[#13544E] rounded-full w-6/7 m-[1vh] px-[3vw]'>
+                <button className='text-center bg-[#3e736e] hover:bg-[#13544E] rounded-full w-6/7 m-[1vh] px-[3vw]'
+                onClick={() => {
+                    if(button_app ==="Apply now" ){
+                        localStorage.setItem("job_id", job_id as string);
+                        window.location.href = "/jobdetail";
+                    }
+                  }}>
                     <h1 className='font-bold text-lg text-[#d9d9d9]'> {button_app}</h1>
                 </button>
             </div>
