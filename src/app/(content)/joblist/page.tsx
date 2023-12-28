@@ -83,9 +83,7 @@ function JobListClient({
   const [country, setCountry] = React.useState<ICountry>(countryData[0]);
   const [state, setState] = React.useState<IState | undefined>(undefined);
   const [city, setCity] = React.useState<ICity | undefined>(undefined);
-  const locationString = `${city?.name || ""} ${", " + state?.name || ""} ${
-    ", " + country?.name || ""
-  }`;
+  const locationString = `${city?.name || ""} ${", " + state?.name || ""} ${", " + country?.name || ""}`;
   const [selectLocation, setSelectLocation] = React.useState<boolean>(false);
   const [isAll, setIsAll] = React.useState<boolean>(true);
   const keywordsArray = keywords.split(" ");
@@ -167,7 +165,7 @@ function JobListClient({
         </h1>
         <form
           name="filter"
-          className="flex flex-col w-full space-y-[0.5vw]"
+          className="flex flex-col w-full space-y-[1vh]"
           action={(data) => {
             setFormData(data);
           }}
