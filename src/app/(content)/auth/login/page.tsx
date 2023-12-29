@@ -7,6 +7,7 @@ import Link from "next/link";
 import { DM_Sans } from "next/font/google";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Modal from "react-modal";
+import { ClipLoader } from 'react-spinners';
 
 const dmsans = DM_Sans({
   subsets: ["latin"],
@@ -19,6 +20,7 @@ export default function CredentialsForm() {
   const [error, setError] = useState<string | null>(null);
   const [forgotPassword, setForgotPassword] = useState(false);
   const [sentEmail, setSentEmail] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -233,17 +235,21 @@ export default function CredentialsForm() {
                     className="w-2/3 my-2 px-5 py-4 bg-[#D9D9D9] text-black text-opacity-50 lg:text-base md:text-sm sm:text-xs font-dmsans rounded-lg placeholder-black placeholder-opacity-50"
                   />
                   <button
-                    onClick={() => {
-                      handleResetPassword();
+                    onClick={async () => {
+                      setIsLoading(true);
+                      await handleResetPassword();
+                      setIsLoading(false);
                       setSentEmail(true);
                       setCountdown(60);
                     }}
-                    disabled={countdown > 0}
+                    disabled={countdown > 0 || isLoading}
                     className={`w-1/3 h-3/5 bg-[#D9D9D9] rounded-md font-semibold ${
                       countdown > 0 ? "text-black/[.09]" : ""
                     }`}
                   >
-                    {countdown > 0 ? (
+                    {isLoading ? (
+                      <ClipLoader color="#ffffff" loading={true} size={10} />
+                    ) : countdown > 0 ? (
                       <>
                         Send email{" "}
                         <span className="text-red">{`(${countdown})`}</span>
