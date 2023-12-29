@@ -264,6 +264,27 @@ export async function getUser() {
   }
 }
 
+export async function updateEmployee(formData: FormData){
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const currentuser = await supabase.auth.getUser();
+  const {error} = await supabase
+    .from("Employee")
+    .update([
+      {
+        name: formData.get("name"),
+        location: formData.get("location"),
+        dob: formData.get("dob"),
+      },
+    ])
+    .eq("user_id", currentuser.data.user?.id);
+  if (error) {
+    console.log(error);
+    return false
+  }
+  return true
+}
+
 export async function GoogleSignIn() {
   "use server";
   const supabase = createServerComponentClient({ cookies });
