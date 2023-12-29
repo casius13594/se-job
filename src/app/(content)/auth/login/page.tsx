@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { DM_Sans } from "next/font/google";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import Modal from "react-modal";
 
 const dmsans = DM_Sans({
   subsets: ["latin"],
@@ -16,21 +17,38 @@ export default function CredentialsForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [sentEmail, setSentEmail] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [countdown, setCountdown] = useState(0); // Set initial countdown value
+
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+      return () => clearTimeout(timer); // Clear the timer if the component is unmounted
+    }
+  }, [countdown]);
 
   const supabase = createClientComponentClient();
 
+  const handleResetPassword = async () => {
+    let { data, error } = await supabase.auth.resetPasswordForEmail(email);
+    if (error) console.log(error);
+    else console.log("Sent");
+  };
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const res = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    console.log(res.data.user)
+    console.log(res.data.user);
     if (!res.error && res.data.user) {
       // Check if the user already exists in the database
       const existingUser = await supabase
@@ -39,10 +57,10 @@ export default function CredentialsForm() {
         .select("user_id,type")
         .eq("user_id", res.data.user.id)
         .single();
-      
+
       if (existingUser.data) {
         // If the user exists, update the status
-        console.log(existingUser.data.type)
+        console.log(existingUser.data.type);
         await supabase
           .schema("public")
           .from("User")
@@ -64,19 +82,19 @@ export default function CredentialsForm() {
               router.push("../../auth/profileinput");
             }
           } else {
-            console.log(res.data.user.id)
+            console.log(res.data.user.id);
             const existingEmployee = await supabase
               .schema("public")
               .from("Employee")
               .select("user_id")
               .eq("user_id", res.data.user.id)
               .single();
-            
+
             if (existingEmployee.data) {
-              console.log(existingEmployee.data)
+              console.log(existingEmployee.data);
               router.push("../../joblist");
             } else {
-              console.log(existingEmployee.error)
+              console.log(existingEmployee.error);
               router.push("../../auth/employeeProfile");
             }
           }
@@ -156,6 +174,89 @@ export default function CredentialsForm() {
         />
       </Link>
       <div className="flex flex-col items-center w-1/3">
+        <Modal
+          isOpen={forgotPassword}
+          contentLabel="forgot password"
+          onRequestClose={() => {
+            setForgotPassword(false);
+            setSentEmail(false);
+          }}
+          className="absolute w-1/3 h-1/3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          ariaHideApp={false}
+        >
+          <div className="flex flex-col items-center justify-center rounded-lg bg-[#13544e] w-full h-full">
+            {sentEmail ? (
+              <div>
+                <div className="h-3/4 w-full flex flex-col items-center justify-between">
+                  <h1 className="text-xl font-bold text-[#ebe3e3] text-center">
+                    We have sent a password recovery email to {email}. Please
+                    check your inbox.
+                  </h1>
+                  <button
+                    onClick={() => {
+                      if (countdown === 0) {
+                        handleResetPassword();
+                        setSentEmail(true);
+                        setCountdown(60); // Reset the countdown
+                      }
+                    }}
+                    disabled={countdown > 0}
+                    className={`w-1/3 h-3/5 bg-[#D9D9D9] rounded-md font-semibold mt-5 ${
+                      countdown > 0 ? "text-black/[.09]" : ""
+                    }`}
+                  >
+                    {countdown > 0 ? (
+                      <>
+                        Resend email{" "}
+                        <span className="text-red">{`(${countdown})`}</span>
+                      </>
+                    ) : (
+                      "Resend email"
+                    )}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="h-3/4 w-full flex flex-col items-center justify-center">
+                <h1 className="text-3xl font-bold text-[#ebe3e3] flex-grow">
+                  Recover password
+                </h1>
+                <div className="w-full flex flex-col items-center justify-center">
+                  <p className="font-bold  text-[#ebe3e3]">Enter your email</p>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-2/3 my-2 px-5 py-4 bg-[#D9D9D9] text-black text-opacity-50 lg:text-base md:text-sm sm:text-xs font-dmsans rounded-lg placeholder-black placeholder-opacity-50"
+                  />
+                  <button
+                    onClick={() => {
+                      handleResetPassword();
+                      setSentEmail(true);
+                      setCountdown(60);
+                    }}
+                    disabled={countdown > 0}
+                    className={`w-1/3 h-3/5 bg-[#D9D9D9] rounded-md font-semibold ${
+                      countdown > 0 ? "text-black/[.09]" : ""
+                    }`}
+                  >
+                    {countdown > 0 ? (
+                      <>
+                        Send email{" "}
+                        <span className="text-red">{`(${countdown})`}</span>
+                      </>
+                    ) : (
+                      "Send email"
+                    )}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </Modal>
         <h1 className="mt-10 mb-5 text-base font-bold text-[#AD343E] cursor-default">
           Welcome back! <span className="text-black">Log in Jelp</span>
         </h1>
@@ -217,7 +318,11 @@ export default function CredentialsForm() {
               <div className="h-10 bg-black w-px ml-5" />
             </div>
           </div>
-          <button className="text-base text-black text-opacity-50 font-dmsans ml-auto w-fit my-3 hover:underline underline-offset-2">
+          <button
+            type="button"
+            onClick={() => setForgotPassword(true)}
+            className="text-base text-black text-opacity-50 font-dmsans ml-auto w-fit my-3 hover:underline underline-offset-2"
+          >
             Forgot password
           </button>
           <button
