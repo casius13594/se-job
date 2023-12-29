@@ -9,6 +9,7 @@ import Areaselector from "@/components/Areaselector";
 import { ICity, ICountry, IState } from "country-state-city";
 import { Country } from "country-state-city";
 import Modal from "react-modal";
+import { updateEmployee } from "@/components/controller";
 
 export default function BasicInfo() {
   const [modified, setModified] = React.useState(false);
@@ -105,6 +106,7 @@ export default function BasicInfo() {
               name="userInfo"
               className="flex flex-col space-y-[1vh]"
               action={(data) => {
+                updateEmployee(data);
                 setModified(false);
               }}
             >
@@ -126,7 +128,7 @@ export default function BasicInfo() {
               </div>
               <div className="flex flex-row divide-black divide-x-[1px]">
                 <label
-                  htmlFor="name"
+                  htmlFor="location"
                   className="text-xl font-bold w-[20vw] text-center"
                 >
                   Location
@@ -143,7 +145,7 @@ export default function BasicInfo() {
               </div>
               <div className="flex flex-row divide-black divide-x-[1px]">
                 <label
-                  htmlFor="name"
+                  htmlFor="dob"
                   className="text-xl font-bold w-[20vw] text-center"
                 >
                   Date of Birth
@@ -158,12 +160,13 @@ export default function BasicInfo() {
                 />
               </div>
               <div
-                className={`"flex flex-row w-fill justify-evenly" + ${
-                  modified ? "" : "invisible"
-                }`}
+                className={`flex flex-row w-full justify-around items-center ${modified ? "" : "invisible"}`}
               >
-                <button>Save</button>
+                <button className="text-bold text-xl">
+                    Save
+                </button>
                 <button
+                  className="text-bold text-xl"
                   formAction={() => {
                     setReload(true);
                     setModified(false);
