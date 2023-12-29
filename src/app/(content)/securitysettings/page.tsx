@@ -3,6 +3,7 @@
 import { UserInfo } from "@/components/userinfo";
 import AppBar from "@/components/appbar";
 import { dm_sans } from "@/components/fonts";
+import Link from "next/link";
 
 export default function BasicInfo() {
   return (
@@ -15,9 +16,14 @@ export default function BasicInfo() {
         content={
           <div className="flex flex-col w-full h-full">
             <div className="flex flex-row w-full h-[10vh] space-x-[1vw]">
-              <button className="btnSetting__password w-full h-full mt-[1vw] bg-gray-300 font-bold">
-                Change your password
-              </button>
+              <Link
+                href="./auth/changePassword"
+                className="w-full h-full mt-[1vw]"
+              >
+                <button className="btnSetting__password w-full h-full font-bold bg-gray-300 hover:bg-gray-400 active:bg-gray-500">
+                  Change your password
+                </button>
+              </Link>
             </div>
           </div>
         }
