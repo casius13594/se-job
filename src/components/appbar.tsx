@@ -23,12 +23,9 @@ const AppBar = () => {
   console.log(currentPath);
   useEffect(() => {
     const fetchProfile = async () => {
-      console.log('Before getUser');
       const userObject = await getUser();
-      console.log('After getUser');
       if (userObject) {
         const { data: user, isEmployee: isEmployee } = userObject;
-        console.log(user);
         if (user) {
           // Assuming profile_img and name are stored in user_metadata
           setProfileImg(user.logo);
