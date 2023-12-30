@@ -50,6 +50,19 @@ export async function getJob(formData: FormData) {
   return jobs;
 }
 
+export async function getJobOfEmployer(employer_id: string) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const { data: jobs, error } = await supabase
+    .from("Job")
+    .select("job_id, name, location, type, post_time, salary, experience")
+    .eq("employer_id", employer_id);
+  if (error) {
+    return null;
+  }
+  return jobs;
+}
+
 export async function getJobDetail(job_id: string) {
   "use server";
   // const cookieStore = cookies();
@@ -63,6 +76,19 @@ export async function getJobDetail(job_id: string) {
     return null;
   }
   return job;
+}
+
+export async function getApplied(job_id: string) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const { data: applied, error } = await supabase
+    .from("Applied")
+    .select("*")
+    .eq("job_id", job_id);
+  if (error) {
+    return null;
+  }
+  return applied;
 }
 
 export async function saveJob(job_id: string) {
