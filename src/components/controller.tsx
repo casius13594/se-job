@@ -78,6 +78,44 @@ export async function getJobDetail(job_id: string) {
   return job;
 }
 
+export async function updateJobDetail(job_id: string, formData: FormData) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const { error } = await supabase
+    .from("Job")
+    .update([
+      {
+        name: formData.get("name"),
+        location: formData.get("location"),
+        type: formData.get("type"),
+        salary: formData.get("salary"),
+        experience: formData.get("experience"),
+        content: formData.get("content"),
+        workplace: formData.get("workplace"),
+        requirements: formData.get("requirements"),
+        benefits: formData.get("benefits"),
+      },
+    ])
+    .eq("job_id", job_id);
+  if (error) {
+    console.log(error);
+    return false;
+  }
+  return true;
+}
+
+export async function updateJobStatus(job_id: string, status: string) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const { error } = await supabase
+    .from("Job")
+    .update({ status: status })
+    .eq("job_id", job_id);
+  if (error) {
+    console.log(error);
+  }
+}
+
 export async function getApplied(job_id: string) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
@@ -89,6 +127,19 @@ export async function getApplied(job_id: string) {
     return null;
   }
   return applied;
+}
+
+export async function employerUpdateApplied(job_id: string, employer_id: string, status: string) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const { data, error } = await supabase
+    .from("Applied")
+    .update({ status: status })
+    .eq("job_id", job_id)
+    .eq("employee_id", employer_id);
+  if (error) {
+    console.log(error);
+  }
 }
 
 export async function saveJob(job_id: string) {
