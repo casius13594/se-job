@@ -1,14 +1,27 @@
-.container{
-    display: flex;
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-
-.menu{
-    flex: 1;
-    background-color: gainsboro;
-    padding: 20px;
+.container {
+  display: flex;
+  flex-grow: 1;
 }
-.content{
-    flex: 4;
-    padding: 20px;
+
+.menu {
+  flex: 1;
+  background-color: gainsboro;
+  padding: 20px;
+  border-radius: 20px;
+
+}
+.content {
+  flex: 4;
+  padding: 20px;
+  background-color: gainsboro;
+  border-radius: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  overflow: hidden;
 }
