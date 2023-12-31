@@ -3,7 +3,9 @@
   flex-direction: column;
   height: 100vh;
 }
-
+.font_size_text{
+    font-size: 16px;
+}
 .container {
   display: flex;
   flex-grow: 1;

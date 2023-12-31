@@ -1,6 +1,6 @@
 "use client";
 
-import { UserInfo } from "@/components/userinfo";
+import './component.css'
 import React from "react";
 import AppBar from "@/components/appbar";
 import { dm_sans } from "@/components/fonts";
@@ -81,12 +81,16 @@ export default function BasicInfo() {
       </Modal>
       
           <div className="flex flex-col w-full h-full">
+            <div className = "text-2xl font-bold"> Basic Information</div>
+            <div className="border-b mt-4 mb-4 border-green w-1/5 "></div>
             <div className="flex flex-row w-full h-[10vh] space-x-[1vw]">
-              <h1 className="text-3xl font-bold">Member Information</h1>
+              <h1 className="text-2xl font-bold">Member Information</h1>
+
+              <button className="ml-6 -translate-y-5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="27"
-                height="27"
+                width="20"
+                height="20"
                 viewBox="0 0 27 27"
                 fill="none"
                 onClick={() => setModified(true)}
@@ -98,6 +102,7 @@ export default function BasicInfo() {
                   fill="#222222"
                 />
               </svg>
+              </button>
             </div>
             <form
               name="userInfo"
@@ -107,10 +112,12 @@ export default function BasicInfo() {
                 setModified(false);
               }}
             >
-              <div className="flex flex-row divide-black divide-x-[1px]">
+
+              
+              <div className="flex flex-row divide-black divide-x-[2px]">
                 <label
                   htmlFor="name"
-                  className="text-xl font-bold w-[20vw] text-center"
+                  className="font_information w-[10vw] ml-7"
                 >
                   Name
                 </label>
@@ -118,15 +125,32 @@ export default function BasicInfo() {
                   id="name"
                   name="name"
                   type="text"
-                  className="w-[40vw] h-[5vh] px-[1vw] text-xl"
+                  className="w-[20vw] h-[5vh] px-[1vw] font_information"
                   defaultValue={user ? user.name : ""}
                   disabled={!modified}
                 />
               </div>
-              <div className="flex flex-row divide-black divide-x-[1px]">
+              <div className="flex flex-row divide-black divide-x-[2px]">
+                <label
+                  htmlFor="email"
+                  className="font_information w-[10vw] ml-7"
+                >
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="text"
+                  className="w-[20vw] h-[5vh] px-[1vw] font_information"
+                  defaultValue={user ? user.user_id : ""}
+                  disabled={!modified}
+                />
+              </div>
+
+              <div className="flex flex-row divide-black divide-x-[2px]">
                 <label
                   htmlFor="location"
-                  className="text-xl font-bold w-[20vw] text-center"
+                  className="font_information w-[10vw]  ml-7"
                 >
                   Location
                 </label>
@@ -134,16 +158,16 @@ export default function BasicInfo() {
                   id="location"
                   name="location"
                   type="text"
-                  className="w-[40vw] h-[5vh] px-[1vw] text-xl"
+                  className="w-[20vw] h-[5vh] px-[1vw] font_information"
                   value={locationString || ""}
                   disabled={!modified}
                   onClick={() => setSelectLocation(true)}
                 />
               </div>
-              <div className="flex flex-row divide-black divide-x-[1px]">
+              <div className="flex flex-row divide-black divide-x-[2px]">
                 <label
                   htmlFor="dob"
-                  className="text-xl font-bold w-[20vw] text-center"
+                  className="font_information w-[10vw]  ml-7"
                 >
                   Date of Birth
                 </label>
@@ -151,7 +175,7 @@ export default function BasicInfo() {
                   id="dob"
                   name="dob"
                   type="date"
-                  className="w-[40vw] h-[5vh] px-[1vw] text-xl"
+                  className="w-[20vw] h-[5vh] px-[1vw] font_information"
                   defaultValue={user ? user.dob : ""}
                   disabled={!modified}
                 />
