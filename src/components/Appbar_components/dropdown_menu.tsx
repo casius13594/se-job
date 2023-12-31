@@ -37,9 +37,9 @@ const Menu_Profile: React.FC<MenuProfileProps> = ({
           <Menu.Button className="inline-flex w-full justify-center rounded-md text-sm font-medium text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
             <Image
               src={profile_img || default_logo}
-              className="placeholder-profile-img"
-              width="20"
-              height="20"
+              className="placeholder-profile-img object-fill"
+              width="100"
+              height="100"
               alt="logo"
             ></Image>
           </Menu.Button>
@@ -65,9 +65,9 @@ const Menu_Profile: React.FC<MenuProfileProps> = ({
                     >
                       <Image
                         src={profile_img || default_logo}
-                        className="placeholder-profile-img"
-                        width="20"
-                        height="20"
+                        className="placeholder-profile-img object-fill"
+                        width="100"
+                        height="100"
                         alt="logo"
                       ></Image>
                       <div className="text-lg">{name}</div>
