@@ -78,6 +78,20 @@ export async function getJobDetail(job_id: string) {
   return job;
 }
 
+export async function getEmployeeOfJob(job_id: string){
+  "use server";
+  const supabase = createServerComponentClient({cookies});
+  const {data, error} = await supabase
+  .from("Applied")
+  .select("*")
+  .eq("job_id",job_id);
+  
+  if(error){
+    return null;
+  }
+  return data;
+}
+
 export async function updateJobDetail(job_id: string, formData: FormData) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
