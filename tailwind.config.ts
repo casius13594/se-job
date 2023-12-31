@@ -34,10 +34,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [
-    require("@tailwindcss/aspect-ratio"),
-    require("@tailwindcss/forms"),
-  ],
+  plugins: [],
   corePlugins: {
     objectFit: true,
   },
