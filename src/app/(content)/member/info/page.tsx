@@ -42,7 +42,6 @@ export default function BasicInfo() {
     <main
       className={`flex flex-col w-[100vw] h-[100vh] ${dm_sans.className} pt-[2vh] overflow-hidden`}
     >
-      <AppBar />
       <Modal
         isOpen={selectLocation}
         onRequestClose={() => setSelectLocation(false)}
@@ -80,9 +79,7 @@ export default function BasicInfo() {
           </button>
         </div>
       </Modal>
-      <UserInfo
-        isBasic={true}
-        content={
+      
           <div className="flex flex-col w-full h-full">
             <div className="flex flex-row w-full h-[10vh] space-x-[1vw]">
               <h1 className="text-3xl font-bold">Member Information</h1>
@@ -177,16 +174,6 @@ export default function BasicInfo() {
               </div>
             </form>
           </div>
-        }
-      />
-      <footer className="w-full h-40 pt-4">
-        <div className="w-full h-10 flex bg-green pl-10 text-white text-2xl font-bold items-center">
-          JELP
-        </div>
-        <div className="w-full h-20 flex pl-10 text-2xl font-bold items-center">
-          © Jelp. All Rights Reserved.
-        </div>
-      </footer>
     </main>
   );
 }
