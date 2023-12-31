@@ -12,6 +12,7 @@ import { Jobapplied } from "./cardjobapplied";
 import { IState } from "country-state-city";
 import { boolean } from "zod";
 import { Interface } from "readline";
+import { employeeCompany } from "./DashBoard/user/userinfo";
 
 export async function getJob(formData: FormData) {
   "use server";
@@ -78,18 +79,49 @@ export async function getJobDetail(job_id: string) {
   return job;
 }
 
-export async function getEmployeeOfJob(job_id: string){
+export async function getEmployeeOfCompany(job_id: string, search: string){
   "use server";
   const supabase = createServerComponentClient({cookies});
-  const {data, error} = await supabase
-  .from("Applied")
-  .select("*")
-  .eq("job_id",job_id);
+  const company_id = await getUser();
+
   
-  if(error){
-    return null;
+  if(company_id){
+    if(!company_id.isEmployee){
+      let queries = await supabase.rpc("listEmployeeOfCompany", {
+        userid: company_id.data.id,
+      });
+      if(queries.error){
+        return [];
+      }
+      let ind =-1;
+      const results: employeeCompany[] = queries.data.map((item: employeeCompany) => ({
+        index: ++ind,
+        job_id: item.job_id,
+        employee_id: item.employee_id,
+        name: item.name,
+        email: item.email,
+        phone: item.phone,
+        cv_path: item.cv_path,
+        propo_letter: item.propo_letter,
+        status: item.status,
+      }));
+
+      if(search !== "")
+      {
+        const res_fil = results.filter((employee) => {
+          const containsSearchTerm =
+            employee.name.includes(search) ||
+            employee.email.includes(search)
+            employee.phone.includes(search)
+          return containsSearchTerm;
+        });
+        return res_fil;
+      }else{
+        return results;;
+      }
+    }
   }
-  return data;
+  return [];
 }
 
 export async function updateJobDetail(job_id: string, formData: FormData) {
