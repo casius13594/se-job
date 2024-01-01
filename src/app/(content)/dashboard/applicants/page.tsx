@@ -2,6 +2,7 @@
 import {
   acceptApplicantDB,
   declineApplicantDB,
+  employerUpdateApplied,
   getApplied,
   toggleJobStatus,
 } from "@/components/controller";
@@ -36,7 +37,7 @@ const ApplicantPage = () => {
 
   const acceptApplicant = async (applicantId: string) => {
     try {
-      await acceptApplicantDB(applicantId, id);
+      await employerUpdateApplied(id, applicantId, "Accepted");
       setApplicants(
         applicants.map((applicant) =>
           applicant.employee_id === applicantId
@@ -52,7 +53,7 @@ const ApplicantPage = () => {
 
   const declineApplicant = async (applicantId: string) => {
     try {
-      await declineApplicantDB(applicantId, id);
+      await employerUpdateApplied(id, applicantId, "Declined");
       setApplicants(
         applicants.map((applicant) =>
           applicant.employee_id === applicantId
@@ -88,7 +89,7 @@ const ApplicantPage = () => {
         </div>
       </div>
       <hr style={{ height: 1, borderColor: "#000000" }} />
-      <div className="grid grid-cols-6 gap-4 text-center mt-5">
+      <div className="grid grid-cols-6 gap-4 text-center mt-5 overflow-hidden">
         <div>No.</div>
         <div>Name</div>
         <div>Email</div>
