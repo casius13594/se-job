@@ -1,8 +1,9 @@
 "use client"
 import { getEmployeeOfCompany } from '@/components/controller'
 import React, { useState } from 'react'
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridToolbar, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarDensitySelector, GridToolbarExport, GridToolbarFilterButton, GridToolbarQuickFilter, GridValueGetterParams } from '@mui/x-data-grid';
 import { employeeCompany } from '@/components/DashBoard/user/userinfo';
+import { Box } from '@radix-ui/themes';
 
 const columns: GridColDef[]=[
   { field: "id",headerName: "No.",flex: 0.1, minWidth: 50 },
@@ -23,6 +24,19 @@ const columns: GridColDef[]=[
 
 ]
 
+function QuickSearchToolbar() {
+  return (
+    <Box
+      sx={{
+        p: 0.5,
+        pb: 0,
+      }}
+    >
+      <GridToolbarQuickFilter className="bg-[#b1f2b9] rounded-md"/>
+    </Box>
+  );
+}
+
 export default function UserPage(){
   const [data, setData] = useState<employeeCompany[]>([]);
   React.useEffect(() => {
@@ -40,7 +54,13 @@ export default function UserPage(){
             paginationModel: {page: 0, pageSize: 5}
           }
         }}
+        disableColumnFilter
+        disableColumnSelector
+        disableDensitySelector
+        
         pageSizeOptions={[5,10]}
+        slots={{ toolbar: QuickSearchToolbar }}
+        
       />
     </div>
   )
