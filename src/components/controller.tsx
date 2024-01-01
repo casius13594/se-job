@@ -56,7 +56,7 @@ export async function getJobOfEmployer(employer_id: string) {
   const supabase = createServerComponentClient({ cookies });
   const { data: jobs, error } = await supabase
     .from("Job")
-    .select("job_id, name, location, type, post_time, salary, experience")
+    .select("job_id, name, status, location, type, post_time, salary, experience")
     .eq("employer_id", employer_id);
   if (error) {
     return null;

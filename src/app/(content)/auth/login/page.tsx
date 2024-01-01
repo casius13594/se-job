@@ -44,6 +44,7 @@ export default function CredentialsForm() {
     if (error) console.log(error);
     else console.log("Sent");
   };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const res = await supabase.auth.signInWithPassword({
@@ -113,6 +114,7 @@ export default function CredentialsForm() {
             { user_id: res.data.user.id, status: "online", type: "null" },
           ]);
       }
+      localStorage.setItem("current_user_id", res.data.user.id)
     } else {
       console.log("user: ", res.data.user);
       console.error(res.error);

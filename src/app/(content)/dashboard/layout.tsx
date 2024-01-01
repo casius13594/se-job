@@ -12,7 +12,6 @@ const layout = ({ children }: { children: React.ReactNode }) => {
             <Sidebar></Sidebar>
           </div>
           <div className={styles.content}>
-            abc
             {children}
           </div>
         </div>
