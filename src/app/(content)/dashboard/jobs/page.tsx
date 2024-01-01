@@ -6,6 +6,7 @@ import {
   getJobOfEmployer,
   toggleJobStatus,
 } from "@/components/controller";
+import Link from "next/link";
 
 interface Job {
   job_id: any;
@@ -50,15 +51,15 @@ const JobPage = () => {
   const changeJobStatus = async (jobId: string) => {
     try {
       await toggleJobStatus(jobId);
-      setJobs(prevJobs =>
-        prevJobs.map(job =>
+      setJobs((prevJobs) =>
+        prevJobs.map((job) =>
           job.job_id === jobId
-            ? { ...job, status: job.status === 'open' ? 'close' : 'open' }
+            ? { ...job, status: job.status === "open" ? "close" : "open" }
             : job
         )
       );
     } catch (error) {
-      console.error('Failed to toggle job status', error);
+      console.error("Failed to toggle job status", error);
     }
   };
 
@@ -94,7 +95,7 @@ const JobPage = () => {
 
         {filteredJobs.map((job, index) => (
           <>
-            <div className="text-center">{index + 1}</div>
+            <div>{index + 1}</div>
             <div>{job.name}</div>
             <div>{(applicants[index] || []).length}</div>
             <div>{job.status === "open" ? "Visible" : "Hidden"}</div>
@@ -106,9 +107,15 @@ const JobPage = () => {
                 >
                   {job.status === "open" ? "Hide Job" : "Show Job"}
                 </button>
-                <button className="bg-black text-white px-3 py-1 rounded-3xl">
+                <Link
+                  className="bg-black text-white px-3 py-1 rounded-3xl"
+                  href={{
+                    pathname: "/dashboard/applicants",
+                    query: {"index": index, "id": job.job_id, "name": job.name, "status": job.status},
+                  }}
+                >
                   Check Applicants
-                </button>
+                </Link>
               </div>
             </div>
           </>

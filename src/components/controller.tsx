@@ -96,6 +96,38 @@ export async function toggleJobStatus(job_id: string) {
   }
 }
 
+export async function acceptApplicantDB(employee_id: string, job_id: string) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+
+  // Update the status in the database
+  const { error: updateError } = await supabase
+    .from("Applied")
+    .update({ status: "Accepted" })
+    .eq("job_id", job_id)
+    .eq("employee_id", employee_id);
+
+  if (updateError) {
+    console.error("Failed to update employee status", updateError);
+  }
+}
+
+export async function declineApplicantDB(employee_id: string, job_id: string) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+
+  // Update the status in the database
+  const { error: updateError } = await supabase
+    .from("Applied")
+    .update({ status: "Declined" })
+    .eq("job_id", job_id)
+    .eq("employee_id", employee_id);
+
+  if (updateError) {
+    console.error("Failed to update employee status", updateError);
+  }
+}
+
 export async function getJobDetail(job_id: string) {
   "use server";
   // const cookieStore = cookies();
@@ -111,38 +143,38 @@ export async function getJobDetail(job_id: string) {
   return job;
 }
 
-export async function getEmployeeOfCompany(){
+export async function getEmployeeOfCompany() {
   "use server";
-  const supabase = createServerComponentClient({cookies});
+  const supabase = createServerComponentClient({ cookies });
   const company_id = await getUser();
-  
-  if(company_id){
-    
-    if(company_id.isEmployee == false){
+
+  if (company_id) {
+    if (company_id.isEmployee == false) {
       let queries = await supabase.rpc("listemployeeofcompany", {
         userid: company_id.data.user_id,
       });
-      if(queries.error){
+      if (queries.error) {
         return [];
       }
-      let ind =-1;
-      const results: employeeCompany[] = queries.data.map((item: employeeCompany) => ({
-        id: ++ind,
-        job_id: item.job_id,
-        employee_id: item.employee_id,
-        name: item.name,
-        email: item.email,
-        phone: item.phone,
-        cv_path: item.cv_path,
-        propo_letter: item.propo_letter,
-        status: item.status,
-      }));
+      let ind = -1;
+      const results: employeeCompany[] = queries.data.map(
+        (item: employeeCompany) => ({
+          id: ++ind,
+          job_id: item.job_id,
+          employee_id: item.employee_id,
+          name: item.name,
+          email: item.email,
+          phone: item.phone,
+          cv_path: item.cv_path,
+          propo_letter: item.propo_letter,
+          status: item.status,
+        })
+      );
       return results;
     }
   }
   return [];
 }
-
 
 export async function updateJobDetail(job_id: string, formData: FormData) {
   "use server";
