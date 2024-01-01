@@ -1,7 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { getApplied, getJobOfEmployer } from "@/components/controller";
+import {
+  getApplied,
+  getJobOfEmployer,
+  toggleJobStatus,
+} from "@/components/controller";
 
 interface Job {
   job_id: any;
@@ -18,7 +22,9 @@ const JobPage = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [searchInput, setSearchInput] = useState("");
   const [applicants, setApplicants] = useState<any[][]>([]);
-  const filteredJobs = jobs.filter(job => job.name.toLowerCase().includes(searchInput.toLowerCase()));
+  const filteredJobs = jobs.filter((job) =>
+    job.name.toLowerCase().includes(searchInput.toLowerCase())
+  );
 
   useEffect(() => {
     console.log(localStorage.getItem("current_user_id"));
@@ -41,9 +47,19 @@ const JobPage = () => {
       .catch((error) => console.error(error));
   }, []);
 
-
-  const handleSearchInputChange = (value: string) => {
-    setSearchInput(value);
+  const changeJobStatus = async (jobId: string) => {
+    try {
+      await toggleJobStatus(jobId);
+      setJobs(prevJobs =>
+        prevJobs.map(job =>
+          job.job_id === jobId
+            ? { ...job, status: job.status === 'open' ? 'close' : 'open' }
+            : job
+        )
+      );
+    } catch (error) {
+      console.error('Failed to toggle job status', error);
+    }
   };
 
   return (
@@ -54,7 +70,7 @@ const JobPage = () => {
             className=" bg-[#13544e] pl-10 rounded-lg h-[5vh] w-full text-white"
             placeholder="Search"
             value={searchInput}
-            onChange={(e) => handleSearchInputChange(e.target.value)}
+            onChange={(e) => setSearchInput(e.target.value)}
           />
           <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
             <Image
@@ -84,7 +100,10 @@ const JobPage = () => {
             <div>{job.status === "open" ? "Visible" : "Hidden"}</div>
             <div className="col-span-2 flex justify-end">
               <div className="flex justify-between w-5/6">
-                <button className="bg-black text-white px-3 py-1 rounded-3xl">
+                <button
+                  onClick={() => changeJobStatus(job.job_id)}
+                  className="bg-black text-white px-3 py-1 rounded-3xl"
+                >
                   {job.status === "open" ? "Hide Job" : "Show Job"}
                 </button>
                 <button className="bg-black text-white px-3 py-1 rounded-3xl">

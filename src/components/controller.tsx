@@ -56,12 +56,44 @@ export async function getJobOfEmployer(employer_id: string) {
   const supabase = createServerComponentClient({ cookies });
   const { data: jobs, error } = await supabase
     .from("Job")
-    .select("job_id, name, status, location, type, post_time, salary, experience")
+    .select(
+      "job_id, name, status, location, type, post_time, salary, experience"
+    )
     .eq("employer_id", employer_id);
   if (error) {
     return null;
   }
   return jobs;
+}
+
+export async function toggleJobStatus(job_id: string) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+
+  // Fetch the current status of the job
+  const { data: currentJob, error: fetchError } = await supabase
+    .from("Job")
+    .select("status")
+    .eq("job_id", job_id)
+    .single();
+
+  if (fetchError || !currentJob) {
+    console.error("Failed to fetch job status", fetchError);
+    return;
+  }
+
+  // Toggle the status
+  const newStatus = currentJob.status === "open" ? "close" : "open";
+
+  // Update the status in the database
+  const { error: updateError } = await supabase
+    .from("Job")
+    .update({ status: newStatus })
+    .eq("job_id", job_id);
+
+  if (updateError) {
+    console.error("Failed to update job status", updateError);
+  }
 }
 
 export async function getJobDetail(job_id: string) {
@@ -79,45 +111,44 @@ export async function getJobDetail(job_id: string) {
   return job;
 }
 
-export async function getEmployeeOfCompany(job_id: string, search: string){
+export async function getEmployeeOfCompany(job_id: string, search: string) {
   "use server";
-  const supabase = createServerComponentClient({cookies});
+  const supabase = createServerComponentClient({ cookies });
   const company_id = await getUser();
 
-  
-  if(company_id){
-    if(!company_id.isEmployee){
+  if (company_id) {
+    if (!company_id.isEmployee) {
       let queries = await supabase.rpc("listEmployeeOfCompany", {
         userid: company_id.data.id,
       });
-      if(queries.error){
+      if (queries.error) {
         return [];
       }
-      let ind =-1;
-      const results: employeeCompany[] = queries.data.map((item: employeeCompany) => ({
-        index: ++ind,
-        job_id: item.job_id,
-        employee_id: item.employee_id,
-        name: item.name,
-        email: item.email,
-        phone: item.phone,
-        cv_path: item.cv_path,
-        propo_letter: item.propo_letter,
-        status: item.status,
-      }));
+      let ind = -1;
+      const results: employeeCompany[] = queries.data.map(
+        (item: employeeCompany) => ({
+          index: ++ind,
+          job_id: item.job_id,
+          employee_id: item.employee_id,
+          name: item.name,
+          email: item.email,
+          phone: item.phone,
+          cv_path: item.cv_path,
+          propo_letter: item.propo_letter,
+          status: item.status,
+        })
+      );
 
-      if(search !== "")
-      {
+      if (search !== "") {
         const res_fil = results.filter((employee) => {
           const containsSearchTerm =
-            employee.name.includes(search) ||
-            employee.email.includes(search)
-            employee.phone.includes(search)
+            employee.name.includes(search) || employee.email.includes(search);
+          employee.phone.includes(search);
           return containsSearchTerm;
         });
         return res_fil;
-      }else{
-        return results;;
+      } else {
+        return results;
       }
     }
   }
@@ -175,7 +206,11 @@ export async function getApplied(job_id: string) {
   return applied;
 }
 
-export async function employerUpdateApplied(job_id: string, employer_id: string, status: string) {
+export async function employerUpdateApplied(
+  job_id: string,
+  employer_id: string,
+  status: string
+) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
   const { data, error } = await supabase
@@ -387,11 +422,11 @@ export async function getUser() {
   }
 }
 
-export async function updateEmployee(formData: FormData){
+export async function updateEmployee(formData: FormData) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
   const currentuser = await supabase.auth.getUser();
-  const {error} = await supabase
+  const { error } = await supabase
     .from("Employee")
     .update([
       {
@@ -403,9 +438,9 @@ export async function updateEmployee(formData: FormData){
     .eq("user_id", currentuser.data.user?.id);
   if (error) {
     console.log(error);
-    return false
+    return false;
   }
-  return true
+  return true;
 }
 
 export async function GoogleSignIn() {
