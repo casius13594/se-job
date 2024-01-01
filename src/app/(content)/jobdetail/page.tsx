@@ -356,6 +356,7 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
           phone: phone,
           cv_path: cv_path,
           propo_letter: proposalText,
+          status: "Pending",
         },
       ]);
 
