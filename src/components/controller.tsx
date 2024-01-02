@@ -180,13 +180,21 @@ export async function getEmployeeOfCompany() {
 export async function banUser(id: UUID) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
-  const { data, error } = await supabase.rpc("banuser", { user_id: id });
+  const {data, error} = await supabase.rpc('banuser',{user_id: id})
+  if(error){
+    console.log("BanUser", error)
+  }
+  return data
 }
 
 export async function unBanUser(id: UUID) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
-  const { data, error } = await supabase.rpc("unbanuser", { user_id: id });
+  const {data, error} = await supabase.rpc('unbanuser',{user_id: id})
+  if(error){
+    console.log("UnbanUser", error)
+  }
+  return data
 }
 
 export async function getListUser() {
@@ -203,6 +211,22 @@ export async function getListUser() {
     console.log("employer", queries_employer.error);
   }
 
+  const formatDateToDDMMYYYY = (originalDate: string): string => {
+    if(originalDate)
+    {
+      const date = new Date(originalDate);
+      const formattedDate = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      }).format(date);
+
+      return formattedDate;
+    }
+    return "";
+    
+  };
+
   let ind = -1;
   const results_employee: userinfo[] = queries_employee.data
     ? queries_employee.data.map((item: userinfo) => ({
@@ -210,7 +234,7 @@ export async function getListUser() {
         user_id: item.user_id,
         name: item.name || "",
         email: item.email || "",
-        last_login: item.last_login || "",
+        last_login: formatDateToDDMMYYYY(item.last_login) || "",
         role: item.role === "null" ? "" : item.role || "",
         banned_until: item.banned_until || "",
       }))
@@ -222,7 +246,7 @@ export async function getListUser() {
         user_id: item.user_id,
         name: item.name || "",
         email: item.email || "",
-        last_login: item.last_login || "",
+        last_login: formatDateToDDMMYYYY(item.last_login) || "",
         role: item.role || "",
         banned_until: item.banned_until || "",
       }))

@@ -1,7 +1,7 @@
 "use client"
 import { userinfo } from '@/components/DashBoard/user/userinfo';
 import { banUser, getListUser, unBanUser } from '@/components/controller';
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridToolbarQuickFilter } from '@mui/x-data-grid'
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowParams, GridToolbarQuickFilter } from '@mui/x-data-grid'
 import { Box } from '@radix-ui/themes';
 import { UUID } from 'crypto';
 import React, { useMemo, useState } from 'react'
@@ -22,24 +22,26 @@ function QuickSearch() {
 
 export default function userList(){
     const [tdata, setData] = useState<userinfo[]>([]);
-    
-    React.useEffect(() => {
-        const fetchdata = async () => { setData( await getListUser());
-            console.log(tdata);};
-        fetchdata();
-      }, []);
+    const fetchdata = async () => { setData( await getListUser());}
 
     const handleBanUser = async (user_id: UUID) => {
-        banUser(user_id)
+        await banUser(user_id)
+        fetchdata()
     };
     const handleUnBanUser = async (user_id: UUID) => {
-        unBanUser(user_id)
+        await unBanUser(user_id)
+        fetchdata()
     };
+
+    React.useEffect(() => {
+      fetchdata();
+    }, []);
+
     const columns: GridColDef[] = useMemo(()=>[
         {field: 'id', headerName: 'No.', flex: 0.1, minWidth: 50},
         {field: 'user_id', headerName: 'user_id', flex: 0.1, minWidth: 50},
         {field: 'name', headerName: 'Name', flex: 0.2, minWidth: 150},
-        {field: 'email', headerName: 'Email', flex: 0.3, minWidth:200},
+        {field: 'email', headerName: 'Email', flex: 0.2, minWidth:200},
         {field:'last_login', headerName: 'Last Login', flex: 0.1, minWidth:100},
         {field:'role', headerName: 'Role', flex: 0.1, minWidth:100},
         {
@@ -50,13 +52,16 @@ export default function userList(){
             width: 100,
             getActions: (params)=>[
                 <GridActionsCellItem
-                    icon={<FaLock/>}
+                    icon={<FaLock
+                        style={{ color: (params.row.banned_until ? 'red' : 'black')
+                          }}/>}
                     label ='Ban'
                     onClick={()=> handleBanUser(params.row.user_id)}
                     
                 />,
                 <GridActionsCellItem
-                    icon={<FaUnlock/>}
+                    icon={<FaUnlock style={{ color: (!params.row.banned_until ? 'red' : 'black')
+                }}/>}
                     label = 'Unlock'
                     onClick = {()=>handleUnBanUser(params.row.user_id)}
                 />
