@@ -13,6 +13,7 @@ import { IState } from "country-state-city";
 import { boolean } from "zod";
 import { Interface } from "readline";
 import { employeeCompany, userinfo } from "./DashBoard/user/userinfo";
+import { UUID } from "crypto";
 
 export async function getJob(formData: FormData) {
   "use server";
@@ -174,6 +175,18 @@ export async function getEmployeeOfCompany() {
     }
   }
   return [];
+}
+
+export async function banUser(id: UUID) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const {data, error} = await supabase.rpc('banuser',{user_id: id})
+}
+
+export async function unBanUser(id: UUID) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const {data, error} = await supabase.rpc('unbanuser',{user_id: id})
 }
 
 export async function getListUser() {
