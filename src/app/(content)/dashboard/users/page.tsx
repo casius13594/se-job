@@ -1,7 +1,7 @@
 "use client"
 import { getEmployeeOfCompany } from '@/components/controller'
 import React, { useState } from 'react'
-import { DataGrid, GridColDef, GridToolbar, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarDensitySelector, GridToolbarExport, GridToolbarFilterButton, GridToolbarQuickFilter, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridToolbarQuickFilter} from '@mui/x-data-grid';
 import { employeeCompany } from '@/components/DashBoard/user/userinfo';
 import { Box } from '@radix-ui/themes';
 
@@ -27,9 +27,9 @@ const columns: GridColDef[]=[
 function QuickSearchToolbar() {
   return (
     <Box
-      sx={{
-        p: 0.5,
-        pb: 0,
+      style={{
+        padding: '0.5rem',
+        paddingBottom: 0,
       }}
     >
       <GridToolbarQuickFilter className="bg-[#b1f2b9] rounded-md"/>

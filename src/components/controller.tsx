@@ -12,7 +12,7 @@ import { Jobapplied } from "./cardjobapplied";
 import { IState } from "country-state-city";
 import { boolean } from "zod";
 import { Interface } from "readline";
-import { employeeCompany } from "./DashBoard/user/userinfo";
+import { employeeCompany, userinfo } from "./DashBoard/user/userinfo";
 
 export async function getJob(formData: FormData) {
   "use server";
@@ -174,6 +174,50 @@ export async function getEmployeeOfCompany() {
     }
   }
   return [];
+}
+
+export async function getListUser() {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  let queries_employee = await supabase.rpc("listemployee");
+  let queries_employer = await supabase.rpc("listemployer");
+  let combinedResults:userinfo[] = [];
+
+  if (queries_employee.error) {
+      console.log("employee",queries_employee.error);
+  }
+  if (queries_employee.error) {
+    console.log("employer",queries_employer.error);
+  } 
+
+  let ind = -1;
+  const results_employee: userinfo[] = queries_employee.data
+  ? queries_employee.data.map((item: userinfo) => ({
+      id: ++ind,
+      user_id: item.user_id,
+      name: item.name || "",  
+      email: item.email || "", 
+      last_login: item.last_login || "", 
+      role: (item.role === "null") ? "" : item.role || "", 
+      banned_until: item.banned_until || "",
+    }))
+  : [];
+
+  const results_employer: userinfo[] = queries_employer.data
+  ? queries_employer.data.map((item: userinfo) => ({
+      id: ++ind,
+      user_id: item.user_id,
+      name: item.name || "",  
+      email: item.email || "", 
+      last_login: item.last_login || "", 
+      role: item.role|| "", 
+      banned_until: item.banned_until || "",
+    }))
+  : [];
+  
+  combinedResults =[...results_employee,...results_employer]   
+  return combinedResults;
+
 }
 
 export async function updateJobDetail(job_id: string, formData: FormData) {

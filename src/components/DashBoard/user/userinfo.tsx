@@ -12,9 +12,13 @@ export interface employeeCompany {
     status: string;
 }
 
-const CardEmployeeOfCompany:React.FC<employeeCompany> = ({id,job_id, 
-    employee_id, name, email, phone,cv_path,propo_letter,status}) =>{
-        return (
-            <h1>employee</h1>
-        )
-    }
+export interface userinfo {
+    id: number;
+    user_id: UUID;
+    name: string;
+    email: string;
+    last_login: string;
+    role: string;
+    banned_until: string;
+}
+

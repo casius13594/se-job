@@ -24,6 +24,11 @@ const menuItems = [
         path: "/dashboard/jobs",
         icon: <MdShoppingBag />,
       },
+      {
+        title: "Usertest",
+        path: "/dashboard/usertest",
+        icon: <MdSupervisedUserCircle />,
+      },
     ],
   },
 ];
