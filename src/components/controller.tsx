@@ -12,7 +12,7 @@ import { Jobapplied } from "./cardjobapplied";
 import { IState } from "country-state-city";
 import { boolean } from "zod";
 import { Interface } from "readline";
-import { employeeCompany, userinfo } from "./DashBoard/user/userinfo";
+import { employeeCompany, jobInfo, userinfo } from "./DashBoard/user/userinfo";
 import { UUID } from "crypto";
 
 export async function getJob(formData: FormData) {
@@ -180,13 +180,13 @@ export async function getEmployeeOfCompany() {
 export async function banUser(id: UUID) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
-  const {data, error} = await supabase.rpc('banuser',{user_id: id})
+  const { data, error } = await supabase.rpc("banuser", { user_id: id });
 }
 
 export async function unBanUser(id: UUID) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
-  const {data, error} = await supabase.rpc('unbanuser',{user_id: id})
+  const { data, error } = await supabase.rpc("unbanuser", { user_id: id });
 }
 
 export async function getListUser() {
@@ -194,43 +194,68 @@ export async function getListUser() {
   const supabase = createServerComponentClient({ cookies });
   let queries_employee = await supabase.rpc("listemployee");
   let queries_employer = await supabase.rpc("listemployer");
-  let combinedResults:userinfo[] = [];
+  let combinedResults: userinfo[] = [];
 
   if (queries_employee.error) {
-      console.log("employee",queries_employee.error);
+    console.log("employee", queries_employee.error);
   }
   if (queries_employee.error) {
-    console.log("employer",queries_employer.error);
-  } 
+    console.log("employer", queries_employer.error);
+  }
 
   let ind = -1;
   const results_employee: userinfo[] = queries_employee.data
-  ? queries_employee.data.map((item: userinfo) => ({
-      id: ++ind,
-      user_id: item.user_id,
-      name: item.name || "",  
-      email: item.email || "", 
-      last_login: item.last_login || "", 
-      role: (item.role === "null") ? "" : item.role || "", 
-      banned_until: item.banned_until || "",
-    }))
-  : [];
+    ? queries_employee.data.map((item: userinfo) => ({
+        id: ++ind,
+        user_id: item.user_id,
+        name: item.name || "",
+        email: item.email || "",
+        last_login: item.last_login || "",
+        role: item.role === "null" ? "" : item.role || "",
+        banned_until: item.banned_until || "",
+      }))
+    : [];
 
   const results_employer: userinfo[] = queries_employer.data
-  ? queries_employer.data.map((item: userinfo) => ({
-      id: ++ind,
-      user_id: item.user_id,
-      name: item.name || "",  
-      email: item.email || "", 
-      last_login: item.last_login || "", 
-      role: item.role|| "", 
-      banned_until: item.banned_until || "",
-    }))
-  : [];
-  
-  combinedResults =[...results_employee,...results_employer]   
-  return combinedResults;
+    ? queries_employer.data.map((item: userinfo) => ({
+        id: ++ind,
+        user_id: item.user_id,
+        name: item.name || "",
+        email: item.email || "",
+        last_login: item.last_login || "",
+        role: item.role || "",
+        banned_until: item.banned_until || "",
+      }))
+    : [];
 
+  combinedResults = [...results_employee, ...results_employer];
+  return combinedResults;
+}
+
+export async function getListJob() {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  let queries_job = await supabase.from("Job").select("*");
+
+  if (queries_job.error) {
+    console.error("Error fetching job list:", queries_job.error);
+    return [];
+  }
+
+  let ind = -1;
+  const results_job: jobInfo[] = queries_job.data
+    ? queries_job.data.map((item: jobInfo) => ({
+        id: ++ind,
+        job_id: item.job_id,
+        employer_id: item.employer_id,
+        name: item.name || "",
+        employer_name: item.employer_name || "",
+        status: item.status || "",
+        action: item.action || "",
+      }))
+    : [];
+
+  return results_job;
 }
 
 export async function updateJobDetail(job_id: string, formData: FormData) {
@@ -260,14 +285,18 @@ export async function updateJobDetail(job_id: string, formData: FormData) {
 }
 
 export async function updateJobStatus(job_id: string, status: string) {
-  "use server";
-  const supabase = createServerComponentClient({ cookies });
-  const { error } = await supabase
-    .from("Job")
-    .update({ status: status })
-    .eq("job_id", job_id);
-  if (error) {
-    console.log(error);
+  try {
+    console.log("Click updateJobStatus");
+    console.log(job_id);
+    const supabase = createServerComponentClient({ cookies });
+    await supabase
+      .schema("public")
+      .from("Job")
+      .update({ status: status })
+      .eq("job_id", job_id);
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }
 
@@ -459,7 +488,6 @@ export async function is_user() {
 
 export async function getUser() {
   "use server";
-  console.log("getting user");
   const supabase = createServerComponentClient({ cookies });
   const currentuser = await supabase.auth.getUser();
   if (currentuser.data) {
@@ -471,7 +499,14 @@ export async function getUser() {
     if (res.error) {
       console.log(res.error);
     } else {
-      console.log(res.data);
+      if (res.data.type == "admin") {
+        const { data, error } = await supabase
+          .from("User")
+          .select("*")
+          .eq("user_id", currentuser.data.user?.id)
+          .single();
+        return { data, isEmployee: false };
+      }
       if (res.data.type == "employee") {
         const { data, error } = await supabase
           .from("Employee")
@@ -481,7 +516,6 @@ export async function getUser() {
         if (error) {
           return null;
         }
-        console.log("Returning employee");
         return { data, isEmployee: true };
       } else if (res.data.type == "employer") {
         const { data, error } = await supabase
@@ -492,7 +526,6 @@ export async function getUser() {
         if (error) {
           return null;
         }
-        console.log("Returning employer");
         return { data, isEmployee: false };
       }
     }

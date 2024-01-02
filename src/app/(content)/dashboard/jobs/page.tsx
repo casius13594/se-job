@@ -111,7 +111,12 @@ const JobPage = () => {
                   className="bg-black text-white px-3 py-1 rounded-3xl"
                   href={{
                     pathname: "/dashboard/applicants",
-                    query: {"index": index, "id": job.job_id, "name": job.name, "status": job.status},
+                    query: {
+                      index: index,
+                      id: job.job_id,
+                      name: job.name,
+                      status: job.status,
+                    },
                   }}
                 >
                   Check Applicants

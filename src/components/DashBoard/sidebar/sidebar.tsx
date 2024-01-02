@@ -26,8 +26,13 @@ const menuItems = [
       },
       {
         title: "Usertest",
-        path: "/dashboard/usertest",
+        path: "/admin/usertest",
         icon: <MdSupervisedUserCircle />,
+      },
+      {
+        title: "Jobs",
+        path: "/admin/jobs",
+        icon: <MdShoppingBag />,
       },
     ],
   },
@@ -64,6 +69,14 @@ const Sidebar = () => {
 
     fetchProfile();
   }, []);
+
+  const isAdminPath = currentPath.includes("/admin");
+
+  // Define menu items based on whether it's an admin path
+  const filteredMenuItems = isAdminPath
+    ? menuItems[0].list.slice(2) // show last two items
+    : menuItems[0].list.slice(0, 2); // show first two items
+
   return (
     <div className={styles.container}>
       <div className={styles.user}>
@@ -77,18 +90,13 @@ const Sidebar = () => {
         <div className={styles.userDetail}>
           <span className={styles.username}>{profileName}</span>
           <span className={styles.userTitle}>
-            {isEmployee ? "Employee" : "Employer"}
+            {isAdminPath ? "Admin" : isEmployee ? "Employee" : "Employer"}
           </span>
         </div>
       </div>
       <ul className={styles.list}>
-        {menuItems.map((cat) => (
-          <li key={cat.title}>
-            <span className={styles.cat}>{cat.title}</span>
-            {cat.list.map((item) => (
-              <MenuLink item={item} key={item.title} />
-            ))}
-          </li>
+        {filteredMenuItems.map((item) => (
+          <MenuLink item={item} key={item.title} />
         ))}
       </ul>
     </div>
