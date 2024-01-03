@@ -98,18 +98,20 @@ const AppBar = () => {
             className="object-contain"
           />
         </Link>
-        <div className="relative w-1/2">
-          <input
-            className=" bg-[#d9d9d9] pl-10 rounded-lg h-[5vh] w-full"
-            placeholder="Search"
-            value={searchInput}
-            onChange={(e) => handleSearchInputChange(e.target.value)}
-            onKeyDown={handleKeyPress}
-          />
-          <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
-            <Image src="/search.svg" alt="search" width={20} height={20} />
-          </span>
-        </div>
+        {!currentPath.startsWith("/dashboard") && (
+          <div className="relative w-1/2">
+            <input
+              className=" bg-[#d9d9d9] pl-10 rounded-lg h-[5vh] w-full"
+              placeholder="Search"
+              value={searchInput}
+              onChange={(e) => handleSearchInputChange(e.target.value)}
+              onKeyDown={handleKeyPress}
+            />
+            <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
+              <Image src="/search.svg" alt="search" width={20} height={20} />
+            </span>
+          </div>
+        )}
         <div className="flex justify-between">
           {userActive ? (
             <div className="flex space-x-6">
