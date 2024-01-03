@@ -40,7 +40,7 @@ export default function BasicInfo() {
 
   return (
     <main
-      className={`flex flex-col w-[100vw] h-[100vh] ${dm_sans.className} pt-[2vh] overflow-hidden`}
+      className={`flex flex-col w-full h-full ${dm_sans.className} pt-[2vh] overflow-hidden`}
     >
       <Modal
         isOpen={selectLocation}

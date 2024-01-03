@@ -8,7 +8,7 @@ const layout = ({children} : {
   return (
     <>
     <AppBar></AppBar>
-    <div className={styles.container}>
+    <div className={styles.container + " h-[75vh]"}>
         <div className={styles.menu}>
         <SidebarMember></SidebarMember>
         </div>
