@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, SetStateAction } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Select from "react-select";
-import { postJob } from "@/components/controller";
+import Select, { MultiValue, ActionMeta } from "react-select";
+import { fetchTag, postJob } from "@/components/controller";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/server";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -30,18 +30,25 @@ export default function PostJob() {
   const [country, setCountry] = useState<ICountry>(countryData[0]);
   const [state, setState] = useState<IState | undefined>(undefined);
   const [city, setCity] = useState<ICity | undefined>(undefined);
+  const [tagList, setTagList] = useState<any[] | null>(null);
+  const [selectedTags, setSelectedTags] = useState<MultiValue<{ value: any; label: any }>>([]);
 
-  const options = [
-    { value: "parttime", label: "Part-time" },
-    { value: "fulltime", label: "Full-time" },
-    { value: "intern", label: "Intern" },
-    { value: "health", label: "Health" },
-    { value: "edu", label: "Education" },
-    { value: "it", label: "IT" },
-    { value: "service", label: "Service" },
-    { value: "manage", label: "Manager" },
-    // Add more tags as needed
-  ];
+  useEffect(() => {
+    const fetchTags = async () => {
+      setTagList(await fetchTag());
+    };
+    fetchTags();
+  }, []);
+  const options = (tagList || []).map((tag) => ({
+    value: tag.tag_id,
+    label: tag.name,
+  }));
+
+  const handleTagsChange = (selectedOptions: MultiValue<{ value: any; label: any }>, actionMeta: ActionMeta<{ value: any; label: any }>) => {
+    setSelectedTags(selectedOptions);
+    console.log(selectedOptions); // Log the selected options
+    console.log(actionMeta); // Log the action meta data
+  };
   const handleNextPage = async (event: React.MouseEvent) => {
     event.preventDefault();
     if (sliderRef.current) {
@@ -55,7 +62,7 @@ export default function PostJob() {
     }
   };
   const handleSubmit = async (event: React.FormEvent) => {
-    console.log(city)
+    console.log(city);
     event.preventDefault();
     console.log("Submitting");
     const form1 = document.getElementById("form1") as HTMLFormElement;
@@ -81,7 +88,13 @@ export default function PostJob() {
     console.log(user);
     console.log(state);
     if (!user.error) {
-      postJob(formData1, formData2, user.data, state || ({} as IState));
+      postJob(
+        formData1,
+        formData2,
+        user.data,
+        state || ({} as IState),
+        selectedTags
+      );
     } else {
       console.log("No user");
     }
@@ -242,12 +255,8 @@ export default function PostJob() {
                   className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow px-2 font-light"
                 >
                   <option value="" hidden selected></option>
-                  <option value="1-10">
-                    1,000,000 VND - 10,000,000 VND
-                  </option>
-                  <option value="10-20">
-                    10,000,000 VND - 20,000,000 VND
-                  </option>
+                  <option value="1-10">1,000,000 VND - 10,000,000 VND</option>
+                  <option value="10-20">10,000,000 VND - 20,000,000 VND</option>
                   <option value="More than 20">More than 20,000,000 VND</option>
                 </select>
               </div>
@@ -299,6 +308,7 @@ export default function PostJob() {
                   options={options}
                   className="basic-multi-select"
                   classNamePrefix="select"
+                  onChange={handleTagsChange}
                   styles={{
                     control: (provided) => ({
                       ...provided,
@@ -318,7 +328,7 @@ export default function PostJob() {
                     indicatorSeparator: (provided) => ({
                       ...provided,
                       display: "flex",
-                      alignSelf: 'center',
+                      alignSelf: "center",
                       height: "65%",
                     }),
                     dropdownIndicator: (provided) => ({

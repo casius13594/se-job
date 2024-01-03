@@ -14,6 +14,7 @@ import { boolean } from "zod";
 import { Interface } from "readline";
 import { employeeCompany, jobInfo, userinfo } from "./DashBoard/user/userinfo";
 import { UUID } from "crypto";
+import { MultiValue } from "react-select";
 
 export async function getLocation() {
   "use server"
@@ -188,21 +189,21 @@ export async function getEmployeeOfCompany() {
 export async function banUser(id: UUID) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
-  const {data, error} = await supabase.rpc('banuser',{user_id: id})
-  if(error){
-    console.log("BanUser", error)
+  const { data, error } = await supabase.rpc("banuser", { user_id: id });
+  if (error) {
+    console.log("BanUser", error);
   }
-  return data
+  return data;
 }
 
 export async function unBanUser(id: UUID) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
-  const {data, error} = await supabase.rpc('unbanuser',{user_id: id})
-  if(error){
-    console.log("UnbanUser", error)
+  const { data, error } = await supabase.rpc("unbanuser", { user_id: id });
+  if (error) {
+    console.log("UnbanUser", error);
   }
-  return data
+  return data;
 }
 
 export async function getListUser() {
@@ -220,19 +221,17 @@ export async function getListUser() {
   }
 
   const formatDateToDDMMYYYY = (originalDate: string): string => {
-    if(originalDate)
-    {
+    if (originalDate) {
       const date = new Date(originalDate);
-      const formattedDate = new Intl.DateTimeFormat('en-GB', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
+      const formattedDate = new Intl.DateTimeFormat("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
       }).format(date);
 
       return formattedDate;
     }
     return "";
-    
   };
 
   let ind = -1;
@@ -389,7 +388,8 @@ export async function postJob(
   formData1: FormData,
   formData2: FormData,
   user: UserResponse["data"],
-  city: IState
+  city: IState,
+  selectedTags: MultiValue<{ value: any; label: any }>
 ) {
   "use server";
   // get user
@@ -417,10 +417,19 @@ export async function postJob(
       requirements: formData2.get("requirements"),
       benefits: formData2.get("benefits"),
     },
-  ]);
+  ]).select("job_id");
   if (error) {
     console.log(error);
-  } else {
+  } else if(data !== null) {
+    for (const tag of selectedTags) {
+      console.log(tag)
+      await supabase.from("JobTag").insert([
+        {
+          tag_id: tag.value,
+          job_id: data[0].job_id,
+        },
+      ]);
+    }
     console.log("Success", data);
   }
 }
@@ -449,6 +458,16 @@ export async function addEmployee(
     console.log("Success", data);
   }
   return error;
+}
+
+export async function fetchTag() {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const { data, error } = await supabase.from("Tag").select("*");
+  if (error) {
+    console.log(error);
+  }
+  return data;
 }
 
 export async function fetchData(function_query: string, customTag: string) {
