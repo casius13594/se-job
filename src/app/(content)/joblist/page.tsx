@@ -94,6 +94,7 @@ function JobListClient({
   const locationString = `${city?.name || ""} ${", " + state?.name || ""} ${", " + country?.name || ""}`;
   const [selectLocation, setSelectLocation] = React.useState<boolean>(false);
   const [isAll, setIsAll] = React.useState<boolean>(true);
+  const [sortOption, setSortOption] = React.useState("none");
   const keywordsArray = keywords.split(" ");
 
   const filteredJobs = jobs.filter((job) => {
@@ -113,6 +114,20 @@ function JobListClient({
 
     return `${day}-${month}-${year}`;
   };
+
+  const calculateAverageSalary = (salaryRange: any) => {
+    // Assuming the salary range is in the format "min-max"
+    const [min, max] = salaryRange.split('-').map(Number);
+    return (min + max) / 2;
+  };
+
+  if (sortOption === "salary-inc") {
+    filteredJobs.sort((a, b) => calculateAverageSalary(a.salary) - calculateAverageSalary(b.salary));
+  } else if (sortOption === "salary-des") {
+      filteredJobs.sort((a, b) => calculateAverageSalary(b.salary) - calculateAverageSalary(a.salary));
+  }
+
+
 
   return (
     <div className="flex flex-row h-full w-full space-x-[2vw]">
@@ -198,7 +213,7 @@ function JobListClient({
             <label htmlFor="sort" className="text-center text-xl">
               Sort by:
             </label>
-            <select name="sort" >
+            <select name="sort" onChange={(e) => {setSortOption(e.target.value)}}>
               <option value="none">None</option>
               <option value="salary-inc">Salary (increasing)</option>
               <option value="salary-des">Salary (descreasing)</option>
