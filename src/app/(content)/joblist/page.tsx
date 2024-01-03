@@ -151,14 +151,14 @@ function JobListClient({
         </h1>
         <form
           name="filter"
-          className="flex flex-col w-full space-y-[1vh]"
+          className="flex flex-col w-full space-y-[1vh] ml-2"
           action={(data) => {
             setFormData(data);
           }}
         >
           <div>
             <label htmlFor="location">Location</label>
-            <select name="location" className="rounded-lg bg-gray-300 w-full">
+            <select name="location" className="rounded bg-[#d9d9d9] w-full">
               <option value="All">All</option>
               {locations.map((location) => 
                 <option value={location.location}>{location.location}</option>
@@ -168,7 +168,7 @@ function JobListClient({
           </div>
           <div>
             <label htmlFor="experience">Experience</label>
-            <select name="experience" className="rounded-lg bg-gray-300 w-full">
+            <select name="experience" className="rounded-lg bg-[#d9d9d9] w-full">
               <option value="%">All</option>
               <option value="none">None</option>
               <option value="fresher">Fresher</option>
@@ -178,7 +178,7 @@ function JobListClient({
           </div>
           <div>
             <label htmlFor="type">Type</label>
-            <select name="type" className="rounded-lg bg-gray-300 w-full">
+            <select name="type" className="rounded-lg bg-[#d9d9d9] w-full">
               <option value="%">All</option>
               <option value="fulltime">Fulltime</option>
               <option value="parttime">Parttime</option>
@@ -189,7 +189,7 @@ function JobListClient({
             <label htmlFor="salary" className="w-full">
               Salary
             </label>
-            <select name="salary" className="rounded-lg bg-gray-300 w-full">
+            <select name="salary" className="rounded-lg bg-[#d9d9d9] w-full">
               <option value="%">All</option>
               <option value="0-5">0 - 5 million</option>
               <option value="5-10">5 - 10 million</option>
@@ -197,7 +197,7 @@ function JobListClient({
             </select>
           </div>
           <button>Apply</button>
-          <div className="rounded-lg bg-gray-300 w-full h-[12vw]">
+          <div className="rounded-lg bg-[#d9d9d9] w-full h-[12vw]">
             <div className="flex flex-row w-full pt-[1vw]">
               <h1 className="text-center text-xl w-full">Banner</h1>
             </div>
@@ -220,14 +220,14 @@ function JobListClient({
             </select>
           </div>
         </div>
-        <div className="flex flex-col w-full h-full space-y-[2vw] overflow-y-scroll no-scrollbar">
+        <div className="flex flex-col w-full h-full space-y-[2vw] overflow-y-scroll no-scrollbar mt-2">
           <div className="flex flex-col h-full w-full">
             <ul className="flex flex-col h-full w-full space-y-[2vh]">
               {filteredJobs.map((job) => (
-                <li className="flex flex-row w-full border-2 border-black rounded-md">
+                <li className="flex flex-row w-full border-2 border-black rounded-md hover:bg-grey">
                   <div
                     className="flex flex-row w-full"
-                    onClick={() => {
+                    onClick={() => {  
                       const job_id = job.job_id as string;
                       localStorage.setItem("job_id", job_id);
                       window.location.href = "/jobdetail";
@@ -250,10 +250,10 @@ function JobListClient({
                         </div>
                       </div>
                       <div className="flex flex-row w-full">
-                        <h1 className="text-lg">{job.employer_name}</h1>
+                        <h1 className="text-base">{job.employer_name}</h1>
                       </div>
                       <div className="flex flex-row w-full max-w-full">
-                        <p className="text-lg">
+                        <p className="text-base">
                           {job.location} ({job.type})
                         </p>
                       </div>
@@ -293,12 +293,12 @@ function JobListClient({
       </div>
       <div className="flex flex-col min-h-full w-[25vw] justify-between">
         <div className="flex flex-col h-full space-y-[2vw] w-full">
-          <div className="rounded-lg bg-gray-300 w-full h-[20vh]">
+          <div className="rounded-lg bg-[#d9d9d9] w-full h-[20vh]">
             <div className="flex flex-row w-full m-[1vw] text-center text-xl">
               Other features
             </div>
           </div>
-          <div className="rounded-lg bg-gray-300 w-full h-[20vh]">
+          <div className="rounded-lg bg-[#d9d9d9] w-full h-[20vh]">
             <div className="flex flex-row w-full m-[1vw] space-x-[2vw]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -318,7 +318,7 @@ function JobListClient({
           </div>
         </div>
         <div>
-          <div className="flex flex-col rounded-t-2xl bg-gray-300 w-full content-center h-[10vh]">
+          <div className="flex flex-col rounded-t-2xl bg-[#d9d9d9] w-full content-center h-[10vh]">
             <div className="flex flex-row content-center justisfy-center h-full p-[1vw] space-x-[2vw]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
