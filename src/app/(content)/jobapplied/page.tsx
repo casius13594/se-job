@@ -11,84 +11,61 @@ export default function page(){
     const [data, setData] = useState<Jobapplied[]>([]);
     const [isClick, setIsClick] = useState<number>(1);
     const [isuser, setIsuser] = useState<boolean>(true);
-    const [search_jobapplied, setSearchJobapplied] = useState<string>('');
-
-    useEffect(() => {
-        const handleStorageChange = () => {
-          const newSearchJobapplied = localStorage.getItem('search_jobapplied') || '';
-          setSearchJobapplied(newSearchJobapplied);
-        };
+    const [isLoading, setIsLoading] = useState(false);
     
-        // Add event listener for storage change
-        window.addEventListener('storage', handleStorageChange);
-    
-        // Initial update of search_jobapplied
-        handleStorageChange();
-    
-        // Remove event listener when component unmounts
-        return () => {
-          window.removeEventListener('storage', handleStorageChange);
-        };
-      });
-
     const button = [
         // put property in here.
         {id: 1,icon: <IoMdHome />,name: 'Saved and Applied Job' },
         {id: 2,icon: <IoMdHome  />,name: 'Saved Job' },
         {id: 3,icon: <IoMdHome />,name: 'Applied Job' },
     ];
-    const handleClick =(id:number) => {
-        setIsClick(id);
+
+    const fetchDataFromSupabase = async (id: number) => {
+        setIsLoading(true);
+        const check_user = await is_user();
+
+        setIsuser(check_user)
+        if(check_user){               
+            const storedSearchTerm = localStorage.getItem('search_jobapplied');
+            console.log("store",storedSearchTerm)
+            setData(await fetchData(id,storedSearchTerm));
+        }
+        setIsLoading(false);
     };
 
     useEffect(() => {
-        const fetchDataFromSupabase = async () => {
-            const check_user = await is_user();
+        console.log("isclick",isClick);
+        localStorage.setItem("id_click", isClick.toString());
+        fetchDataFromSupabase(isClick);
+    }, []);
 
-            setIsuser(check_user)
-            if(check_user){               
-                // Fetch data from "Applied" table with a custom tag
-                const appliedData = await fetchData('listappliedjob', 'Applied');
-                
-                // Fetch data from "Jobtab" table with a custom tag
-                const savedData = await fetchData('listsavejob', 'Saved');
-                
-                // Combine the results from both tables
-                let combinedResults:Jobapplied[] = [];
-                
-                switch(isClick)
+    useEffect(() => {
+        // listen to enter clicked
+        window.addEventListener(
+          "keypress",
+          (e) => {
+            if (e.key == "Enter") {
+                console.log("isclick_search",isClick);
+                const stringNumber = localStorage.getItem('id_click');
+                if(stringNumber)
                 {
-                    case 1:
-                        combinedResults = [...appliedData, ...savedData];
-                        break;
-                    case 2:
-                        combinedResults = [...savedData];
-                        break;
-                    case 3:
-                        combinedResults = [...appliedData];
-                        break;
+                    fetchDataFromSupabase(parseInt(stringNumber, 10));
                 }
-                combinedResults.sort((a, b) => b.time_date_post.getTime() - a.time_date_post.getTime());
-                if(search_jobapplied !=='')
-                {
-                    combinedResults = combinedResults.filter((job) => {
-                        const containsSearchTerm =
-                          job.name.includes(search_jobapplied) ||
-                          job.employer_name.includes(search_jobapplied) ||
-                          job.type.includes(search_jobapplied);
-                        return containsSearchTerm;
-                      });
+                else{
+                    fetchDataFromSupabase(1);
                 }
-                setData(combinedResults);
+                
             }
-        
-        };
-    
-        fetchDataFromSupabase();
-    }, [isClick,search_jobapplied]);
-    const memoizedData = useMemo(() => {
-        return data;
-      }, [data]);
+          },
+          false
+        );
+      }, []);
+
+    const handleClick =(id:number) => {
+        setIsClick(id);
+        localStorage.setItem("id_click", id.toString());
+        fetchDataFromSupabase(id);
+    };
 
     if(!isuser){
         return (
@@ -116,6 +93,7 @@ export default function page(){
             <>  
                 <AppBar/>
                 <main className = {`flex flex-col h-[100vh] overflow-hidden`}>
+                    {isLoading}
                     <div className='flex flex-row'>
                         <div className='flex-col w-1/5 ml-[2vw]'>
                             <h1 className='font-bold text-2xl'>Save and Applied Job</h1>
@@ -133,7 +111,7 @@ export default function page(){
                                 <h1 className='font-bold'>{bt.name}</h1></button>))}
                         </div>
                         <div className='flex-row w-3/5 h-full mx-[2vw]'>
-                            {memoizedData.map((item) => (
+                            {data.map((item) => (
                                 <CardApplied {...item}/>
                             ))}
                             

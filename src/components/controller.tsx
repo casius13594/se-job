@@ -470,17 +470,18 @@ export async function fetchTag() {
   return data;
 }
 
-export async function fetchData(function_query: string, customTag: string) {
+export async function fetchData(isClick: number, search_string: string|null) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
   const currentuser = await supabase.auth.getUser();
-
   if (currentuser.data) {
-    const { data, error } = await supabase.rpc(function_query, {
-      userid: currentuser.data.user?.id,
-    });
+    const userId = currentuser.data.user?.id;
 
-    if (error) {
+    const appliedData = await supabase.rpc('listappliedjob', { userid: userId,});
+    const savedData = await supabase.rpc('listsavejob', {userid: userId,});
+
+    if (appliedData.error || savedData.error) {
+      console.log("Fetch jobapplied data error");
       return [];
     }
     const formatDateToDDMMYYYY = (date: Date): string => {
@@ -490,20 +491,46 @@ export async function fetchData(function_query: string, customTag: string) {
 
       return `${day}-${month}-${year}`;
     };
+    const appliedResults: Jobapplied[] = (isClick == 1 || isClick == 3)
+        ? appliedData.data.map((item: Jobapplied) => ({
+            ...item,
+            tag: 'Applied',
+            post_time: formatDateToDDMMYYYY(new Date(item.post_time)),
+            time_date_post: new Date(item.post_time),
+          }))
+        : [];
+    const SaveJobResults: Jobapplied[] = (isClick == 1 || isClick == 2)
+        ? savedData.data.map((item: Jobapplied) => ({
+            ...item,
+            tag: 'Saved',
+            post_time: formatDateToDDMMYYYY(new Date(item.post_time)),
+            time_date_post: new Date(item.post_time),
+          }))
+        : [];
+    const combinedResults: Jobapplied[] =
+        (isClick === 1) ? [...appliedResults, ...SaveJobResults] :[];
 
-    const results: Jobapplied[] = data.map((item: Jobapplied) => ({
-      job_id: item.job_id,
-      name: item.name,
-      employer_name: item.employer_name,
-      location: item.location,
-      type: item.type,
-      employer_logo: item.employer_logo,
-      tag: customTag,
-      post_time: formatDateToDDMMYYYY(new Date(item.post_time)),
-      time_date_post: new Date(item.post_time),
-    }));
+    //combinedResults.sort((a, b) => b.time_date_post.getTime() - a.time_date_post.getTime());
 
-    return results;
+    if(search_string !=='' && search_string)
+    {
+      return (isClick === 2) ? SaveJobResults.filter((job) =>
+          job.name.includes(search_string) ||
+          job.employer_name.includes(search_string) ||
+          job.type.includes(search_string)
+        ) : 
+        (isClick === 3) ? appliedResults.filter((job) =>
+        job.name.includes(search_string) ||
+        job.employer_name.includes(search_string) ||
+        job.type.includes(search_string)) : 
+        
+        combinedResults.filter((job) =>
+        job.name.includes(search_string) ||
+        job.employer_name.includes(search_string) ||
+        job.type.includes(search_string));
+    }
+    return (isClick === 1)? combinedResults : 
+    (isClick === 2 ) ? SaveJobResults : appliedResults;
   }
   return [];
 }

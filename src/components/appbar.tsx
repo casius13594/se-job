@@ -63,8 +63,6 @@ const AppBar = () => {
       const isCurrentPath = currentPath === path_jobapplied;
       if (isCurrentPath) {
         localStorage.setItem("search_jobapplied", value);
-        const storageEvent = new Event("storage");
-        window.dispatchEvent(storageEvent);
       } else {
         localStorage.setItem("search_jobapplied", "");
       }
@@ -156,4 +154,4 @@ const AppBar = () => {
   );
 };
 
-export default AppBar;
+export default React.memo(AppBar);
