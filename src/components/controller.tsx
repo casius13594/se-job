@@ -15,6 +15,14 @@ import { Interface } from "readline";
 import { employeeCompany, jobInfo, userinfo } from "./DashBoard/user/userinfo";
 import { UUID } from "crypto";
 
+export async function getLocation() {
+  "use server"
+  const supabase = createServerComponentClient({ cookies })
+  const { data, error } = await supabase
+    .rpc('getlocation')
+  return data
+}
+
 export async function getJob(formData: FormData) {
   "use server";
   // get user

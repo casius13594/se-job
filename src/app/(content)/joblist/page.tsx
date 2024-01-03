@@ -3,7 +3,7 @@
 import AppBar from "@/components/appbar";
 import React, { use, useEffect } from "react";
 import { dm_sans } from "@/components/fonts";
-import { getJob, saveJob } from "@/components/controller";
+import { getJob, saveJob, getLocation } from "@/components/controller";
 import { requireLogin } from "@/components/popupModal";
 import Areaselector from "@/components/Areaselector";
 import { ICity, ICountry, IState } from "country-state-city";
@@ -13,7 +13,6 @@ import Modal from "react-modal";
 export default function JobList() {
   const defaultFormData = new FormData();
   defaultFormData.append("location", "All");
-  defaultFormData.append("rating", "%");
   defaultFormData.append("experience", "%");
   defaultFormData.append("type", "%");
   defaultFormData.append("salary", "%");
@@ -41,12 +40,18 @@ export default function JobList() {
 
   const [formData, setFormData] = React.useState(defaultFormData);
   const [jobs, setJobs] = React.useState<any[]>([]);
+  const [locations, setLocations] = React.useState<any[]>([])
   const [loginRequired, setLoginRequired] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const jobList = getJob(formData);
     jobList.then((jobs) => {
       setJobs(jobs || []);
+    });
+
+    const locationList = getLocation()
+    locationList.then((locations) => {
+      setLocations(locations || null);
     });
   }, [formData]);
 
@@ -59,6 +64,7 @@ export default function JobList() {
         {requireLogin(loginRequired, () => setLoginRequired(false))}
         <JobListClient
           jobs={jobs}
+          locations={locations}
           setFormData={(data) => setFormData(data)}
           setLoginRequired={setLoginRequired}
           keywords={keywords || ""}
@@ -70,11 +76,13 @@ export default function JobList() {
 
 function JobListClient({
   jobs,
+  locations,
   setFormData,
   setLoginRequired,
   keywords,
 }: {
   jobs: any[];
+  locations: any[];
   setFormData: (formData: FormData) => void;
   setLoginRequired: (logedIn: boolean) => void;
   keywords: string;
@@ -107,44 +115,7 @@ function JobListClient({
   };
 
   return (
-    <div className="flex flex-row h-full w-full pt-[15vh] space-x-[2vw]">
-      <Modal
-        isOpen={selectLocation}
-        onRequestClose={() => setSelectLocation(false)}
-      >
-        <div className="flex flex-col items-center justify-center">
-          <Areaselector
-            city={city}
-            setCity={setCity}
-            country={country}
-            setCountry={setCountry}
-            state={state}
-            setState={setState}
-            showDistrict={true}
-          />
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-            onClick={() => {
-              setSelectLocation(false);
-              setIsAll(false);
-            }}
-          >
-            Apply
-          </button>
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-            onClick={() => {
-              setCity(undefined);
-              setState(undefined);
-              setCountry(countryData[0]);
-              setSelectLocation(false);
-              setIsAll(true);
-            }}
-          >
-            Reset
-          </button>
-        </div>
-      </Modal>
+    <div className="flex flex-row h-full w-full space-x-[2vw]">
       <div className="flex flex-col w-[15vw] min-h-full">
         <h1 className="flex flex-row w-full text-center text-lg font-bold">
           <svg
@@ -172,21 +143,12 @@ function JobListClient({
         >
           <div>
             <label htmlFor="location">Location</label>
-            <input
-              name="location"
-              placeholder="All"
-              defaultValue={isAll ? "All" : locationString}
-              onClick={() => setSelectLocation(true)}
-              className="rounded-lg bg-gray-300 w-full"
-            />
-          </div>
-          <div>
-            <label htmlFor="rating">Rating</label>
-            <select name="rating" className="rounded-lg bg-gray-300 w-full">
-              <option value="%">All</option>
-              <option value="good">Good</option>
-              <option value="acceptable">Acceptable</option>
-              <option value="bad">Bad</option>
+            <select name="location" className="rounded-lg bg-gray-300 w-full">
+              <option value="All">All</option>
+              {locations.map((location) => 
+                <option value={location.location}>{location.location}</option>
+              )
+              }
             </select>
           </div>
           <div>
