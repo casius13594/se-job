@@ -207,7 +207,7 @@ function JobDetailPage({
                   stroke-linejoin="round"
                 />
               </svg>
-              <h1 className="text-xl font-bold text-center py-[1vh]">
+              <h1 className="text-xl font-bold text-center text-white py-[1vh]">
                 Apply now
               </h1>
             </button>
