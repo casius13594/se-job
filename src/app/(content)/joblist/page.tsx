@@ -198,12 +198,10 @@ function JobListClient({
             <label htmlFor="sort" className="text-center text-xl">
               Sort by:
             </label>
-            <select name="sort">
+            <select name="sort" >
               <option value="none">None</option>
               <option value="salary-inc">Salary (increasing)</option>
               <option value="salary-des">Salary (descreasing)</option>
-              <option value="rating-inc">Rating (increasing)</option>
-              <option value="rating-des">Rating (descreasing)</option>
             </select>
           </div>
         </div>
