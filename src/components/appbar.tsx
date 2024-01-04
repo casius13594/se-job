@@ -19,7 +19,10 @@ const AppBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [userActive, setUserActive] = useState(false);
   const currentPath = usePathname();
-
+  const path_jobapplied = "/jobapplied";
+  const path_joblist = "/joblist";
+  const isCurrentPath = currentPath === path_jobapplied;
+  const isCurrentPath_joblist = currentPath === path_joblist;
   console.log(currentPath);
   useEffect(() => {
     const fetchProfile = async () => {
@@ -27,6 +30,12 @@ const AppBar = () => {
       if (userObject) {
         const { data: user, isEmployee: isEmployee } = userObject;
         if (user) {
+          if (!isCurrentPath) {
+            localStorage.setItem("search_jobapplied", "");
+          } 
+          if (!isCurrentPath_joblist) {
+            localStorage.setItem("search_joblist", "");
+          } 
           // Assuming profile_img and name are stored in user_metadata
           setProfileImg(user.logo);
           setProfileName(user.name);
@@ -56,17 +65,15 @@ const AppBar = () => {
 
   const handleSearchInputChange = (value: string) => {
     setSearchInput(value);
-    const path_jobapplied = "/jobapplied";
-    const path_joblist = "/joblist";
+    
     // Check if the current path matches the target path
     if (currentPath) {
-      const isCurrentPath = currentPath === path_jobapplied;
       if (isCurrentPath) {
         localStorage.setItem("search_jobapplied", value);
       } else {
         localStorage.setItem("search_jobapplied", "");
       }
-      const isCurrentPath_joblist = currentPath === path_joblist;
+
       if (isCurrentPath_joblist) {
         localStorage.setItem("search_joblist", value);
       } else {
