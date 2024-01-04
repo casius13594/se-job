@@ -28,7 +28,6 @@ export default function page(){
         setIsuser(check_user)
         if(check_user){               
             const storedSearchTerm = localStorage.getItem('search_jobapplied');
-            console.log("store",storedSearchTerm)
             setData(await fetchData(id,storedSearchTerm));
         }
         setIsLoading(false);
@@ -37,7 +36,6 @@ export default function page(){
     const debouncedFetchData = useMemo(() => debounce(fetchDataFromSupabase, 200), []);
 
     useEffect(() => {
-        console.log("isclick",isClick);
         localStorage.setItem("id_click", isClick.toString());
         fetchDataFromSupabase(isClick);
     }, []);
@@ -48,7 +46,6 @@ export default function page(){
           "keypress",
           (e) => {
             if (e.key == "Enter") {
-                console.log("isclick_search",isClick);
                 const stringNumber = localStorage.getItem('id_click');
                 if(stringNumber)
                 {
