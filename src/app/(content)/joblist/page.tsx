@@ -40,7 +40,7 @@ export default function JobList() {
 
   const [formData, setFormData] = React.useState(defaultFormData);
   const [jobs, setJobs] = React.useState<any[]>([]);
-  const [locations, setLocations] = React.useState<any[]>([])
+  const [locations, setLocations] = React.useState<any[]>([]);
   const [loginRequired, setLoginRequired] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -49,7 +49,7 @@ export default function JobList() {
       setJobs(jobs || []);
     });
 
-    const locationList = getLocation()
+    const locationList = getLocation();
     locationList.then((locations) => {
       setLocations(locations || null);
     });
@@ -91,7 +91,9 @@ function JobListClient({
   const [country, setCountry] = React.useState<ICountry>(countryData[0]);
   const [state, setState] = React.useState<IState | undefined>(undefined);
   const [city, setCity] = React.useState<ICity | undefined>(undefined);
-  const locationString = `${city?.name || ""} ${", " + state?.name || ""} ${", " + country?.name || ""}`;
+  const locationString = `${city?.name || ""} ${", " + state?.name || ""} ${
+    ", " + country?.name || ""
+  }`;
   const [selectLocation, setSelectLocation] = React.useState<boolean>(false);
   const [isAll, setIsAll] = React.useState<boolean>(true);
   const [sortOption, setSortOption] = React.useState("none");
@@ -117,17 +119,21 @@ function JobListClient({
 
   const calculateAverageSalary = (salaryRange: any) => {
     // Assuming the salary range is in the format "min-max"
-    const [min, max] = salaryRange.split('-').map(Number);
+    const [min, max] = salaryRange.split("-").map(Number);
     return (min + max) / 2;
   };
 
   if (sortOption === "salary-inc") {
-    filteredJobs.sort((a, b) => calculateAverageSalary(a.salary) - calculateAverageSalary(b.salary));
+    filteredJobs.sort(
+      (a, b) =>
+        calculateAverageSalary(a.salary) - calculateAverageSalary(b.salary)
+    );
   } else if (sortOption === "salary-des") {
-      filteredJobs.sort((a, b) => calculateAverageSalary(b.salary) - calculateAverageSalary(a.salary));
+    filteredJobs.sort(
+      (a, b) =>
+        calculateAverageSalary(b.salary) - calculateAverageSalary(a.salary)
+    );
   }
-
-
 
   return (
     <div className="flex flex-row h-full w-full space-x-[2vw]">
@@ -160,15 +166,17 @@ function JobListClient({
             <label htmlFor="location">Location</label>
             <select name="location" className="rounded bg-[#d9d9d9] w-full">
               <option value="All">All</option>
-              {locations.map((location) => 
+              {locations.map((location) => (
                 <option value={location.location}>{location.location}</option>
-              )
-              }
+              ))}
             </select>
           </div>
           <div>
             <label htmlFor="experience">Experience</label>
-            <select name="experience" className="rounded-lg bg-[#d9d9d9] w-full">
+            <select
+              name="experience"
+              className="rounded-lg bg-[#d9d9d9] w-full"
+            >
               <option value="%">All</option>
               <option value="none">None</option>
               <option value="fresher">Fresher</option>
@@ -191,9 +199,9 @@ function JobListClient({
             </label>
             <select name="salary" className="rounded-lg bg-[#d9d9d9] w-full">
               <option value="%">All</option>
-              <option value="0-5">0 - 5 million</option>
-              <option value="5-10">5 - 10 million</option>
-              <option value="10-20">10 - 20 million</option>
+              <option value="1-10">1 - 10 million VND</option>
+              <option value="10-20">10 - 20 million VND</option>
+              <option value="More than 20">More than 20 million VND</option>
             </select>
           </div>
           <button>Apply</button>
@@ -213,7 +221,12 @@ function JobListClient({
             <label htmlFor="sort" className="text-center text-xl">
               Sort by:
             </label>
-            <select name="sort" onChange={(e) => {setSortOption(e.target.value)}}>
+            <select
+              name="sort"
+              onChange={(e) => {
+                setSortOption(e.target.value);
+              }}
+            >
               <option value="none">None</option>
               <option value="salary-inc">Salary (increasing)</option>
               <option value="salary-des">Salary (descreasing)</option>
@@ -227,7 +240,7 @@ function JobListClient({
                 <li className="flex flex-row w-full border-2 border-black rounded-md hover:bg-grey">
                   <div
                     className="flex flex-row w-full"
-                    onClick={() => {  
+                    onClick={() => {
                       const job_id = job.job_id as string;
                       localStorage.setItem("job_id", job_id);
                       window.location.href = "/jobdetail";
