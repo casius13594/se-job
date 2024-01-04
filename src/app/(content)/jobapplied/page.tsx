@@ -6,6 +6,7 @@ import { fetchData,is_user } from '@/components/controller';
 import { IoMdHome,IoIosWarning   } from "react-icons/io";
 import { TbError404 } from "react-icons/tb";
 import { requireLogin } from '@/components/popupModal';
+import debounce from 'lodash.debounce';
 
 export default function page(){
     const [data, setData] = useState<Jobapplied[]>([]);
@@ -33,6 +34,8 @@ export default function page(){
         setIsLoading(false);
     };
 
+    const debouncedFetchData = useMemo(() => debounce(fetchDataFromSupabase, 200), []);
+
     useEffect(() => {
         console.log("isclick",isClick);
         localStorage.setItem("id_click", isClick.toString());
@@ -49,7 +52,7 @@ export default function page(){
                 const stringNumber = localStorage.getItem('id_click');
                 if(stringNumber)
                 {
-                    fetchDataFromSupabase(parseInt(stringNumber, 10));
+                    debouncedFetchData(parseInt(stringNumber, 10));
                 }
                 else{
                     fetchDataFromSupabase(1);
@@ -64,7 +67,7 @@ export default function page(){
     const handleClick =(id:number) => {
         setIsClick(id);
         localStorage.setItem("id_click", id.toString());
-        fetchDataFromSupabase(id);
+        debouncedFetchData(id);
     };
 
     if(!isuser){
