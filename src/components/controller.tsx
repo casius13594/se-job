@@ -15,7 +15,7 @@ import { Interface } from "readline";
 import { employeeCompany, jobInfo, userinfo } from "./DashBoard/user/userinfo";
 import { UUID } from "crypto";
 import { MultiValue } from "react-select";
-import { chartinfo } from "./BarChart/barchart";
+import { chartinfo } from "./Chart/barchart";
 
 export async function getLocation() {
   "use server";

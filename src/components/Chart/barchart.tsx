@@ -10,13 +10,13 @@ export interface chartinfo {
   y: number;
 }
 
-export interface BarChartProps {
+export interface ChartProps {
   data: chartinfo[];
   width?: number;
   height?: number;
 }
 
-const BarChart: React.FC<BarChartProps> = ({
+const BarChart: React.FC<ChartProps> = ({
   data,
   width = 400,
   height = 300,
