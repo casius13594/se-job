@@ -15,13 +15,13 @@ import { Interface } from "readline";
 import { employeeCompany, jobInfo, userinfo } from "./DashBoard/user/userinfo";
 import { UUID } from "crypto";
 import { MultiValue } from "react-select";
+import { chartinfo } from "./BarChart/barchart";
 
 export async function getLocation() {
-  "use server"
-  const supabase = createServerComponentClient({ cookies })
-  const { data, error } = await supabase
-    .rpc('getlocation')
-  return data
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const { data, error } = await supabase.rpc("getlocation");
+  return data;
 }
 
 export async function getJob(formData: FormData) {
@@ -401,28 +401,31 @@ export async function postJob(
     .single();
   const employer_name = employerData.data.name;
   const employer_logo = employerData.data.logo;
-  const { data, error } = await supabase.from("Job").insert([
-    {
-      employer_id: user.user?.id,
-      name: formData1.get("name"),
-      employer_name: employer_name,
-      employer_logo: employer_logo ?? "",
-      status: "pending",
-      location: city?.name,
-      salary: formData2.get("salary"),
-      type: formData1.get("type"),
-      content: formData2.get("content"),
-      experience: formData2.get("exp"),
-      workplace: formData1.get("workplace"),
-      requirements: formData2.get("requirements"),
-      benefits: formData2.get("benefits"),
-    },
-  ]).select("job_id");
+  const { data, error } = await supabase
+    .from("Job")
+    .insert([
+      {
+        employer_id: user.user?.id,
+        name: formData1.get("name"),
+        employer_name: employer_name,
+        employer_logo: employer_logo ?? "",
+        status: "pending",
+        location: city?.name,
+        salary: formData2.get("salary"),
+        type: formData1.get("type"),
+        content: formData2.get("content"),
+        experience: formData2.get("exp"),
+        workplace: formData1.get("workplace"),
+        requirements: formData2.get("requirements"),
+        benefits: formData2.get("benefits"),
+      },
+    ])
+    .select("job_id");
   if (error) {
     console.log(error);
-  } else if(data !== null) {
+  } else if (data !== null) {
     for (const tag of selectedTags) {
-      console.log(tag)
+      console.log(tag);
       await supabase.from("JobTag").insert([
         {
           tag_id: tag.value,
@@ -470,15 +473,44 @@ export async function fetchTag() {
   return data;
 }
 
-export async function fetchData(isClick: number, search_string: string|null) {
+export async function fetchChart() {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const currentuser = await getUser();
+
+  if (currentuser && !currentuser?.isEmployee) {
+    const { data, error } = await supabase.rpc("chartjob", {
+      userid: currentuser?.data.user_id,
+    });
+    if (error) {
+      console.log("fetch chart error", error);
+      return [];
+    }
+    if (!data) {
+      return [];
+    }
+
+    const chartData: chartinfo[] = data.map((item: any) => ({
+      jobid: item.jobid as UUID,
+      x: item.x as string,
+      y: item.y as number,
+    }));
+    return chartData;
+  }
+  return [];
+}
+
+export async function fetchData(isClick: number, search_string: string | null) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
   const currentuser = await supabase.auth.getUser();
   if (currentuser.data) {
     const userId = currentuser.data.user?.id;
 
-    const appliedData = await supabase.rpc('listappliedjob', { userid: userId,});
-    const savedData = await supabase.rpc('listsavejob', {userid: userId,});
+    const appliedData = await supabase.rpc("listappliedjob", {
+      userid: userId,
+    });
+    const savedData = await supabase.rpc("listsavejob", { userid: userId });
 
     if (appliedData.error || savedData.error) {
       console.log("Fetch jobapplied data error");
@@ -491,46 +523,56 @@ export async function fetchData(isClick: number, search_string: string|null) {
 
       return `${day}-${month}-${year}`;
     };
-    const appliedResults: Jobapplied[] = (isClick == 1 || isClick == 3)
+    const appliedResults: Jobapplied[] =
+      isClick == 1 || isClick == 3
         ? appliedData.data.map((item: Jobapplied) => ({
             ...item,
-            tag: 'Applied',
+            tag: "Applied",
             post_time: formatDateToDDMMYYYY(new Date(item.post_time)),
             time_date_post: new Date(item.post_time),
           }))
         : [];
-    const SaveJobResults: Jobapplied[] = (isClick == 1 || isClick == 2)
+    const SaveJobResults: Jobapplied[] =
+      isClick == 1 || isClick == 2
         ? savedData.data.map((item: Jobapplied) => ({
             ...item,
-            tag: 'Saved',
+            tag: "Saved",
             post_time: formatDateToDDMMYYYY(new Date(item.post_time)),
             time_date_post: new Date(item.post_time),
           }))
         : [];
     const combinedResults: Jobapplied[] =
-        (isClick === 1) ? [...appliedResults, ...SaveJobResults] :[];
+      isClick === 1 ? [...appliedResults, ...SaveJobResults] : [];
 
     //combinedResults.sort((a, b) => b.time_date_post.getTime() - a.time_date_post.getTime());
 
-    if(search_string !=='' && search_string)
-    {
-      return (isClick === 2) ? SaveJobResults.filter((job) =>
-          job.name.includes(search_string) ||
-          job.employer_name.includes(search_string) ||
-          job.type.includes(search_string)
-        ) : 
-        (isClick === 3) ? appliedResults.filter((job) =>
-        job.name.includes(search_string) ||
-        job.employer_name.includes(search_string) ||
-        job.type.includes(search_string)) : 
-        
-        combinedResults.filter((job) =>
-        job.name.includes(search_string) ||
-        job.employer_name.includes(search_string) ||
-        job.type.includes(search_string));
+    if (search_string !== "" && search_string) {
+      return isClick === 2
+        ? SaveJobResults.filter(
+            (job) =>
+              job.name.includes(search_string) ||
+              job.employer_name.includes(search_string) ||
+              job.type.includes(search_string)
+          )
+        : isClick === 3
+        ? appliedResults.filter(
+            (job) =>
+              job.name.includes(search_string) ||
+              job.employer_name.includes(search_string) ||
+              job.type.includes(search_string)
+          )
+        : combinedResults.filter(
+            (job) =>
+              job.name.includes(search_string) ||
+              job.employer_name.includes(search_string) ||
+              job.type.includes(search_string)
+          );
     }
-    return (isClick === 1)? combinedResults : 
-    (isClick === 2 ) ? SaveJobResults : appliedResults;
+    return isClick === 1
+      ? combinedResults
+      : isClick === 2
+      ? SaveJobResults
+      : appliedResults;
   }
   return [];
 }
