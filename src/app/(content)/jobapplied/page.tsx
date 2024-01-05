@@ -120,11 +120,20 @@ export default function page() {
   } else {
     return (
       <>
+        <style jsx global>{`
+          html,
+          body {
+            overflow: hidden;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+          }
+        `}</style>
         <AppBar />
-        <main className={`flex flex-col h-[100vh] overflow-hidden`}>
+        <main className={`flex flex-col h-[100vh]`}>
           {isLoading}
-          <div className="flex flex-row">
-            <div className="flex-col w-1/5 ml-[2vw]">
+          <div className="flex flex-row h-[90vh]">
+            <div className="flex flex-col w-1/5 ml-[2vw]">
               <h1 className="font-bold text-2xl">Save and Applied Job</h1>
               {button.map((bt) => (
                 <button
@@ -142,10 +151,12 @@ export default function page() {
                 </button>
               ))}
             </div>
-            <div className="flex-row w-3/5 h-full mx-[2vw]">
-              {data.map((item) => (
-                <CardApplied {...item} onViewClick={openViewInfo} />
-              ))}
+            <div className="flex flex-col w-3/5 mx-[2vw] overflow-auto">
+              <div className="h-90vh ">
+                {data.map((item) => (
+                  <CardApplied {...item} onViewClick={openViewInfo} />
+                ))}
+              </div>
             </div>
           </div>
           {isFormVisible && (
