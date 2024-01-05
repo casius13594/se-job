@@ -1,5 +1,7 @@
+"use client";
 import { UUID } from "crypto";
-import React from "react";
+import React, { useState } from "react";
+import { ApplicationView } from "./Info_Application/infoapply";
 
 export interface Jobapplied {
   job_id: UUID;
@@ -13,7 +15,9 @@ export interface Jobapplied {
   time_date_post: Date;
 }
 
-const CardApplied: React.FC<Jobapplied> = ({
+const CardApplied: React.FC<
+  Jobapplied & { onViewClick: (job_id: string) => void }
+> = ({
   job_id,
   name,
   employer_name,
@@ -22,9 +26,21 @@ const CardApplied: React.FC<Jobapplied> = ({
   post_time,
   tag,
   employer_logo,
+  onViewClick,
 }) => {
   const check_applied = tag === "Applied";
   const button_app = check_applied ? "View response" : "Apply now";
+
+  const handleButtonClick = () => {
+    if (button_app === "Apply now") {
+      localStorage.setItem("job_id", job_id as string);
+      window.location.href = "/jobdetail";
+    }
+    if (button_app === "View response") {
+      onViewClick(job_id as string);
+    }
+  };
+
   return (
     <div className="flex flex-row border-2 border-black w-full max-h-80 py-2 mt-1 rounded-md mb-10">
       <div className="flex w-1/5 mx-[0.01vw] rounded-full overflow-hidden items-center justify-center">
@@ -48,12 +64,7 @@ const CardApplied: React.FC<Jobapplied> = ({
         </div>
         <button
           className="text-center bg-[#3e736e] hover:bg-[#13544E] rounded-full w-6/7 m-[1vh] px-[3vw]"
-          onClick={() => {
-            if (button_app === "Apply now") {
-              localStorage.setItem("job_id", job_id as string);
-              window.location.href = "/jobdetail";
-            }
-          }}
+          onClick={handleButtonClick}
         >
           <h1 className="font-bold text-lg text-[#d9d9d9]"> {button_app}</h1>
         </button>

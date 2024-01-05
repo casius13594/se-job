@@ -7,12 +7,25 @@ import { IoMdHome, IoIosWarning } from "react-icons/io";
 import { TbError404 } from "react-icons/tb";
 import { requireLogin } from "@/components/popupModal";
 import debounce from "lodash.debounce";
+import { UUID } from "crypto";
+import { ApplicationView } from "@/components/Info_Application/infoapply";
 
 export default function page() {
   const [data, setData] = useState<Jobapplied[]>([]);
   const [isClick, setIsClick] = useState<number>(1);
   const [isuser, setIsuser] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [jobIdInView, setJobIdInView] = useState<string | "">("");
+
+  const closeForm = () => {
+    setIsFormVisible(false);
+  };
+
+  const openViewInfo = (job_id: string) => {
+    setIsFormVisible(true);
+    setJobIdInView(job_id);
+  };
 
   const button = [
     // put property in here.
@@ -131,10 +144,13 @@ export default function page() {
             </div>
             <div className="flex-row w-3/5 h-full mx-[2vw]">
               {data.map((item) => (
-                <CardApplied {...item} />
+                <CardApplied {...item} onViewClick={openViewInfo} />
               ))}
             </div>
           </div>
+          {isFormVisible && (
+            <ApplicationView onClosePopup={closeForm} job_id={jobIdInView} />
+          )}
         </main>
       </>
     );

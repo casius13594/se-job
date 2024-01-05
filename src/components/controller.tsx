@@ -718,6 +718,29 @@ export async function GoogleSignIn() {
   }
 }
 
+export async function get_info_application(jobid: UUID) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const currentuser = await getUser();
+  if (currentuser?.isEmployee) {
+    if (currentuser.data) {
+      const info_apply = await supabase
+        .schema("public")
+        .from("Applied")
+        .select("*")
+        .eq("job_id", jobid)
+        .eq("employee_id", currentuser.data.user_id)
+        .single();
+
+      if (info_apply.error) {
+        console.log("info application error", info_apply.error);
+      }
+      return info_apply.data;
+    }
+    return null;
+  }
+}
+
 // export async function submitJobApplication(jobID: string, cv: File | null) {
 //   "use server";
 //   const supabase = createServerComponentClient({ cookies });
