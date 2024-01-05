@@ -16,6 +16,8 @@ import { employeeCompany, jobInfo, userinfo } from "./DashBoard/user/userinfo";
 import { UUID } from "crypto";
 import { MultiValue } from "react-select";
 import { chartinfo } from "./Chart/barchart";
+import { InfoNoti } from "./Card_Cotification/cardnoti";
+import { formatDistanceToNow, parseISO } from "date-fns";
 
 export async function getLocation() {
   "use server";
@@ -64,16 +66,14 @@ export async function getJob(formData: FormData) {
 export async function getRelatedJob(job_id: string) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
-  const { data: jobs, error } = await supabase
-    .rpc("getrelatedjob", {
-      job: job_id,
-    })
+  const { data: jobs, error } = await supabase.rpc("getrelatedjob", {
+    job: job_id,
+  });
   if (error) {
     return null;
   }
   return jobs;
 }
-
 
 export async function getJobOfEmployer(employer_id: string) {
   "use server";
@@ -752,6 +752,35 @@ export async function get_info_application(jobid: UUID) {
       return info_apply.data;
     }
     return null;
+  }
+}
+
+export async function get_noti_list() {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const currentuser = await getUser();
+  if (currentuser?.data) {
+    const noti_list = await supabase
+      .schema("public")
+      .from("Notification")
+      .select("*")
+      .eq("user_id", currentuser.data.user_id);
+    if (noti_list.error) {
+      console.log("Fetch Noti list error", noti_list);
+    }
+
+    const formatDate = (date: string): string => {
+      const parsedDate = parseISO(date);
+      const timeAgo = formatDistanceToNow(parsedDate);
+
+      return timeAgo + " ago";
+    };
+
+    if (noti_list.data) {
+      return noti_list.data;
+    }
+
+    return [];
   }
 }
 
