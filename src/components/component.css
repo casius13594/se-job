@@ -1,27 +1,27 @@
 .circle-button {
-    width: 35px; /* Set the desired width */
-    height: 35px; /* Set the desired height, make it the same as the width for a perfect circle */
-    border-radius: 50%; /* Make it a circle */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: black; /* Set the background color to black */
-    color: white; /* Set the text/icon color to white, or any other color that provides good contrast */
-  }
+  width: 35px; /* Set the desired width */
+  height: 35px; /* Set the desired height, make it the same as the width for a perfect circle */
+  border-radius: 50%; /* Make it a circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black; /* Set the background color to black */
+  color: white; /* Set the text/icon color to white, or any other color that provides good contrast */
+}
 
 .circle-button2 {
-    width: 60px; /* Set the desired width */
-    height: 30px; /* Set the desired height, make it the same as the width for a perfect circle */
-    border-radius: 5%; /* Make it a circle */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: black; /* Set the background color to black */
-    color: white; /* Set the text/icon color to white, or any other color that provides good contrast */
-  }
-  
+  width: 60px; /* Set the desired width */
+  height: 30px; /* Set the desired height, make it the same as the width for a perfect circle */
+  border-radius: 5%; /* Make it a circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black; /* Set the background color to black */
+  color: white; /* Set the text/icon color to white, or any other color that provides good contrast */
+}
+
 .link-name {
-    margin-top: 5px; /* Adjust the margin as needed for spacing between button and text */
+  margin-top: 5px; /* Adjust the margin as needed for spacing between button and text */
 }
 .horizontal-container {
   display: flex;
@@ -51,7 +51,6 @@
   height: 100%; /* Set the desired height */
   overflow: hidden;
   border-radius: 50%; /* This creates a circular border */
-
 }
 .profilepage {
   margin-left: 5%;
@@ -65,35 +64,35 @@
   border-radius: 50%;
   margin-left: 20px;
   margin-bottom: 20px;
-  border-style: solid;  /* Set border style to solid */
-  border-width: 1px;    /* Set border width */
-  border-color: black;  /* Set border color */
+  border-style: solid; /* Set border style to solid */
+  border-width: 1px; /* Set border width */
+  border-color: black; /* Set border color */
   padding: 3px;
 }
 .profilebg-container {
-  width: 100%;             /* Set the width to span 70% of the parent container's width */
-  height: 130px;          /* Set the height to 100px */
-  background-color: #DBDFD0;
+  width: 100%; /* Set the width to span 70% of the parent container's width */
+  height: 130px; /* Set the height to 100px */
+  background-color: #dbdfd0;
   /* Add any other styles or properties as needed */
 }
 
-.color-tabbg{
-  background-color: #DBDFD0;
+.color-tabbg {
+  background-color: #dbdfd0;
   /* Add any other styles or properties as needed */
 }
-.color-chosetab{
-  background-color: #13544E;
+.color-chosetab {
+  background-color: #13544e;
 }
 
-.placeholder-profile-img{
+.placeholder-profile-img {
   width: 50px;
   height: 50px;
   display: block;
   background-color: white;
   margin-right: 10px;
   border-radius: 50%;
-  border-style: solid;  /* Set border style to solid */
-  border-width: 1px;    /* Set border width */
-  border-color: rgb(133, 125, 125);  /* Set border color */
+  border-style: solid; /* Set border style to solid */
+  border-width: 1px; /* Set border width */
+  border-color: rgb(133, 125, 125); /* Set border color */
   padding: 2px;
 }

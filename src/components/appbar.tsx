@@ -11,6 +11,7 @@ import { IoIosNotifications, IoMdHome, IoMdDocument } from "react-icons/io";
 import { useState, useEffect } from "react";
 import Menu_Profile from "./Appbar_components/dropdown_menu";
 import { getUser } from "./controller";
+import NotificationDropdown from "./Appbar_components/dropdown_noti";
 
 const AppBar = () => {
   const [profileImg, setProfileImg] = useState("");
@@ -18,12 +19,21 @@ const AppBar = () => {
   const [profileName, setProfileName] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [userActive, setUserActive] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+
   const currentPath = usePathname();
   const path_jobapplied = "/jobapplied";
   const path_joblist = "/joblist";
   const isCurrentPath = currentPath === path_jobapplied;
   const isCurrentPath_joblist = currentPath === path_joblist;
+
   console.log(currentPath);
+
+  const handleNotificationsClick = (e: any) => {
+    e.preventDefault(); // Prevents navigation
+    setShowNotifications(!showNotifications);
+  };
+
   useEffect(() => {
     const fetchProfile = async () => {
       const userObject = await getUser();
@@ -32,10 +42,10 @@ const AppBar = () => {
         if (user) {
           if (!isCurrentPath) {
             localStorage.setItem("search_jobapplied", "");
-          } 
+          }
           if (!isCurrentPath_joblist) {
             localStorage.setItem("search_joblist", "");
-          } 
+          }
           // Assuming profile_img and name are stored in user_metadata
           setProfileImg(user.logo);
           setProfileName(user.name);
@@ -57,15 +67,19 @@ const AppBar = () => {
     { key: "document", href: "/auth/login", icon: <IoMdDocument />, name: "" },
     {
       key: "notifications",
-      href: "/auth/login",
-      icon: <IoIosNotifications />,
+      href: "#",
+      icon: (
+        <Button className="circle-button" onClick={handleNotificationsClick}>
+          <IoIosNotifications />
+        </Button>
+      ),
       name: "",
     },
   ];
 
   const handleSearchInputChange = (value: string) => {
     setSearchInput(value);
-    
+
     // Check if the current path matches the target path
     if (currentPath) {
       if (isCurrentPath) {
@@ -139,6 +153,7 @@ const AppBar = () => {
                   </Link>
                 ))}
               </div>
+              {showNotifications && <NotificationDropdown />}
               <div className="translate-y-2 z-10">
                 <Menu_Profile
                   profile_img={profileImg}
