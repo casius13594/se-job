@@ -7,7 +7,7 @@ import Link from "next/link";
 import { DM_Sans } from "next/font/google";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Modal from "react-modal";
-import { ClipLoader } from 'react-spinners';
+import { ClipLoader } from "react-spinners";
 
 const dmsans = DM_Sans({
   subsets: ["latin"],
@@ -84,6 +84,8 @@ export default function CredentialsForm() {
             } else {
               router.push("../../auth/profileinput");
             }
+          } else if (existingUser.data.type === "admin") {
+            router.push("../../admin/usertest");
           } else {
             console.log(res.data.user.id);
             const existingEmployee = await supabase
@@ -114,7 +116,7 @@ export default function CredentialsForm() {
             { user_id: res.data.user.id, status: "online", type: "null" },
           ]);
       }
-      localStorage.setItem("current_user_id", res.data.user.id)
+      localStorage.setItem("current_user_id", res.data.user.id);
     } else {
       console.log("user: ", res.data.user);
       console.error(res.error);
