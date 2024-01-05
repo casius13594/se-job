@@ -123,14 +123,14 @@ export function ApplicationView({
               </text>
             </label>
             <label className="flex flex-col mt-2">
-              <span className="mb-1">your CV</span>
               <div className="flex items-center justify-between">
+                <span className="mb-1">Your CV</span>
                 {fileUrl ? (
                   <a
                     href={fileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-14 py-1 font-normal rounded-xl cursor-pointer hover:bg-gray-400"
+                    className="px-14 py-1 font-normal rounded-xl cursor-pointer hover:bg-lime-300 bg-slate-400"
                   >
                     {cvName}
                   </a>
