@@ -61,6 +61,20 @@ export async function getJob(formData: FormData) {
   return jobs;
 }
 
+export async function getRelatedJob(job_id: string) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const { data: jobs, error } = await supabase
+    .rpc("getrelatedjob", {
+      job: job_id,
+    })
+  if (error) {
+    return null;
+  }
+  return jobs;
+}
+
+
 export async function getJobOfEmployer(employer_id: string) {
   "use server";
   const supabase = createServerComponentClient({ cookies });

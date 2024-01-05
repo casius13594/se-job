@@ -1,6 +1,6 @@
 "use client";
 
-import { getJobDetail } from "@/components/controller";
+import { getJobDetail, getRelatedJob } from "@/components/controller";
 import React, { useState } from "react";
 import AppBar from "@/components/appbar";
 import { dm_sans } from "@/components/fonts";
@@ -10,6 +10,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function JobDetail() {
   const [job, setJob] = React.useState(null);
+  const [relatedJobs, setRelatedJobs] = React.useState([]); // [
   const job_id = localStorage.getItem("job_id") || "";
   const [isPopupVisible, setPopupVisibility] = React.useState(false);
   const handleApplyNowClick = () => {
@@ -23,15 +24,22 @@ export default function JobDetail() {
     getJobDetail(job_id).then((job) => {
       setJob(job);
     });
+
+    getRelatedJob(job_id).then((jobs) => {
+      setRelatedJobs(jobs);
+    });
   }, []);
-  if (!job) return <p>{job_id}</p>;
+  if (!job) return <AppBar/>;
   return (
     <>
       <AppBar />
       <main
-        className={`flex flex-col w-[100vw] h-[100vh] ${dm_sans.className} pt-[2vh] overflow-hidden`}
+        className={`flex flex-col w-[100vw] h-[100vh] ${dm_sans.className} pt-[2vh]`}
       >
-        <JobDetailPage job={job} onApplyNowClick={handleApplyNowClick} />
+        <JobDetailPage 
+          job={job} 
+          relatedJobs={relatedJobs}
+          onApplyNowClick={handleApplyNowClick}/>
         {isPopupVisible && <ApplicationPopup onClosePopup={handleClosePopup} />}
       </main>
     </>
@@ -40,9 +48,11 @@ export default function JobDetail() {
 
 function JobDetailPage({
   job,
+  relatedJobs,
   onApplyNowClick,
 }: {
   job: any;
+  relatedJobs: any[];
   onApplyNowClick: () => void;
 }) {
   const formatDateToDDMMYYYY = (date: Date): string => {
@@ -92,7 +102,53 @@ function JobDetailPage({
           <div className="flex flex-row rounded-full bg-[#D9D9D9] text-lg p-[1vw]">
             You might interested in
           </div>
-          <div className="flex flex-row text-xl">To be implemented</div>
+          <div className="flex flex-column w-full h-full overflow-y-scroll no-scrollbar">
+          {relatedJobs.map((job) => {
+            return (
+              <div 
+                className="flex flex-row w-full border-2 border-black rounded-3xl bg-[#13544E26] mt-[1vh]"
+                onClick={() => {
+                  const job_id = job.job_id as string;
+                  localStorage.setItem("job_id", job_id);
+                  window.location.href = "/jobdetail";
+                }}>
+                <div className="flex flex-row w-full">
+                  <div className="flex m-[1vw]">
+                    <img
+                      className="w-[10vw] h-[10vw]"
+                      src={job.employer_logo}
+                      alt=""
+                    />
+                  </div>
+                  <div className="flex flex-col justify-between w-full p-[1vw]">
+                    <div className="flex flex-row justify-between w-full">
+                      <h1 className="text-xl font-bold">{job.name}</h1>
+                      <div className="flex flex-row space-x-[1vw] space-y-[0.5vh]">
+                        <h1 className="text-xl font-bold">
+                          {job.salary} Millions
+                        </h1>
+                      </div>
+                    </div>
+                    <div className="flex flex-row w-full">
+                      <h1 className="text-lg">{job.employer_name}</h1>
+                    </div>
+                    <div className="flex flex-row w-full">
+                      <h1 className="text-lg">
+                        {job.location}({job.type})
+                      </h1>
+                    </div>
+                    <div className="flex flex-row w-full">
+                      <h1 className="text-md">
+                        {formatDateToDDMMYYYY(new Date(job.post_time))}
+                      </h1>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+          )}
+          </div>
         </div>
       </div>
       <div className="flex flex-col w-[50vw] min-h-full bg-[#D9D9D9] rounded-3xl overflow-y-scroll space-y-[2vh]">
