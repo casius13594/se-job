@@ -41,24 +41,20 @@ export default function page() {
   const fetchDataFromSupabase = async (id: number) => {
     setIsLoading(true);
     const check_user = await is_user();
-
     setIsuser(check_user);
+
     if (check_user) {
       const storedSearchTerm = localStorage.getItem("search_jobapplied");
       setData(await fetchData(id, storedSearchTerm));
     }
+
     setIsLoading(false);
   };
-
-  const debouncedFetchData = useMemo(
-    () => debounce(fetchDataFromSupabase, 200),
-    []
-  );
 
   useEffect(() => {
     localStorage.setItem("id_click", isClick.toString());
     fetchDataFromSupabase(isClick);
-  });
+  }, [isClick]);
 
   useEffect(() => {
     const channel = supabase.channel("jobapplied").on(
@@ -75,32 +71,37 @@ export default function page() {
     return () => {
       channel.unsubscribe(); // Unsubscribe when the component is unmounted
     };
-  }, [supabase]);
+  }, [supabase, router]);
+
+  const debouncedFetchData = useMemo(
+    () => debounce(fetchDataFromSupabase, 200),
+    []
+  );
 
   useEffect(() => {
-    // listen to enter clicked
-    window.addEventListener(
-      "keypress",
-      (e) => {
-        if (e.key == "Enter") {
-          const stringNumber = localStorage.getItem("id_click");
-          if (stringNumber) {
-            debouncedFetchData(parseInt(stringNumber, 10));
-          } else {
-            fetchDataFromSupabase(1);
-          }
+    const handleKeyPress = (e: any) => {
+      if (e.key === "Enter") {
+        const stringNumber = localStorage.getItem("id_click");
+        if (stringNumber) {
+          debouncedFetchData(parseInt(stringNumber, 10));
+        } else {
+          fetchDataFromSupabase(1);
         }
-      },
-      false
-    );
-  }, []);
+      }
+    };
+
+    window.addEventListener("keypress", handleKeyPress, false);
+
+    return () => {
+      window.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [debouncedFetchData]);
 
   const handleClick = (id: number) => {
     setIsClick(id);
     localStorage.setItem("id_click", id.toString());
     debouncedFetchData(id);
   };
-
   if (!isuser) {
     return (
       <>
