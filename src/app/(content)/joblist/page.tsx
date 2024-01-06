@@ -18,7 +18,7 @@ export default function JobList() {
   defaultFormData.append("salary", "%");
 
   const [keywords, setKeywords] = React.useState(
-    localStorage.getItem("search_joblist")
+    typeof window !== 'undefined' ? localStorage.getItem("search_joblist") : null
   );
 
   useEffect(() => {
