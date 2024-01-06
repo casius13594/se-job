@@ -27,14 +27,14 @@ const solutions = [
   },
   {
     name: " HR Management",
-    description: "Create your own targeted content",
-    href: "/company/hrmanagement",
+    description: "Check employees",
+    href: "/dashboard/users",
     icon: IconTwo,
   },
   {
     name: "Reports",
-    description: "Keep track of your growth",
-    href: "##",
+    description: "Review statistic",
+    href: "/dashboard",
     icon: IconThree,
   },
 ];

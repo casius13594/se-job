@@ -10,10 +10,16 @@ import MenuLink from "./linkmenu/Linkmenu";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { getUser } from "@/components/controller";
+import { BiSolidDashboard } from "react-icons/bi";
 const menuItems = [
   {
     title: "Dashboard",
     list: [
+      {
+        title: "Dashboard",
+        path: "/dashboard",
+        icon: <BiSolidDashboard />,
+      },
       {
         title: "Users",
         path: "/dashboard/users",
@@ -75,7 +81,7 @@ const Sidebar = () => {
   // Define menu items based on whether it's an admin path
   const filteredMenuItems = isAdminPath
     ? menuItems[0].list.slice(2) // show last two items
-    : menuItems[0].list.slice(0, 2); // show first two items
+    : menuItems[0].list.slice(0, 3); // show first two items
 
   return (
     <div className={styles.container}>
