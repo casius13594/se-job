@@ -38,7 +38,8 @@ const CardNotification: React.FC<InfoNoti> = ({
     >
       <div className="flex w-3/12 mx-[0.01vw] rounded-full overflow-hidden items-center justify-center">
         <img
-          className="w-3/4 h-auto rounded-full object-contain no-drag"
+          className=" h-3/4 rounded-full object-fit no-drag"
+          style={{ borderRadius: "50%", aspectRatio: "1/1" }}
           src={logo_sender ? logo_sender : "/logo.svg"}
           alt=""
         />

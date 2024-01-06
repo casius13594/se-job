@@ -4,6 +4,7 @@ import {
   declineApplicantDB,
   employerUpdateApplied,
   getApplied,
+  insert_noti,
   toggleJobStatus,
 } from "@/components/controller";
 import { useSearchParams } from "next/navigation";
@@ -45,6 +46,7 @@ const ApplicantPage = () => {
             : applicant
         )
       );
+      insert_noti(applicantId, "Your application has been approved");
       console.log(applicants);
     } catch (error) {
       console.error("Failed to accept applicant", error);
@@ -61,6 +63,7 @@ const ApplicantPage = () => {
             : applicant
         )
       );
+      insert_noti(applicantId, "Your application has been declined");
       console.log(applicants);
     } catch (error) {
       console.error("Failed to decline applicant", error);
