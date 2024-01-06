@@ -784,6 +784,28 @@ export async function get_noti_list() {
   }
 }
 
+export async function insert_noti(user_id: string, content: string) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const currentuser = await getUser();
+  const { data, error } = await supabase
+    .schema("public")
+    .from("Notification")
+    .insert([
+      {
+        user_id: user_id,
+        status: "Unread",
+        link: null,
+        content: content,
+        name_sender: currentuser?.data.name,
+        logo_sender: currentuser?.data.logo,
+      },
+    ]);
+  if (error) {
+    console.log("Insert noti error", error);
+  }
+}
+
 // export async function submitJobApplication(jobID: string, cv: File | null) {
 //   "use server";
 //   const supabase = createServerComponentClient({ cookies });

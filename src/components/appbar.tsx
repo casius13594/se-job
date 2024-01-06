@@ -63,7 +63,7 @@ const AppBar = () => {
 
   const links = [
     // put property in here.
-    { key: "home", href: "/auth/login", icon: <IoMdHome />, name: "" },
+    { key: "home", href: "/joblist", icon: <IoMdHome />, name: "" },
     { key: "document", href: "/auth/login", icon: <IoMdDocument />, name: "" },
     {
       key: "notifications",
