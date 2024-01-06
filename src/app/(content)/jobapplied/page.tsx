@@ -151,7 +151,7 @@ export default function page() {
                 </button>
               ))}
             </div>
-            <div className="flex flex-col w-3/5 mx-[2vw] overflow-auto">
+            <div className="flex flex-col w-3/5 mx-[2vw] overflow-auto no-scrollbar">
               <div className="h-90vh ">
                 {data.map((item) => (
                   <CardApplied {...item} onViewClick={openViewInfo} />

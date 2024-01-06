@@ -3,15 +3,31 @@ import React, { Fragment, useEffect, useState } from "react";
 import CardNotification, { InfoNoti } from "../Card_Cotification/cardnoti";
 import { get_noti_list } from "../controller";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 
 const NotificationDropdown = () => {
   const [listNoti, setListNoti] = useState<InfoNoti[]>([]);
-
+  const router = useRouter();
+  const supabase = createClientComponentClient();
   async function fetch_noti() {
     const noti_list = await get_noti_list();
     console.log("vo");
     setListNoti(noti_list || []);
   }
+
+  useEffect(() => {
+    const channel = supabase.channel("noti").on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "Notification",
+      },
+      () => {
+        router.refresh();
+      }
+    );
+  }, [supabase]);
 
   useEffect(() => {
     fetch_noti();
