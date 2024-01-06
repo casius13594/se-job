@@ -9,6 +9,8 @@ import { requireLogin } from "@/components/popupModal";
 import debounce from "lodash.debounce";
 import { UUID } from "crypto";
 import { ApplicationView } from "@/components/Info_Application/infoapply";
+import { useRouter } from "next/navigation";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function page() {
   const [data, setData] = useState<Jobapplied[]>([]);
@@ -17,6 +19,8 @@ export default function page() {
   const [isLoading, setIsLoading] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [jobIdInView, setJobIdInView] = useState<string | "">("");
+  const router = useRouter();
+  const supabase = createClientComponentClient();
 
   const closeForm = () => {
     setIsFormVisible(false);
@@ -54,7 +58,24 @@ export default function page() {
   useEffect(() => {
     localStorage.setItem("id_click", isClick.toString());
     fetchDataFromSupabase(isClick);
-  }, []);
+  });
+
+  useEffect(() => {
+    const channel = supabase.channel("jobapplied").on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "Applied,SaveJob",
+      },
+      () => {
+        router.refresh();
+      }
+    );
+    return () => {
+      channel.unsubscribe(); // Unsubscribe when the component is unmounted
+    };
+  }, [supabase]);
 
   useEffect(() => {
     // listen to enter clicked

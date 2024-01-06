@@ -11,6 +11,11 @@ const NotificationDropdown = () => {
   const supabase = createClientComponentClient();
   async function fetch_noti() {
     const noti_list = await get_noti_list();
+    (noti_list ?? []).sort((a, b) => {
+      const timeA = new Date(a.time).getTime();
+      const timeB = new Date(b.time).getTime();
+      return timeB - timeA;
+    });
     console.log("vo");
     setListNoti(noti_list || []);
   }
@@ -27,6 +32,9 @@ const NotificationDropdown = () => {
         router.refresh();
       }
     );
+    return () => {
+      channel.unsubscribe(); // Unsubscribe when the component is unmounted
+    };
   }, [supabase]);
 
   useEffect(() => {

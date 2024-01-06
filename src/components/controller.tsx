@@ -769,13 +769,6 @@ export async function get_noti_list() {
       console.log("Fetch Noti list error", noti_list);
     }
 
-    const formatDate = (date: string): string => {
-      const parsedDate = parseISO(date);
-      const timeAgo = formatDistanceToNow(parsedDate);
-
-      return timeAgo + " ago";
-    };
-
     if (noti_list.data) {
       return noti_list.data;
     }
