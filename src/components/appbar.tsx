@@ -3,15 +3,19 @@
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import "./component.css";
 import classnames from "classnames";
 import { Button, ThemePanel } from "@radix-ui/themes";
 import { IoIosNotifications, IoMdHome, IoMdDocument } from "react-icons/io";
 import { useState, useEffect } from "react";
 import Menu_Profile from "./Appbar_components/dropdown_menu";
-import { getUser } from "./controller";
+import { getUser, get_noti_list } from "./controller";
 import NotificationDropdown from "./Appbar_components/dropdown_noti";
+import Badge from "@mui/icons-material/Badge";
+import { InfoNoti } from "./Card_Cotification/cardnoti";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { channel } from "diagnostics_channel";
 
 const AppBar = () => {
   const [profileImg, setProfileImg] = useState("");
@@ -20,12 +24,15 @@ const AppBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [userActive, setUserActive] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [listNoti, setListNoti] = useState<InfoNoti[]>([]);
 
   const currentPath = usePathname();
   const path_jobapplied = "/jobapplied";
   const path_joblist = "/joblist";
   const isCurrentPath = currentPath === path_jobapplied;
   const isCurrentPath_joblist = currentPath === path_joblist;
+  const router = useRouter();
+  const supabase = createClientComponentClient();
 
   console.log(currentPath);
 
@@ -57,9 +64,36 @@ const AppBar = () => {
         }
       }
     };
+    const fetch_noti = async () => {
+      const noti_list = await get_noti_list();
+      (noti_list ?? []).sort((a, b) => {
+        const timeA = new Date(a.time).getTime();
+        const timeB = new Date(b.time).getTime();
+        return timeB - timeA;
+      });
+      setListNoti(noti_list || []);
+    };
+    const channel = supabase.channel("noti").on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "Notification",
+      },
+      async () => {
+        console.log("DB changes")
+        await fetch_noti();
+        router.refresh();
+      }
+    );
 
     fetchProfile();
-  }, []);
+    fetch_noti();
+    return () => {
+      channel.unsubscribe(); // Unsubscribe when the component is unmounted
+    };
+  }, [supabase]);
+
 
   const links = [
     // put property in here.
@@ -71,6 +105,11 @@ const AppBar = () => {
       icon: (
         <Button className="circle-button" onClick={handleNotificationsClick}>
           <IoIosNotifications />
+          {listNoti.filter((noti) => noti.status === "Unread").length > 0 && (
+            <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red text-white rounded-full px-2 py-1 text-xs">
+              {listNoti.filter((noti) => noti.status === "Unread").length}
+            </span>
+          )}
         </Button>
       ),
       name: "",
@@ -153,7 +192,9 @@ const AppBar = () => {
                   </Link>
                 ))}
               </div>
-              {showNotifications && <NotificationDropdown />}
+              {showNotifications && (
+                <NotificationDropdown listNoti={listNoti} />
+              )}
               <div className="translate-y-2 z-10">
                 <Menu_Profile
                   profile_img={profileImg}
