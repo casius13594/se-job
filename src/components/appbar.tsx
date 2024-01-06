@@ -73,10 +73,29 @@ const AppBar = () => {
       });
       setListNoti(noti_list || []);
     };
+    const channel = supabase
+      .channel("noti")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "Notification",
+        },
+        async () => {
+          console.log("DB changes");
+          await fetch_noti();
+          router.refresh();
+        }
+      )
+      .subscribe();
 
     fetchProfile();
     fetch_noti();
-  });
+    return () => {
+      supabase.removeChannel(channel); // Unsubscribe when the component is unmounted
+    };
+  }, [supabase, router]);
 
   const links = [
     // put property in here.
