@@ -1,16 +1,27 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React from "react";
 import Image from "next/image";
 import { CustomButton } from ".";
 import Link from "next/link";
+import { City } from "country-state-city";
 
 const Hero = () => {
   const [isCityDialogVisible, setCityDialogVisibility] = React.useState(false);
+  const [isSalaryDialogVisible, setSalaryDialogVisibility] =
+    React.useState(false);
   const [dialogWidth, setDialogWidth] = React.useState(0);
   const [selectedCity, setSelectedCity] = React.useState("");
+  const [selectedSalary, setSelectedSalary] = React.useState("");
   const [isOverlayVisible, setOverlayVisibility] = React.useState(false);
   const [filteredCities, setFilteredCities] = React.useState<string[]>([]);
+  const [filteredSalaries, setFilteredSalaries] = React.useState<string[]>([]);
   const initialCities = ["Da Nang", "Ha Noi", "Ho Chi Minh"];
+  const initialSalaries = [
+    "1 - 10 million VND",
+    "10 - 20 million VND",
+    "More than 20 million VND",
+  ];
 
   const handleScroll = () => {};
 
@@ -51,7 +62,43 @@ const Hero = () => {
 
   const handleOverlayClick = () => {
     setCityDialogVisibility(false);
-    setOverlayVisibility(false); // Hide overlay on overlay click
+    setSalaryDialogVisibility(false);
+    setOverlayVisibility(false);
+  };
+
+  const handleSalaryClick = () => {
+    setSalaryDialogVisibility(true);
+    setOverlayVisibility(true); // Toggle overlay visibility
+
+    // Get the width of the input field for salary
+    const inputSalaryElement = document.getElementById("inputSalary");
+    if (inputSalaryElement) {
+      const inputSalaryWidth = inputSalaryElement.offsetWidth;
+
+      // Set the width of the salary dialog
+      setDialogWidth(inputSalaryWidth);
+
+      // Set the initial list of salary options when the dialog is opened
+      setFilteredSalaries(initialSalaries);
+    }
+  };
+
+  const handleSalarySelect = (salary: string) => {
+    setSelectedSalary(salary);
+    setSalaryDialogVisibility(false);
+    setOverlayVisibility(false);
+  };
+
+  const handleSalaryInputChange = (e: { target: { value: any } }) => {
+    const inputValue = e.target.value;
+
+    // Filter the salary options based on the input value
+    const filtered = initialSalaries.filter((salary) =>
+      salary.toLowerCase().includes(inputValue.toLowerCase())
+    );
+
+    setFilteredSalaries(filtered);
+    setSelectedSalary(inputValue);
   };
 
   return (
@@ -90,7 +137,6 @@ const Hero = () => {
                     className="city-dialog fixed bg-white p-2 border rounded-xl mt-2"
                     style={{ width: `${dialogWidth}px` }}
                   >
-                    {/* Display filtered cities */}
                     {filteredCities.map((city) => (
                       <p key={city} onClick={() => handleCitySelect(city)}>
                         {city}
@@ -101,14 +147,43 @@ const Hero = () => {
               </div>
             </div>
 
-            <div className="py-3 px-7 bg-gray-300 rounded-xl mx-2">
-              <input
-                className="search__keyword bg-gray-300 focus:outline-none"
-                placeholder="Salary"
-                type="text"
-              />
+            <div className="flex flex-col rounded-xl mx-2 z-10">
+              <div className="position-relative">
+                <input
+                  id="inputSalary"
+                  className="search__keyword py-3 px-7 bg-gray-300 rounded-xl focus:outline-none"
+                  placeholder="Salary"
+                  type="text"
+                  value={selectedSalary}
+                  onClick={handleSalaryClick}
+                  onChange={handleSalaryInputChange}
+                />
+                {isSalaryDialogVisible && (
+                  <div
+                    className="salary-dialog fixed bg-white p-2 border rounded-xl mt-2"
+                    style={{ width: `${dialogWidth}px` }}
+                  >
+                    {filteredSalaries.map((salary) => (
+                      <p
+                        key={salary}
+                        onClick={() => handleSalarySelect(salary)}
+                      >
+                        {salary}
+                      </p>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-            <Link href="./joblist">
+            <Link
+              href={{
+                pathname: "./joblist",
+                query: {
+                  city: selectedCity,
+                  salary: selectedSalary,
+                },
+              }}
+            >
               <div
                 className="py-3 px-7 flex flex-row justify-between items-center bg-red rounded-xl ml-2 cursor-pointer"
                 style={{ width: "135px" }}
