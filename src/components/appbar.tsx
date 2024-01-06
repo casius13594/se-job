@@ -10,7 +10,7 @@ import { Button, ThemePanel } from "@radix-ui/themes";
 import { IoIosNotifications, IoMdHome, IoMdDocument } from "react-icons/io";
 import { useState, useEffect } from "react";
 import Menu_Profile from "./Appbar_components/dropdown_menu";
-import { getUser, get_noti_list } from "./controller";
+import { getUser, get_noti_list, update_noti_status } from "./controller";
 import NotificationDropdown from "./Appbar_components/dropdown_noti";
 import Badge from "@mui/icons-material/Badge";
 import { InfoNoti } from "./Card_Cotification/cardnoti";
@@ -39,6 +39,12 @@ const AppBar = () => {
   const handleNotificationsClick = (e: any) => {
     e.preventDefault(); // Prevents navigation
     setShowNotifications(!showNotifications);
+    const updatedNotiList = listNoti.map((noti) => ({
+      ...noti,
+      status: "Read",
+    }));
+    setListNoti(updatedNotiList);
+    update_noti_status();
   };
 
   useEffect(() => {

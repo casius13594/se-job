@@ -777,6 +777,25 @@ export async function get_noti_list() {
   }
 }
 
+export async function update_noti_status() {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const currentuser = await getUser();
+  if (currentuser?.data) {
+    const { data, error } = await supabase
+      .schema("public")
+      .from("Notification")
+      .update({ status: "Read" })
+      .eq("user_id", currentuser.data.user_id);
+    if (error) {
+      console.log(error);
+    }
+    if (data) {
+      console.log(data);
+    }
+  }
+}
+
 export async function insert_noti(user_id: string, content: string) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
