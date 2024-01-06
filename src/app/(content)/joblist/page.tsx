@@ -3,7 +3,7 @@
 import AppBar from "@/components/appbar";
 import React, { use, useEffect } from "react";
 import { dm_sans } from "@/components/fonts";
-import { getJob, saveJob, getLocation } from "@/components/controller";
+import { getJob, getSavedJob, saveJob, unsaveJob, getLocation } from "@/components/controller";
 import { requireLogin } from "@/components/popupModal";
 import Areaselector from "@/components/Areaselector";
 import { ICity, ICountry, IState } from "country-state-city";
@@ -40,8 +40,14 @@ export default function JobList() {
 
   const [formData, setFormData] = React.useState(defaultFormData);
   const [jobs, setJobs] = React.useState<any[]>([]);
+  const [savedJobs, setSavedJobs] = React.useState<any[]>([]);
   const [locations, setLocations] = React.useState<any[]>([]);
   const [loginRequired, setLoginRequired] = React.useState<boolean>(false);
+  const [reset, setReset] = React.useState<boolean>(false);
+
+  function toggleReset() {
+    setReset(!reset);
+  }
 
   React.useEffect(() => {
     const jobList = getJob(formData);
@@ -49,11 +55,17 @@ export default function JobList() {
       setJobs(jobs || []);
     });
 
+    const savedJobList = getSavedJob();
+    savedJobList.then((jobs) => {
+      setSavedJobs(jobs || []);
+    });
+
+
     const locationList = getLocation();
     locationList.then((locations) => {
       setLocations(locations || null);
     });
-  }, [formData]);
+  }, [formData, reset]);
 
   return (
     <>
@@ -64,10 +76,12 @@ export default function JobList() {
         {requireLogin(loginRequired, () => setLoginRequired(false))}
         <JobListClient
           jobs={jobs}
+          savedJobs={savedJobs}
           locations={locations}
           setFormData={(data) => setFormData(data)}
           setLoginRequired={setLoginRequired}
           keywords={keywords || ""}
+          setReset={toggleReset}
         />
       </main>
     </>
@@ -76,16 +90,20 @@ export default function JobList() {
 
 function JobListClient({
   jobs,
+  savedJobs,
   locations,
   setFormData,
   setLoginRequired,
   keywords,
+  setReset,
 }: {
   jobs: any[];
+  savedJobs: any[];
   locations: any[];
   setFormData: (formData: FormData) => void;
   setLoginRequired: (logedIn: boolean) => void;
   keywords: string;
+  setReset: () => void;
 }) {
   let countryData = Country.getAllCountries();
   const [country, setCountry] = React.useState<ICountry>(countryData[0]);
@@ -283,13 +301,17 @@ function JobListClient({
                     width="16"
                     height="22"
                     viewBox="0 0 16 22"
-                    fill="none"
+                    fill={savedJobs.map(savedJob => savedJob.Job.job_id).includes(job.job_id)? "green": "none"}
                     onClick={() => {
-                      saveJob(job.job_id).then((res) =>
-                        res == false
-                          ? setLoginRequired(true)
-                          : alert((job.job_id as string) + " saved")
-                      );
+                      if (savedJobs.map(savedJob => savedJob.Job.job_id).includes(job.job_id)) {
+                        unsaveJob(job.job_id);
+                      }
+                      else {
+                        saveJob(job.job_id).then((res) => {
+                          res == false ? setLoginRequired(true): null;  
+                        })
+                      }
+                      setReset();
                     }}
                   >
                     <path
