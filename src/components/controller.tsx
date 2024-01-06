@@ -76,9 +76,7 @@ export async function getSavedJob() {
   }
   const { data: jobs, error } = await supabase
     .from("SaveJob")
-    .select(
-      "job_id, Job (job_id)"
-    )
+    .select("job_id, Job (job_id)")
     .eq("employee_id", user);
   if (error) {
     console.log(error);
@@ -189,6 +187,23 @@ export async function getJobDetail(job_id: string) {
     return null;
   }
   return job;
+}
+
+export async function getEmployerFromJob(job_id: string) {
+  "use server";
+  // const cookieStore = cookies();
+  const supabase = createServerComponentClient({ cookies });
+  const { data: employer, error } = await supabase
+    .from("Job")
+    .select("*")
+    .eq("job_id", job_id)
+    .single();
+  if (error) {
+    console.log("getEmployerFromJob", error);
+  } else {
+    console.log("Employer ID: ", employer);
+  }
+  return employer;
 }
 
 export async function getEmployeeOfCompany() {
@@ -408,14 +423,12 @@ export async function saveJob(job_id: string) {
   if (!user) {
     return false;
   }
-  const { data, error } = await supabase
-    .from("SaveJob")
-    .insert([
-      {
-        employee_id: user as string,
-        job_id: job_id,
-      },
-    ]);
+  const { data, error } = await supabase.from("SaveJob").insert([
+    {
+      employee_id: user as string,
+      job_id: job_id,
+    },
+  ]);
   if (error) {
     console.log(error);
   } else {
