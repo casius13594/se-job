@@ -30,7 +30,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <>
       {userType === "admin" ? (
         <div className={styles.main}>
-          <AppBar />
           <div className={styles.container}>
             <div className={styles.menu}>
               <Sidebar />

@@ -69,7 +69,6 @@ export default function JobList() {
 
   return (
     <>
-      <AppBar />
       <main
         className={`flex flex-col h-[100vh] ${dm_sans.className} overflow-hidden`}
       >

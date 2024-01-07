@@ -15,7 +15,7 @@ import NotificationDropdown from "./Appbar_components/dropdown_noti";
 import Badge from "@mui/icons-material/Badge";
 import { InfoNoti } from "./Card_Cotification/cardnoti";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { channel } from "diagnostics_channel";
+
 
 const AppBar = () => {
   const [profileImg, setProfileImg] = useState("");
