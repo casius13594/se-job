@@ -8,6 +8,7 @@ import { DM_Sans } from "next/font/google";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Modal from "react-modal";
 import { ClipLoader } from "react-spinners";
+import { getUserBanStatus } from "@/components/controller";
 
 const dmsans = DM_Sans({
   subsets: ["latin"],
@@ -118,9 +119,16 @@ export default function CredentialsForm() {
       }
       localStorage.setItem("current_user_id", res.data.user.id);
     } else {
-      console.log("user: ", res.data.user);
-      console.error(res.error);
-      setError(res.error?.message || null);
+      if(await getUserBanStatus(email))
+      {
+        setError("You have been banned from the system.");
+      }
+      else {
+        console.log("user: ", res.data.user);
+        console.error(res.error);
+        setError(res.error?.message || null);
+      }
+      
     }
   };
 

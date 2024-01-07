@@ -793,6 +793,19 @@ export async function GoogleSignIn() {
   }
 }
 
+export async function getUserBanStatus(user_email: string) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const currentuser = await getUser();
+  const { data, error } = await supabase.rpc("get_user_ban_status", {
+    user_email: user_email,
+  });
+  if (error) {
+    console.log(error);
+    return null;
+  } else return data;
+}
+
 export async function get_info_application(jobid: UUID) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
