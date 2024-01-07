@@ -236,9 +236,9 @@ function JobListClient({
               <label htmlFor="type">Type</label>
               <select name="type" className="rounded-lg bg-[#d9d9d9] w-full">
                 <option value="%">All</option>
-                <option value="fulltime">Fulltime</option>
-                <option value="parttime">Parttime</option>
-                <option value="intern">Intern</option>
+                <option value="Full-time">Fulltime</option>
+                <option value="Part-time">Parttime</option>
+                <option value="Intern">Intern</option>
               </select>
             </div>
             <div>

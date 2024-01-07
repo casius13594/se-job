@@ -74,7 +74,7 @@ function JobDetailPage({
           scrollbar-width: none; /* Firefox */
         }
       `}</style>
-      <div className="flex flex-row w-full justify-between">
+      <div className="flex flex-row w-full justify-between px-[1vw]">
         <div className="flex flex-col w-[45vw] h-full space-y-[2vh]">
           <div className="flex flex-row w-full border-2 border-black rounded-3xl bg-[#13544E26]">
             <div className="flex flex-row w-full">
