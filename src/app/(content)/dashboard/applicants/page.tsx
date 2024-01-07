@@ -20,7 +20,7 @@ const ApplicantPage = () => {
 
   useEffect(() => {
     console.log(localStorage.getItem("current_user_id"));
-    getApplied(id)
+    getApplied(id || "null")
       .then((applicants) => {
         setApplicants(applicants || []);
       })
@@ -38,7 +38,7 @@ const ApplicantPage = () => {
 
   const acceptApplicant = async (applicantId: string) => {
     try {
-      await employerUpdateApplied(id, applicantId, "Accepted");
+      await employerUpdateApplied(id || "null", applicantId, "Accepted");
       setApplicants(
         applicants.map((applicant) =>
           applicant.employee_id === applicantId
@@ -55,7 +55,7 @@ const ApplicantPage = () => {
 
   const declineApplicant = async (applicantId: string) => {
     try {
-      await employerUpdateApplied(id, applicantId, "Declined");
+      await employerUpdateApplied(id || "null", applicantId, "Declined");
       setApplicants(
         applicants.map((applicant) =>
           applicant.employee_id === applicantId
@@ -84,7 +84,7 @@ const ApplicantPage = () => {
         <div>{status === "open" ? "Visible" : "Hidden"}</div>
         <div className="col-span-2 flex justify-center">
           <button
-            onClick={() => changeJobStatus(id)}
+            onClick={() => changeJobStatus(id || "null")}
             className="bg-black text-white px-3 py-1 rounded-3xl"
           >
             {status === "open" ? "Hide Job" : "Show Job"}

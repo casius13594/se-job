@@ -15,7 +15,7 @@ import NotificationDropdown from "./Appbar_components/dropdown_noti";
 import Badge from "@mui/icons-material/Badge";
 import { InfoNoti } from "./Card_Cotification/cardnoti";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { channel } from "diagnostics_channel";
+
 
 const AppBar = () => {
   const [profileImg, setProfileImg] = useState("");
@@ -106,7 +106,7 @@ const AppBar = () => {
   const links = [
     // put property in here.
     { key: "home", href: "/joblist", icon: <IoMdHome />, name: "" },
-    { key: "document", href: "/auth/login", icon: <IoMdDocument />, name: "" },
+    { key: "document", href: "/jobapplied", icon: <IoMdDocument />, name: "" },
     {
       key: "notifications",
       href: "#",
@@ -153,8 +153,8 @@ const AppBar = () => {
     }
   };
   return (
-    <header className="w-full z-10">
-      <nav className="max-w-[1440p] mx-auto flex justify-between items-center px-6 py-2">
+    <header className="w-full z-10 bg-white">
+      <nav className="w-full mx-auto flex justify-between items-center px-6 py-2">
         <Link href="/" className="flex justify-center items-center">
           <Image
             src="/logo.svg"

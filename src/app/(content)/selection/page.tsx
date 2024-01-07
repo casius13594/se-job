@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
-import styles from '../Selection/monitor.module.css'
+import styles from '../selection/monitor.module.css'
 import { headerFont, dela_gothic_one, dm_sans } from "@/components/fonts"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 

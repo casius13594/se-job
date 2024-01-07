@@ -193,6 +193,7 @@ export default function PostJob() {
                 </option>
                 <option value="Full-time">Full-time</option>
                 <option value="Part-time">Part-time</option>
+                <option value="Intern">Intern</option>
               </select>
             </div>
 

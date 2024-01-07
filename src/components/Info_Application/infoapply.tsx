@@ -15,33 +15,37 @@ export function ApplicationView({
   const [cvName, setCvName] = useState<string>("");
   const supabase = createClientComponentClient();
   const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   async function getInfoApply() {
-    const info_apply = await get_info_application(job_id as UUID);
-    const cvPath = info_apply.cv_path.split("/");
-    const file_pdf = await supabase.storage
-      .from("cv")
-      .download(cvPath[cvPath.length - 2] + "/" + cvPath[cvPath.length - 1]);
-    if (file_pdf.error) {
-      console.log("get file cv error", file_pdf.error);
+    try {
+      const info_apply = await get_info_application(job_id as UUID);
+      const cvPath = info_apply.cv_path.split("/");
+      const file_pdf = await supabase.storage
+        .from("cv")
+        .download(cvPath[cvPath.length - 2] + "/" + cvPath[cvPath.length - 1]);
+
+      if (file_pdf.error) {
+        console.error("Error fetching CV file", file_pdf.error);
+      } else {
+        setCvName(cvPath[cvPath.length - 1]);
+        if (file_pdf.data) {
+          const blob = new Blob([file_pdf.data], { type: "application/pdf" });
+          const url = URL.createObjectURL(blob);
+          setFileUrl(url);
+        }
+      }
+
+      setInfo(info_apply);
+    } catch (error) {
+      console.error("Error fetching application info", error);
+    } finally {
+      setLoading(false);
     }
-
-    setCvName(cvPath[cvPath.length - 1]);
-
-    if (file_pdf.data) {
-      const blob = new Blob([file_pdf.data], { type: "application/pdf" });
-
-      // Convert the Blob to a data URL
-      const url = URL.createObjectURL(blob);
-
-      setFileUrl(url);
-    }
-
-    setInfo(info_apply);
   }
 
   useEffect(() => {
     getInfoApply();
-  }, []);
+  }, [job_id]);
 
   return (
     <div

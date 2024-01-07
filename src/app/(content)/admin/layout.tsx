@@ -7,6 +7,7 @@ import { getUser } from "@/components/controller"; // Import the function to fet
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [userType, setUserType] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserType = async () => {
@@ -20,17 +21,25 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
+      } finally {
+        // Set loading to false regardless of success or failure
+        setLoading(false);
       }
     };
 
     fetchUserType();
   }, []);
-  console.log(userType);
+  if (loading) {
+    return (
+      <p className="flex flex-column justify-center items-center h-[100vh] text-3xl font-bold">
+        Loading...
+      </p>
+    );
+  }
   return (
     <>
       {userType === "admin" ? (
         <div className={styles.main}>
-          <AppBar />
           <div className={styles.container}>
             <div className={styles.menu}>
               <Sidebar />

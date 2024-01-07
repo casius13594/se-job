@@ -119,16 +119,13 @@ export default function CredentialsForm() {
       }
       localStorage.setItem("current_user_id", res.data.user.id);
     } else {
-      if(await getUserBanStatus(email))
-      {
+      if (await getUserBanStatus(email)) {
         setError("You have been banned from the system.");
-      }
-      else {
+      } else {
         console.log("user: ", res.data.user);
         console.error(res.error);
         setError(res.error?.message || null);
       }
-      
     }
   };
 
@@ -347,7 +344,7 @@ export default function CredentialsForm() {
             type="submit"
             className="w-full h-12 px-6 text-base font-dmsans text-white bg-[#13544E] rounded-lg focus:shadow-outline"
           >
-            Log in
+            Login
           </button>
           <div className="h-px bg-black w-full my-7" />
           <div className="relative mb-5">

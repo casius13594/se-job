@@ -21,7 +21,7 @@ interface ProfilepageProps {
 const solutions = [
   {
     name: "Post Job",
-    description: "Measure actions your users take",
+    description: "Find talents",
     href: "/postjob",
     icon: IconOne,
   },
@@ -55,7 +55,6 @@ const Profilepage: React.FC<ProfilepageProps> = ({
 
   return (
     <>
-      <AppBar />
       <div id="parent" className="profilepage z-0">
         <div className="flex w-full">
           <div className="w-2/3">
@@ -92,10 +91,10 @@ const Profilepage: React.FC<ProfilepageProps> = ({
             </div>
           </div>
 
-          <div className="ml-11 z-0">
+          <div className="ml-11 z-0 mx-auto">
             <div className="font-sans font-bold">Utilities</div>
             <div>
-              <button className=" w-full origin-top-right rounded-md bg-stone-300 focus:outline-none hover:bg-green hover:text-gray-50 flex">
+              <button className="h-32 w-200 origin-top-right rounded-md bg-stone-300 focus:outline-none hover:bg-green hover:text-gray-50 flex">
                 <div className="relative grid gap-8 bg-white p-7">
                   {solutions.map((item) => (
                     <a
