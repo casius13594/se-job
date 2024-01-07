@@ -213,8 +213,13 @@ function JobListClient({
             }}
           >
             <div>
-              <label htmlFor="location">Location</label>
-              <select name="location" className="rounded bg-[#d9d9d9] w-full">
+              <label htmlFor="location" className="font-bold">
+                Location
+              </label>
+              <select
+                name="location"
+                className="rounded-lg px-1 py-2 bg-[#d9d9d9] w-full"
+              >
                 <option value="All">All</option>
                 {locations.map((location) => (
                   <option value={location.location}>{location.location}</option>
@@ -222,10 +227,12 @@ function JobListClient({
               </select>
             </div>
             <div>
-              <label htmlFor="experience">Experience</label>
+              <label htmlFor="experience" className="font-bold">
+                Experience
+              </label>
               <select
                 name="experience"
-                className="rounded-lg bg-[#d9d9d9] w-full"
+                className="rounded-lg px-1 py-2 bg-[#d9d9d9] w-full"
               >
                 <option value="%">All</option>
                 <option value="none">None</option>
@@ -235,8 +242,13 @@ function JobListClient({
               </select>
             </div>
             <div>
-              <label htmlFor="type">Type</label>
-              <select name="type" className="rounded-lg bg-[#d9d9d9] w-full">
+              <label htmlFor="type" className="font-bold">
+                Type
+              </label>
+              <select
+                name="type"
+                className="rounded-lg px-1 py-2 bg-[#d9d9d9] w-full"
+              >
                 <option value="%">All</option>
                 <option value="Full-time">Fulltime</option>
                 <option value="Part-time">Parttime</option>
@@ -244,17 +256,25 @@ function JobListClient({
               </select>
             </div>
             <div>
-              <label htmlFor="salary" className="w-full">
+              <label htmlFor="salary" className="font-bold">
                 Salary
               </label>
-              <select name="salary" className="rounded-lg bg-[#d9d9d9] w-full">
+              <select
+                name="salary"
+                className="rounded-lg px-1 py-2 bg-[#d9d9d9] w-full"
+              >
                 <option value="%">All</option>
                 <option value="1-10">1 - 10 million VND</option>
                 <option value="10-20">10 - 20 million VND</option>
                 <option value="More than 20">More than 20 million VND</option>
               </select>
             </div>
-            <button>Apply</button>
+            <div className="flex w-full justify-center items-center">
+              <button className="w-fit px-[2vw] py-2 rounded-3xl bg-[#1c7e748e] hover:bg-[#1c7e74cc] active:bg-[#1c7e74ea] text-white">
+                Apply
+              </button>
+            </div>
+
             <div className="rounded-lg bg-[#d9d9d9] w-full h-[12vw]">
               <div className="flex flex-row w-full pt-[1vw]">
                 <h1 className="text-center text-xl w-full">Banner</h1>
@@ -390,28 +410,6 @@ function JobListClient({
                   />
                 </svg>
                 <h1 className="text-center text-xl">Saved Jobs</h1>
-              </div>
-            </div>
-          </div>
-          <div className="fixed right-0 bottom-0 mx-[1vw] w-[25vw]">
-            <div className="flex flex-col rounded-t-2xl bg-[#d9d9d9] w-full content-center h-[10vh]">
-              <div className="flex flex-row content-center justisfy-center h-full p-[1vw] space-x-[2vw]">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="48"
-                  height="48"
-                  viewBox="0 0 48 48"
-                  fill="none"
-                >
-                  <circle
-                    cx="24"
-                    cy="24"
-                    r="23.5"
-                    fill="white"
-                    stroke="black"
-                  />
-                </svg>
-                <h1 className="text-center text-xl h-fit">Messaging</h1>
               </div>
             </div>
           </div>
