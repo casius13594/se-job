@@ -12,7 +12,7 @@ import { ApplicationView } from "@/components/Info_Application/infoapply";
 import { useRouter } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-export default function page() {
+export default function Page() {
   const [data, setData] = useState<Jobapplied[]>([]);
   const [isClick, setIsClick] = useState<number>(1);
   const [isuser, setIsuser] = useState<boolean>(true);

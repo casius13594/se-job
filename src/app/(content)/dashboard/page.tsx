@@ -23,7 +23,7 @@ interface Job {
 
 
 
-const page = () => {
+const Page = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [applicants, setApplicants] = useState<any[][]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // New loading state
