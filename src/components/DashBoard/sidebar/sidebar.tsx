@@ -31,7 +31,12 @@ const menuItems = [
         icon: <MdShoppingBag />,
       },
       {
-        title: "Usertest",
+        title: "Dashboard",
+        path: "/admin",
+        icon: <BiSolidDashboard />,
+      },
+      {
+        title: "Users",
         path: "/admin/usertest",
         icon: <MdSupervisedUserCircle />,
       },
@@ -80,7 +85,7 @@ const Sidebar = () => {
 
   // Define menu items based on whether it's an admin path
   const filteredMenuItems = isAdminPath
-    ? menuItems[0].list.slice(2) // show last two items
+    ? menuItems[0].list.slice(3) // show last two items
     : menuItems[0].list.slice(0, 3); // show first two items
 
   return (
