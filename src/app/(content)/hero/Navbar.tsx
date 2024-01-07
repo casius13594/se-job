@@ -16,7 +16,7 @@ const Navbar = () => {
   }
 
   return (
-    <header className="w-full absolute z-7">
+    <header className="w-full absolute z-7 bg-white">
       <nav className="max-w-[1440p] mx-auto flex justify-between items-center sm:px-16 px-6 py-4">
         <Link href="/" className="flex justify-center items-center">
           <Image

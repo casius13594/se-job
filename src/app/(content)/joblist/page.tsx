@@ -315,87 +315,89 @@ function JobListClient({
               </select>
             </div>
           </div>
-          <div className="flex flex-col w-full h-full space-y-[2vw] overflow-y-scroll no-scrollbar mt-2">
-            <div className="flex flex-col h-full w-full">
-              <ul className="flex flex-col h-full w-full space-y-[2vh]">
-                {filteredJobs.map((job) => (
-                  <li className="flex flex-row w-full border-2 border-black rounded-md hover:bg-grey">
-                    <div
-                      className="flex flex-row w-full"
-                      onClick={() => {
-                        const job_id = job.job_id as string;
-                        localStorage.setItem("job_id", job_id);
-                        window.location.href = "/jobdetail";
-                      }}
-                    >
-                      <div className="flex m-[1vw]">
-                        <img
-                          className="w-[10vw] h-[10vw]"
-                          src={job.employer_logo || "logo.svg"}
-                          alt=""
-                        />
-                      </div>
-                      <div className="flex flex-col justify-between w-full p-[1vw]">
-                        <div className="flex flex-row justify-between w-full">
-                          <h1 className="text-xl font-bold">{job.name}</h1>
-                          <div className="flex flex-row space-x-[1vw] space-y-[0.5vh]">
-                            <h1 className="text-xl font-bold">
-                              {job.salary} Millions
+          <div className="flex flex-col w-full h-[82vh] space-y-[2vw] overflow-y-scroll no-scrollbar mt-2 border border-black rounded-lg">
+            <div className="m-5 overflow-auto">
+              <div className="flex flex-col h-full w-full">
+                <ul className="flex flex-col h-full w-full space-y-[2vh]">
+                  {filteredJobs.map((job) => (
+                    <li className="flex flex-row w-full border-2 border-black rounded-md hover:bg-grey">
+                      <div
+                        className="flex flex-row w-full"
+                        onClick={() => {
+                          const job_id = job.job_id as string;
+                          localStorage.setItem("job_id", job_id);
+                          window.location.href = "/jobdetail";
+                        }}
+                      >
+                        <div className="flex m-[1vw]">
+                          <img
+                            className="w-32 h-28 rounded-full"
+                            src={job.employer_logo || "logo.svg"}
+                            alt=""
+                          />
+                        </div>
+                        <div className="flex flex-col justify-between w-full p-[1vw]">
+                          <div className="flex flex-row justify-between w-full">
+                            <h1 className="text-xl font-bold">{job.name}</h1>
+                            <div className="flex flex-row space-x-[1vw] space-y-[0.5vh]">
+                              <h1 className="text-xl font-bold">
+                                {job.salary} Millions
+                              </h1>
+                            </div>
+                          </div>
+                          <div className="flex flex-row w-full">
+                            <h1 className="text-base">{job.employer_name}</h1>
+                          </div>
+                          <div className="flex flex-row w-full max-w-full">
+                            <p className="text-base">
+                              {job.location} ({job.type})
+                            </p>
+                          </div>
+                          <div className="flex flex-row w-full">
+                            <h1 className="text-md">
+                              {formatDateToDDMMYYYY(new Date(job.post_time))}
                             </h1>
                           </div>
                         </div>
-                        <div className="flex flex-row w-full">
-                          <h1 className="text-base">{job.employer_name}</h1>
-                        </div>
-                        <div className="flex flex-row w-full max-w-full">
-                          <p className="text-base">
-                            {job.location} ({job.type})
-                          </p>
-                        </div>
-                        <div className="flex flex-row w-full">
-                          <h1 className="text-md">
-                            {formatDateToDDMMYYYY(new Date(job.post_time))}
-                          </h1>
-                        </div>
                       </div>
-                    </div>
-                    <svg
-                      className="flex m-[1vw]"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="22"
-                      viewBox="0 0 16 22"
-                      fill={
-                        savedJobs
-                          .map((savedJob) => savedJob.Job.job_id)
-                          .includes(job.job_id)
-                          ? "green"
-                          : "none"
-                      }
-                      onClick={() => {
-                        if (
+                      <svg
+                        className="flex m-[1vw]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="22"
+                        viewBox="0 0 16 22"
+                        fill={
                           savedJobs
                             .map((savedJob) => savedJob.Job.job_id)
                             .includes(job.job_id)
-                        ) {
-                          unsaveJob(job.job_id);
-                        } else {
-                          saveJob(job.job_id).then((res) => {
-                            res == false ? setLoginRequired(true) : null;
-                          });
+                            ? "green"
+                            : "none"
                         }
-                        setReset();
-                      }}
-                    >
-                      <path
-                        d="M1 7.90976C1 4.65247 1 3.02382 1.76884 2.01191C2.53769 1 3.77513 1 6.25 1H9.75C12.2249 1 13.4623 1 14.2312 2.01191C15 3.02382 15 4.65247 15 7.90976V15.7726C15 18.8627 15 20.4078 14.2612 20.8804C13.5225 21.353 12.5994 20.3984 10.7532 18.4892L10.1624 17.8782C9.1243 16.8048 8.60526 16.268 8 16.268C7.39474 16.268 6.8757 16.8048 5.83762 17.8782L5.24678 18.4892C3.4006 20.3984 2.47751 21.353 1.73876 20.8804C1 20.4078 1 18.8627 1 15.7726V7.90976Z"
-                        stroke="#33363F"
-                        stroke-width="2"
-                      />
-                    </svg>
-                  </li>
-                ))}
-              </ul>
+                        onClick={() => {
+                          if (
+                            savedJobs
+                              .map((savedJob) => savedJob.Job.job_id)
+                              .includes(job.job_id)
+                          ) {
+                            unsaveJob(job.job_id);
+                          } else {
+                            saveJob(job.job_id).then((res) => {
+                              res == false ? setLoginRequired(true) : null;
+                            });
+                          }
+                          setReset();
+                        }}
+                      >
+                        <path
+                          d="M1 7.90976C1 4.65247 1 3.02382 1.76884 2.01191C2.53769 1 3.77513 1 6.25 1H9.75C12.2249 1 13.4623 1 14.2312 2.01191C15 3.02382 15 4.65247 15 7.90976V15.7726C15 18.8627 15 20.4078 14.2612 20.8804C13.5225 21.353 12.5994 20.3984 10.7532 18.4892L10.1624 17.8782C9.1243 16.8048 8.60526 16.268 8 16.268C7.39474 16.268 6.8757 16.8048 5.83762 17.8782L5.24678 18.4892C3.4006 20.3984 2.47751 21.353 1.73876 20.8804C1 20.4078 1 18.8627 1 15.7726V7.90976Z"
+                          stroke="#33363F"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
