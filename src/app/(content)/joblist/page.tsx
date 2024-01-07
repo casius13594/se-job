@@ -318,7 +318,7 @@ function JobListClient({
                     >
                       <div className="flex m-[1vw]">
                         <img
-                          className="w-[10vw] h-[10vw]"
+                          className="w-32 h-28 rounded-full"
                           src={job.employer_logo || "logo.svg"}
                           alt=""
                         />

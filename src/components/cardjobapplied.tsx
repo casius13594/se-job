@@ -43,9 +43,9 @@ const CardApplied: React.FC<
 
   return (
     <div className="flex flex-row border-2 border-black w-full max-h-80 py-2 mt-1 rounded-md mb-10">
-      <div className="flex w-1/5 mx-[0.01vw] rounded-full overflow-hidden items-center justify-center">
+      <div className="flex w-1/5 mx-1 rounded-full overflow-hidden items-center justify-center">
         <img
-          className="w-3/5 rounded-full object-contain no-drag"
+          className="w-32 h-28 rounded-full"
           src={employer_logo ? employer_logo : "/logo.svg"}
           alt=""
         />

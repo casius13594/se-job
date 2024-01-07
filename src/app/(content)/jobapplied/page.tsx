@@ -162,7 +162,7 @@ export default function Page() {
                   className={`${
                     isClick === bt.id ? "border-b-black border-b-2" : ""
                   }
-                                flex flex-row items-center text-left w-full my-2 py-2`}
+                  flex flex-row items-center text-left w-full my-2 py-2`}
                 >
                   <div className="circle-button m-2">
                     {bt.icon} {/* Use the icon React component here */}
