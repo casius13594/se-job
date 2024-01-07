@@ -391,21 +391,27 @@ function JobListClient({
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="fixed right-0 bottom-0 min-w-min">
-        <div className="flex flex-col rounded-t-2xl bg-[#d9d9d9] w-full content-center h-[10vh]">
-          <div className="flex flex-row content-center justisfy-center h-full p-[1vw] space-x-[2vw]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="48"
-              height="48"
-              viewBox="0 0 48 48"
-              fill="none"
-            >
-              <circle cx="24" cy="24" r="23.5" fill="white" stroke="black" />
-            </svg>
-            <h1 className="text-center text-xl h-fit">Messaging</h1>
+          <div className="fixed right-0 bottom-0 mx-[1vw] w-[25vw]">
+            <div className="flex flex-col rounded-t-2xl bg-[#d9d9d9] w-full content-center h-[10vh]">
+              <div className="flex flex-row content-center justisfy-center h-full p-[1vw] space-x-[2vw]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="48"
+                  height="48"
+                  viewBox="0 0 48 48"
+                  fill="none"
+                >
+                  <circle
+                    cx="24"
+                    cy="24"
+                    r="23.5"
+                    fill="white"
+                    stroke="black"
+                  />
+                </svg>
+                <h1 className="text-center text-xl h-fit">Messaging</h1>
+              </div>
+            </div>
           </div>
         </div>
       </div>
