@@ -16,8 +16,9 @@ const Hero = () => {
   const [isOverlayVisible, setOverlayVisibility] = React.useState(false);
   const [filteredCities, setFilteredCities] = React.useState<string[]>([]);
   const [filteredSalaries, setFilteredSalaries] = React.useState<string[]>([]);
-  const initialCities = ["Da Nang", "Ha Noi", "Ho Chi Minh"];
+  const initialCities = ["All", "Da Nang", "Ha Noi", "Ho Chi Minh"];
   const initialSalaries = [
+    "All",
     "1 - 10 million VND",
     "10 - 20 million VND",
     "More than 20 million VND",
@@ -179,8 +180,8 @@ const Hero = () => {
               href={{
                 pathname: "./joblist",
                 query: {
-                  city: selectedCity,
-                  salary: selectedSalary,
+                  city: selectedCity ? selectedCity : "All",
+                  salary: selectedSalary ? selectedSalary : "%",
                 },
               }}
             >

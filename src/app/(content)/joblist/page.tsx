@@ -3,22 +3,44 @@
 import AppBar from "@/components/appbar";
 import React, { use, useEffect } from "react";
 import { dm_sans } from "@/components/fonts";
-import { getJob, getSavedJob, saveJob, unsaveJob, getLocation } from "@/components/controller";
+import {
+  getJob,
+  getSavedJob,
+  saveJob,
+  unsaveJob,
+  getLocation,
+} from "@/components/controller";
 import { requireLogin } from "@/components/popupModal";
 import Areaselector from "@/components/Areaselector";
 import { ICity, ICountry, IState } from "country-state-city";
 import { Country } from "country-state-city";
 import Modal from "react-modal";
+import { useSearchParams } from "next/navigation";
 
 export default function JobList() {
   const defaultFormData = new FormData();
-  defaultFormData.append("location", "All");
+  const searchParams = useSearchParams();
+  let cityParams = searchParams.get("city");
+  let salaryParams = searchParams.get("salary");
+  if (salaryParams === "1 - 10 million VND") {
+    salaryParams = "1-10";
+  } else if (salaryParams === "10 - 20 million VND") {
+    salaryParams = "10-20";
+  } else if (salaryParams === "More than 20 million VND") {
+    salaryParams = "More than 20";
+  } else {
+    salaryParams = "%";
+  }
+
+  defaultFormData.append("location", cityParams ? cityParams : "All");
   defaultFormData.append("experience", "%");
   defaultFormData.append("type", "%");
-  defaultFormData.append("salary", "%");
+  defaultFormData.append("salary", salaryParams);
 
   const [keywords, setKeywords] = React.useState(
-    typeof window !== 'undefined' ? localStorage.getItem("search_joblist") : null
+    typeof window !== "undefined"
+      ? localStorage.getItem("search_joblist")
+      : null
   );
 
   useEffect(() => {
@@ -59,7 +81,6 @@ export default function JobList() {
     savedJobList.then((jobs) => {
       setSavedJobs(jobs || []);
     });
-
 
     const locationList = getLocation();
     locationList.then((locations) => {
@@ -300,15 +321,24 @@ function JobListClient({
                     width="16"
                     height="22"
                     viewBox="0 0 16 22"
-                    fill={savedJobs.map(savedJob => savedJob.Job.job_id).includes(job.job_id)? "green": "none"}
+                    fill={
+                      savedJobs
+                        .map((savedJob) => savedJob.Job.job_id)
+                        .includes(job.job_id)
+                        ? "green"
+                        : "none"
+                    }
                     onClick={() => {
-                      if (savedJobs.map(savedJob => savedJob.Job.job_id).includes(job.job_id)) {
+                      if (
+                        savedJobs
+                          .map((savedJob) => savedJob.Job.job_id)
+                          .includes(job.job_id)
+                      ) {
                         unsaveJob(job.job_id);
-                      }
-                      else {
+                      } else {
                         saveJob(job.job_id).then((res) => {
-                          res == false ? setLoginRequired(true): null;  
-                        })
+                          res == false ? setLoginRequired(true) : null;
+                        });
                       }
                       setReset();
                     }}
