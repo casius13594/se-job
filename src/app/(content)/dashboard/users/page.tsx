@@ -33,7 +33,7 @@ function QuickSearchToolbar() {
         paddingBottom: 0,
       }}
     >
-      <GridToolbarQuickFilter className="bg-[#b1f2b9] rounded-md" />
+      <GridToolbarQuickFilter className="  rounded-md" />
     </Box>
   );
 }
