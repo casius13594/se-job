@@ -1,7 +1,7 @@
 .main {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 120vh;
 }
 .font_size_text{
     font-size: 16px;
