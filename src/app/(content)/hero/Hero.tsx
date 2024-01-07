@@ -13,6 +13,7 @@ const Hero = () => {
   const [dialogWidth, setDialogWidth] = React.useState(0);
   const [selectedCity, setSelectedCity] = React.useState("");
   const [selectedSalary, setSelectedSalary] = React.useState("");
+  const [keyword, setKeyword] = React.useState("");
   const [isOverlayVisible, setOverlayVisibility] = React.useState(false);
   const [filteredCities, setFilteredCities] = React.useState<string[]>([]);
   const [filteredSalaries, setFilteredSalaries] = React.useState<string[]>([]);
@@ -25,6 +26,11 @@ const Hero = () => {
   ];
 
   const handleScroll = () => {};
+
+  const handleInputChange = (e: { target: { value: any } }) => {
+    const inputValue = e.target.value;
+    setKeyword(inputValue);
+  };
 
   const handleCityClick = () => {
     setCityDialogVisibility(true);
@@ -49,7 +55,7 @@ const Hero = () => {
     setOverlayVisibility(false); // Hide overlay on city select
   };
 
-  const handleInputChange = (e: { target: { value: any } }) => {
+  const handleCityInputChange = (e: { target: { value: any } }) => {
     const inputValue = e.target.value;
 
     // Filter the cities based on the input value
@@ -119,6 +125,8 @@ const Hero = () => {
                 className="search__keyword bg-gray-300 focus:outline-none"
                 placeholder="Keyword"
                 type="text"
+                value={keyword}
+                onChange={handleInputChange}
               />
             </div>
 
@@ -131,7 +139,7 @@ const Hero = () => {
                   type="text"
                   value={selectedCity}
                   onClick={handleCityClick}
-                  onChange={handleInputChange}
+                  onChange={handleCityInputChange}
                 />
                 {isCityDialogVisible && (
                   <div
@@ -180,6 +188,7 @@ const Hero = () => {
               href={{
                 pathname: "./joblist",
                 query: {
+                  keyword: keyword ? keyword : "",
                   city: selectedCity ? selectedCity : "All",
                   salary: selectedSalary ? selectedSalary : "%",
                 },

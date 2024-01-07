@@ -20,6 +20,7 @@ import { useSearchParams } from "next/navigation";
 export default function JobList() {
   const defaultFormData = new FormData();
   const searchParams = useSearchParams();
+  let keyword = searchParams.get("keyword");
   let cityParams = searchParams.get("city");
   let salaryParams = searchParams.get("salary");
   if (salaryParams === "1 - 10 million VND") {
@@ -38,9 +39,10 @@ export default function JobList() {
   defaultFormData.append("salary", salaryParams);
 
   const [keywords, setKeywords] = React.useState(
-    typeof window !== "undefined"
-      ? localStorage.getItem("search_joblist")
-      : null
+    keyword ||
+      (typeof window !== "undefined"
+        ? localStorage.getItem("search_joblist")
+        : null)
   );
 
   useEffect(() => {
