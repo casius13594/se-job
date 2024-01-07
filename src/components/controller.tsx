@@ -219,7 +219,7 @@ export async function getEmployeeOfCompany() {
       if (queries.error) {
         return [];
       }
-      let ind = -1;
+      let ind = 0;
       const results: employeeCompany[] = queries.data.map(
         (item: employeeCompany) => ({
           id: ++ind,

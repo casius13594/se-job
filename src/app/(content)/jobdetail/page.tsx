@@ -29,10 +29,9 @@ export default function JobDetail() {
       setRelatedJobs(jobs);
     });
   }, []);
-  if (!job) return <AppBar/>;
+  if (!job) return;
   return (
     <>
-      <AppBar />
       <main
         className={`flex flex-col w-[100vw] h-[100vh] ${dm_sans.className} pt-[2vh]`}
       >

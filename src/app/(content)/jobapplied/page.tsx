@@ -105,7 +105,6 @@ export default function page() {
   if (!isuser) {
     return (
       <>
-        <AppBar />
         <main
           className={`flex flex-col h-full w-full items-center justify-center p-[8vh]`}
         >
@@ -151,7 +150,6 @@ export default function page() {
             padding: 0;
           }
         `}</style>
-        <AppBar />
         <main className={`flex flex-col h-[100vh]`}>
           {isLoading}
           <div className="flex flex-row h-[90vh]">
