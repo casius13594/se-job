@@ -1,5 +1,5 @@
-import { Hero } from "./(content)/hero";
-import { Categories } from "./(content)/hero";
+import { Hero } from "./(content)/Hero";
+import { Categories } from "./(content)/Hero";
 
 export default function Home() {
   return (

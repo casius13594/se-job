@@ -1,5 +1,5 @@
 "use client";
-import { Navbar } from "@/app/(content)/hero";
+import { Navbar } from "@/app/(content)/Hero";
 import Appbar from "@/components/appbar";
 import "./globals.css";
 import { usePathname } from "next/navigation";
