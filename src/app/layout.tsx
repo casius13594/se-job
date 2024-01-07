@@ -20,10 +20,14 @@ export default function RootLayout({
     <html lang="en">
       <body className="relative">
         {currentPath === "/" ? (
-          <Navbar />
+          <div className="sticky top-0 z-50">
+            <Navbar />
+          </div>
         ) : pathsToHideAppbar.includes(currentPath) ||
           currentPath.startsWith("/auth") ? null : (
-          <Appbar />
+          <div className="sticky top-0 z-50">
+            <Appbar />
+          </div>
         )}
         {children}
       </body>

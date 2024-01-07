@@ -153,8 +153,8 @@ const AppBar = () => {
     }
   };
   return (
-    <header className="w-full z-10">
-      <nav className="max-w-[1440p] mx-auto flex justify-between items-center px-6 py-2">
+    <header className="w-full z-10 bg-white">
+      <nav className="w-full mx-auto flex justify-between items-center px-6 py-2">
         <Link href="/" className="flex justify-center items-center">
           <Image
             src="/logo.svg"
