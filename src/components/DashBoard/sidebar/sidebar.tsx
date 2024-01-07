@@ -90,8 +90,8 @@ const Sidebar = () => {
           className={styles.userImage}
           src={profileImg || defaultLogo}
           alt=""
-          width="100"
-          height="100"
+          width="200"
+          height="200"
         />
         <div className={styles.userDetail}>
           <span className={styles.username}>{profileName}</span>

@@ -10,8 +10,7 @@
 }
 .container{
     position: sticky;
-    top: 40px;
-    
+    top: 40px; 
   }
 
 .user{
@@ -28,6 +27,8 @@
     object-fit: fill;
     width: 60px;
     height: 60px;
+    border-color: black;
+    border-style: solid;
   }
   
   .userDetail{
