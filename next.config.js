@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    serverActions: true,
+    serverActions: {
+      allowedOrigins: ['localhost:3000', 'zd3fr300-3000.asse.devtunnels.ms'],
+    }
   },
   images: {
     domains: ['qwiogkombegzgtlyaqsm.supabase.co'],
