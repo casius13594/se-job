@@ -159,7 +159,19 @@ function JobListClient({
 
   const calculateAverageSalary = (salaryRange: any) => {
     // Assuming the salary range is in the format "min-max"
-    const [min, max] = salaryRange.split("-").map(Number);
+    let [min, max] = [0, 0];
+    if (salaryRange.includes("More")) {
+      min = Number(salaryRange.split("More than ")[1]);
+      max = 40;
+    } else {
+      [min, max] = salaryRange
+        .split("-")
+        .map((value: string) =>
+          value.toLowerCase() === "more than"
+            ? Number.POSITIVE_INFINITY
+            : parseInt(value)
+        );
+    }
     return (min + max) / 2;
   };
 
