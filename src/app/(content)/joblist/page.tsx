@@ -286,12 +286,6 @@ function JobListClient({
                 Apply
               </button>
             </div>
-
-            <div className="rounded-lg bg-[#d9d9d9] w-full h-[12vw]">
-              <div className="flex flex-row w-full pt-[1vw]">
-                <h1 className="text-center text-xl w-full">Banner</h1>
-              </div>
-            </div>
           </form>
         </div>
         <div className="flex flex-col h-full w-[55vw]">
@@ -405,8 +399,19 @@ function JobListClient({
               <div className="flex flex-row w-full m-[1vw] text-center text-xl">
                 Other features
               </div>
+              <p className="flex flex-row w-full m-[1vw] text-center text-md">
+                Coming soon
+              </p>
             </div>
-            <div className="rounded-lg bg-[#d9d9d9] w-full h-[20vh]">
+            <div className="rounded-lg bg-[#d9d9d9] w-full h-[12vw]">
+              <div className="flex flex-row w-full pt-[1vw]">
+                <h1 className="text-center text-xl w-full">Banner</h1>
+              </div>
+              <p className="flex flex-row w-full text-center text-md">
+                Advertisement please contact 0123456789 
+              </p> 
+            </div>
+            {/* <div className="rounded-lg bg-[#d9d9d9] w-full h-[20vh]">
               <div className="flex flex-row w-full m-[1vw] space-x-[2vw]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -423,7 +428,7 @@ function JobListClient({
                 </svg>
                 <h1 className="text-center text-xl">Saved Jobs</h1>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
