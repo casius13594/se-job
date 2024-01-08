@@ -96,7 +96,7 @@ function JobDetailPage({
               <div className="flex m-[1vw]">
                 <img
                   className="w-[10vw] h-[10vw]"
-                  src={job.employer_logo}
+                  src={job.employer_logo || "/logo.svg"}
                   alt=""
                 />
               </div>
@@ -143,7 +143,7 @@ function JobDetailPage({
                       <div className="flex m-[1vw]">
                         <img
                           className="w-[10vw] h-[10vw]"
-                          src={job.employer_logo}
+                          src={job.employer_logo || "/logo.svg"}
                           alt=""
                         />
                       </div>
@@ -351,7 +351,7 @@ function JobDetailPage({
               <div className="flex m-[1vw]">
                 <img
                   className="placeholder-image"
-                  src={job.employer_logo}
+                  src={job.employer_logo || "/logo.svg"}
                   alt=""
                 />
               </div>
