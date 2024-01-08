@@ -350,7 +350,7 @@ function JobDetailPage({
             <div className="flex flex-row w-full py-[1vh] rounded hover:bg-[#CCCCCC] ">
               <div className="flex m-[1vw]">
                 <img
-                  className="w-[10vw] h-[10vw]"
+                  className="placeholder-image"
                   src={job.employer_logo}
                   alt=""
                 />
