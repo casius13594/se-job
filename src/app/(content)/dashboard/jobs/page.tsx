@@ -4,6 +4,7 @@ import Image from "next/image";
 import {
   getApplied,
   getJobOfEmployer,
+  getPending,
   toggleJobStatus,
 } from "@/components/controller";
 import Link from "next/link";
@@ -33,7 +34,7 @@ const JobPage = () => {
       .then((jobs) => {
         if (jobs !== null) {
           setJobs(jobs);
-          Promise.all(jobs.map((job) => getApplied(job.job_id)))
+          Promise.all(jobs.map((job) => getPending(job.job_id)))
             .then((applicantsPerJob) => {
               const filteredApplicants = applicantsPerJob.filter(
                 (applicant) => applicant !== null

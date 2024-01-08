@@ -2,11 +2,14 @@
 import {
   employerUpdateApplied,
   getPending,
+  get_info_application,
   insert_noti,
   toggleJobStatus,
 } from "@/components/controller";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { UUID } from "crypto";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const ApplicantPage = () => {
   const searchParams = useSearchParams();
@@ -60,6 +63,31 @@ const ApplicantPage = () => {
     }
   };
 
+  const supabase = createClientComponentClient();
+  const viewCV = async (applicantId: string) => {
+    const applicant = applicants.find(
+      (applicant) => applicant.employee_id === applicantId
+    );
+    if (applicant) {
+      const cvPath = applicant.cv_path.split("/");
+      const file_pdf = await supabase.storage
+        .from("cv")
+        .download(cvPath[cvPath.length - 2] + "/" + cvPath[cvPath.length - 1]);
+
+      if (file_pdf.error) {
+        console.error("Error fetching CV file", file_pdf.error);
+      } else {
+        if (file_pdf.data) {
+          const blob = new Blob([file_pdf.data], { type: "application/pdf" });
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank')
+        }
+      }
+    } else {
+      console.error("Applicant not found");
+    }
+  };
+
   return (
     <div className="flex flex-col">
       <div className="grid grid-cols-6 gap-4 text-center mb-5">
@@ -98,7 +126,10 @@ const ApplicantPage = () => {
             {/* <div className="text-sm">{applicant.status}</div> */}
             <div className="col-span-2 flex justify-center">
               <div className="flex justify-between w-5/6">
-                <button className="bg-black text-white px-3 py-1 rounded-3xl text-sm">
+                <button
+                  onClick={() => viewCV(applicant.employee_id)}
+                  className="bg-black text-white px-3 py-1 rounded-3xl text-sm"
+                >
                   View CV
                 </button>
                 <button
