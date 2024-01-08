@@ -290,7 +290,7 @@ function JobListClient({
         <div className="flex flex-col h-full w-[55vw]">
           <div className="flex flex-row w-full justify-between">
             <h1 className="flex flex-row text-center text-xl font-bold">
-              Results:
+              {filteredJobs.length} Results:
             </h1>
             <div className="flex flex-row w-fit">
               <label htmlFor="sort" className="text-center text-xl font-bold">
@@ -323,17 +323,17 @@ function JobListClient({
                           window.location.href = "/jobdetail";
                         }}
                       >
-                        <div className="flex m-[1vw]">
+                        <div className="flex mx-4">
                           <img
                             className="placeholder-image -translate-x-4 translate-y-2"
                             src={job.employer_logo || "logo.svg"}
                             alt=""
                           />
                         </div>
-                        <div className="flex flex-col justify-between w-full p-[1vw]">
+                        <div className="flex flex-col justify-between w-full p-3">
                           <div className="flex flex-row justify-between w-full">
                             <h1 className="text-xl font-bold">{job.name}</h1>
-                            <div className="flex flex-row space-x-[1vw] space-y-[0.5vh]">
+                            <div className="flex flex-row space-x-1 space-y-2">
                               <h1 className="text-xl font-bold">
                                 {job.salary} Millions
                               </h1>
