@@ -987,3 +987,20 @@ export async function takeURL(id: UUID) {
   
   return data;
 }
+
+export async function takesameIdus(indus: string, id: string) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  
+  // Construct the query to join Employer with Job tables
+  const { data, error } = await supabase
+  .from('Employer')
+  .select('*')
+  .eq('inds', indus)
+  .neq('name', id)
+  if (error) {
+    console.error('Error fetching data:', error);
+    return null;
+  }
+  return data;
+}

@@ -14,7 +14,7 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
       
       <div className="flex flex-row">
       <h1 className="text-lg font-bold ml-3">Notifications  </h1>
-      <div className="text-lg ml-4 rounded-full bg-[#AD343E] flex items-center justify-center w-7 h-7 text-white">
+      <div className="text-sm ml-4 rounded-full bg-[#AD343E] flex items-center justify-center w-5 h-5 text-white translate-y-1">
          {listNoti.length} </div>
       </div>
       <div

@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Profilepage from "@/components/profilepage";
 import Custom404 from "@/components/404page";
+import GELanding from "./GELanding";
 interface pageProps{
     params: {name: string}
 }
@@ -37,13 +38,15 @@ const page:FC<pageProps> = async ({params}) =>{
     if (check_server_exist_ed != null && typeof check_server_exist_ed[0] !== 'number'){
         if (check_server_exist_ed[1] == 0){
             return (<>
-            <Profilepage companyName= {check_server_exist_ed[0].data.name}
+            <GELanding
+            id = {check_server_exist_ed[0].data.user_id}
+            companyName= {check_server_exist_ed[0].data.name}
             industry= {check_server_exist_ed[0].data.inds}
             location= {check_server_exist_ed[0].data.location}
             introduction={check_server_exist_ed[0].data.description}
             logo = {check_server_exist_ed[0].data.logo}
             size = {check_server_exist_ed[0].data.size}
-            ></Profilepage>
+            ></GELanding>
             </>
             )
         }

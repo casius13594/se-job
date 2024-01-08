@@ -1,15 +1,10 @@
 "use client";
-import React from "react";
-import "./component.css";
-import Image from "next/image";
+import { takesameIdus } from "@/components/controller";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
-import "./component.css";
-import { FiEdit3 } from "react-icons/fi";
-import ExampleTab from "./Tab";
-import AppBar from "./appbar";
-
-interface ProfilepageProps {
+interface GELandingProps {
+    id: string,
   companyName: string;
   location: string;
   industry: string;
@@ -18,28 +13,9 @@ interface ProfilepageProps {
   size: string;
 }
 
-const solutions = [
-  {
-    name: "Post Job",
-    description: "Find talents",
-    href: "/postjob",
-    icon: IconOne,
-  },
-  {
-    name: " HR Management",
-    description: "Check employees",
-    href: "/dashboard/users",
-    icon: IconTwo,
-  },
-  {
-    name: "Reports",
-    description: "Review statistic",
-    href: "/dashboard",
-    icon: IconThree,
-  },
-];
 
-const Profilepage: React.FC<ProfilepageProps> = ({
+const GELanding: React.FC<GELandingProps> = ({
+    id,
   companyName,
   location,
   industry,
@@ -47,12 +23,19 @@ const Profilepage: React.FC<ProfilepageProps> = ({
   logo,
   size,
 }) => {
-  const [isEditMode, setIsEditMode] = useState(false);
+    const [relatedCompany, setrelatedCompany] = useState<any[]>([]);;
+    useEffect(() => {
+        // Call the takeIndustry function and set the state with the result
+        const fetchData = async () => {
+          const result = await takesameIdus(industry, companyName);
+          if (result !== null){
+          setrelatedCompany(result);
+          }
+        };
+        fetchData();
+      }, []); 
 
-  const toggleEditMode = () => {
-    setIsEditMode((prevEditMode) => !prevEditMode);
-  };
-
+    console.log(relatedCompany)
   return (
     <>
       <div id="parent" className="profilepage z-0">
@@ -64,16 +47,6 @@ const Profilepage: React.FC<ProfilepageProps> = ({
               <img src={logo || "/logo.svg"} className="placeholder-image  -translate-y-10" />
               <div className="ml-5 w-full">
                 <div className="text-3xl font-bold">{companyName}</div>
-                <div>
-                  {isEditMode ? (
-                    <textarea
-                      className="w-1/2 mt-2"
-                      placeholder="Welcome to our main page !"
-                    />
-                  ) : (
-                    introduction
-                  )}
-                </div>
                 <div className="flex opacity-50 mt-2 text-sm">
                   <div className="">• {industry} </div>
                   <div className="ml-2">• {location}</div>
@@ -82,35 +55,18 @@ const Profilepage: React.FC<ProfilepageProps> = ({
               </div>
             </div>
           </div>
-
-          <div className="ml-11 z-0 mx-auto w-1/3">
-            <div className="font-sans font-bold">Utilities</div>
-            <div>
-              <button className="h-32 w-full origin-top-right rounded-md justify-center">
-                <div className="relative grid gap-8 bg-white p-7">
-                  {solutions.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="-m-3 flex rounded-lg  p-2 transition duration-150 ease-in-out hover:bg-gray-300 hover:text-white focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
-                    >
-                      <div className="flex h-10 w-10 shrink-0 sm:h-12 sm:w-12">
-                        <item.icon aria-hidden="true" />
-                      </div>
-                      <div className="ml-4">
-                        <p className="text-sm font-medium text-gray-900">
-                          {item.name}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {item.description}
-                        </p>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </button>
-            </div>
-          </div>
+          <div>
+      <h2>Related Companies</h2>
+      <ul>
+        {relatedCompany.map((company, index) => (
+          <li key={index}>
+            <strong>Name:</strong> {company.name}<br />
+            <strong>Industry:</strong> {company.inds}<br />
+            <strong>Type:</strong> {company.type}
+          </li>
+        ))}
+      </ul>
+    </div>
         </div>
       </div>
     </>
@@ -195,4 +151,4 @@ function IconThree() {
   );
 }
 
-export default Profilepage;
+export default GELanding
