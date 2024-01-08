@@ -13,6 +13,7 @@ import { createClient } from "@/utils/supabase/server";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Areaselector from "@/components/Areaselector";
 import { Country, ICity, ICountry, IState } from "country-state-city";
+import { useRouter } from "next/navigation";
 
 export default function PostJob() {
   const sliderRef = useRef<Slider>(null);
@@ -34,6 +35,7 @@ export default function PostJob() {
   const [selectedTags, setSelectedTags] = useState<
     MultiValue<{ value: any; label: any }>
   >([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -93,13 +95,17 @@ export default function PostJob() {
     console.log(userID);
     console.log(state);
     if (userID !== "") {
-      postJob(
+      await postJob(
         formData1,
         formData2,
         userID,
         state || ({} as IState),
         selectedTags
       );
+      alert(
+        "Job posted successfully. We will redirect you to dashboard page."
+      );
+      router.push("/dashboard/jobs");
     } else {
       console.log("No user");
     }
