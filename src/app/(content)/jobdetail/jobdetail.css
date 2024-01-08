@@ -1,0 +1,11 @@
+
+.circular-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px; /* Set desired width */
+    height: 50px; /* Set desired height */
+    border-radius: 50%; /* Makes the icon circular */
+    background-color: #13544E   ; /* Optional: Background color for the icon */
+    color: white; /* Optional: Text color for the icon */
+  }
