@@ -51,7 +51,7 @@ const DealList = () => {
         />
         <div className="categories__header-title flex flex-row">
           <h1 className="text-[3vw] font-bold text-green">Great</h1>
-          <h1 className="text-[3vw] font-bold text-red">&nbsp;deal</h1>
+          <h1 className="text-[3vw] font-bold text-red">&nbsp;deals</h1>
           <h1 className="text-[3vw] font-bold text-green">&nbsp;here</h1>
         </div>
       </div>
@@ -75,7 +75,7 @@ const DealList = () => {
           {jobs.map((job, index) => (
             <li
               key={index}
-              className="card flex-shrink-0 bg-light-green h-[415px] w-72 rounded-3xl"
+              className="card relative flex-shrink-0 bg-light-green h-[415px] w-72 rounded-3xl"
             >
               <div className="flex justify-center items-center p-6">
                 <img
@@ -93,8 +93,15 @@ const DealList = () => {
               <p className="card_description py-3 px-6 overflow-hidden max-h-20 leading-snug line-clamp-3">
                 {job.content}
               </p>
-              <div className="text-center pt-3">
-                <button className="card_button px-3 py-1 rounded-3xl bg-[#1c7e748e] hover:bg-[#1c7e74cc] active:bg-[#1c7e74ea] text-white">
+              <div className="absolute bottom-0 left-1/3 mb-6">
+                <button
+                  className="card_button px-3 py-1 rounded-3xl bg-[#1c7e748e] hover:bg-[#1c7e74cc] active:bg-[#1c7e74ea] text-white"
+                  onClick={() => {
+                    const job_id = job.job_id as string;
+                    localStorage.setItem("job_id", job_id);
+                    window.location.href = "/jobdetail";
+                  }}
+                >
                   More Detail
                 </button>
               </div>
