@@ -6,8 +6,8 @@ import AppBar from "@/components/appbar";
 import { getUser } from "@/components/controller"; // Import the function to fetch user information
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const [userType, setUserType] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  // const [userType, setUserType] = useState<string | null>(null);
+  // const [loading, setLoading] = useState(true);
 
   // useEffect(() => {
   //   const fetchUserType = async () => {
@@ -29,13 +29,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   //   fetchUserType();
   // }, []);
-  if (loading) {
-    return (
-      <p className="flex flex-column justify-center items-center h-[100vh] text-3xl font-bold">
-        Loading...
-      </p>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <p className="flex flex-column justify-center items-center h-[100vh] text-3xl font-bold">
+  //       Loading...
+  //     </p>
+  //   );
+  // }
   return (
     <>
       {localStorage.getItem("userType") === "admin" ? (

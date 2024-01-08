@@ -1,9 +1,7 @@
 "use client";
 import {
-  acceptApplicantDB,
-  declineApplicantDB,
   employerUpdateApplied,
-  getApplied,
+  getPending,
   insert_noti,
   toggleJobStatus,
 } from "@/components/controller";
@@ -20,7 +18,7 @@ const ApplicantPage = () => {
 
   useEffect(() => {
     console.log(localStorage.getItem("current_user_id"));
-    getApplied(id || "null")
+    getPending(id || "null")
       .then((applicants) => {
         setApplicants(applicants || []);
       })
@@ -40,11 +38,7 @@ const ApplicantPage = () => {
     try {
       await employerUpdateApplied(id || "null", applicantId, "Accepted");
       setApplicants(
-        applicants.map((applicant) =>
-          applicant.employee_id === applicantId
-            ? { ...applicant, status: "Accepted" }
-            : applicant
-        )
+        applicants.filter((applicant) => applicant.employee_id !== applicantId)
       );
       insert_noti(applicantId, "Your application has been approved");
       console.log(applicants);
@@ -57,11 +51,7 @@ const ApplicantPage = () => {
     try {
       await employerUpdateApplied(id || "null", applicantId, "Declined");
       setApplicants(
-        applicants.map((applicant) =>
-          applicant.employee_id === applicantId
-            ? { ...applicant, status: "Declined" }
-            : applicant
-        )
+        applicants.filter((applicant) => applicant.employee_id !== applicantId)
       );
       insert_noti(applicantId, "Your application has been declined");
       console.log(applicants);
@@ -73,15 +63,17 @@ const ApplicantPage = () => {
   return (
     <div className="flex flex-col">
       <div className="grid grid-cols-6 gap-4 text-center mb-5">
-        <div className = 'font-bold'>No.</div>
-        <div className = 'font-bold'>Name</div>
-        <div className = 'font-bold'>Applicants</div>
-        <div className = 'font-bold'>Status</div>
+        <div className="font-bold">No.</div>
+        <div className="font-bold">Name</div>
+        <div className="font-bold">Applicants</div>
+        <div className="font-bold">Status</div>
         <div className="col-span-2 font-bold">Action</div>
-        <div className = 'text-sm'>{index + 1}</div>
-        <div className = 'text-sm'>{name}</div>
-        <div className = 'text-sm'>{applicants.length}</div>
-        <div className = 'text-sm'>{status === "open" ? "Visible" : "Hidden"}</div>
+        <div className="text-sm">{index + 1}</div>
+        <div className="text-sm">{name}</div>
+        <div className="text-sm">{applicants.length}</div>
+        <div className="text-sm">
+          {status === "open" ? "Visible" : "Hidden"}
+        </div>
         <div className="col-span-2 flex justify-center">
           <button
             onClick={() => changeJobStatus(id || "null")}
@@ -92,18 +84,18 @@ const ApplicantPage = () => {
         </div>
       </div>
       <hr style={{ height: 1, borderColor: "#000000" }} />
-      <div className="grid grid-cols-6 gap-4 text-center mt-5 overflow-hidden">
-        <div className = 'font-bold'>No.</div>
-        <div className = 'font-bold'>Name</div>
-        <div className = 'font-bold'>Email</div>
-        <div className = 'font-bold'>Status</div>
+      <div className="grid grid-cols-5 gap-4 text-center mt-5 overflow-hidden">
+        <div className="font-bold">No.</div>
+        <div className="font-bold">Name</div>
+        <div className="font-bold">Email</div>
+        {/* <div className="font-bold">Status</div> */}
         <div className="col-span-2 font-bold">Action</div>
         {applicants.map((applicant, applicantIndex) => (
           <>
-            <div className = 'text-sm'>{applicantIndex + 1}</div>
-            <div className = 'text-sm'>{applicant.name}</div>
-            <div className = 'text-sm'>{applicant.email}</div>
-            <div className = 'text-sm'>{applicant.status}</div>
+            <div className="text-sm">{applicantIndex + 1}</div>
+            <div className="text-sm">{applicant.name}</div>
+            <div className="text-sm">{applicant.email}</div>
+            {/* <div className="text-sm">{applicant.status}</div> */}
             <div className="col-span-2 flex justify-center">
               <div className="flex justify-between w-5/6">
                 <button className="bg-black text-white px-3 py-1 rounded-3xl text-sm">

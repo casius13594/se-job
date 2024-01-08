@@ -397,6 +397,20 @@ export async function getApplied(job_id: string) {
   return applied;
 }
 
+export async function getPending(job_id: string) {
+  "use server";
+  const supabase = createServerComponentClient({ cookies });
+  const { data: applied, error } = await supabase
+    .from("Applied")
+    .select("*")
+    .eq("job_id", job_id)
+    .eq("status", "Pending");
+  if (error) {
+    return null;
+  }
+  return applied;
+}
+
 export async function employerUpdateApplied(
   job_id: string,
   employer_id: string,
