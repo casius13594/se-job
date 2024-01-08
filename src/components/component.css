@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: black; /* Set the background color to black */
+  background-color: rgba(0, 0, 0, 0.842); /* Set the background color to black */
   color: white; /* Set the text/icon color to white, or any other color that provides good contrast */
 }
 
