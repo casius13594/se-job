@@ -73,19 +73,19 @@ const ApplicantPage = () => {
   return (
     <div className="flex flex-col">
       <div className="grid grid-cols-6 gap-4 text-center mb-5">
-        <div>No.</div>
-        <div>Name</div>
-        <div>Applicants</div>
-        <div>Status</div>
-        <div className="col-span-2">Action</div>
-        <div>{index + 1}</div>
-        <div>{name}</div>
-        <div>{applicants.length}</div>
-        <div>{status === "open" ? "Visible" : "Hidden"}</div>
+        <div className = 'font-bold'>No.</div>
+        <div className = 'font-bold'>Name</div>
+        <div className = 'font-bold'>Applicants</div>
+        <div className = 'font-bold'>Status</div>
+        <div className="col-span-2 font-bold">Action</div>
+        <div className = 'text-sm'>{index + 1}</div>
+        <div className = 'text-sm'>{name}</div>
+        <div className = 'text-sm'>{applicants.length}</div>
+        <div className = 'text-sm'>{status === "open" ? "Visible" : "Hidden"}</div>
         <div className="col-span-2 flex justify-center">
           <button
             onClick={() => changeJobStatus(id || "null")}
-            className="bg-black text-white px-3 py-1 rounded-3xl"
+            className="bg-black text-white px-3 py-1 rounded-3xl text-sm"
           >
             {status === "open" ? "Hide Job" : "Show Job"}
           </button>
@@ -93,31 +93,31 @@ const ApplicantPage = () => {
       </div>
       <hr style={{ height: 1, borderColor: "#000000" }} />
       <div className="grid grid-cols-6 gap-4 text-center mt-5 overflow-hidden">
-        <div>No.</div>
-        <div>Name</div>
-        <div>Email</div>
-        <div>Status</div>
-        <div className="col-span-2">Action</div>
+        <div className = 'font-bold'>No.</div>
+        <div className = 'font-bold'>Name</div>
+        <div className = 'font-bold'>Email</div>
+        <div className = 'font-bold'>Status</div>
+        <div className="col-span-2 font-bold">Action</div>
         {applicants.map((applicant, applicantIndex) => (
           <>
-            <div>{applicantIndex + 1}</div>
-            <div>{applicant.name}</div>
-            <div>{applicant.email}</div>
-            <div>{applicant.status}</div>
+            <div className = 'text-sm'>{applicantIndex + 1}</div>
+            <div className = 'text-sm'>{applicant.name}</div>
+            <div className = 'text-sm'>{applicant.email}</div>
+            <div className = 'text-sm'>{applicant.status}</div>
             <div className="col-span-2 flex justify-center">
               <div className="flex justify-between w-5/6">
-                <button className="bg-black text-white px-3 py-1 rounded-3xl">
+                <button className="bg-black text-white px-3 py-1 rounded-3xl text-sm">
                   View CV
                 </button>
                 <button
                   onClick={() => acceptApplicant(applicant.employee_id)}
-                  className="bg-[#13544e] text-white px-3 py-1 rounded-3xl"
+                  className="bg-[#13544e] text-white px-3 py-1 rounded-3xl text-sm"
                 >
                   Accept
                 </button>
                 <button
                   onClick={() => declineApplicant(applicant.employee_id)}
-                  className="bg-red text-white px-3 py-1 rounded-3xl"
+                  className="bg-red text-white px-3 py-1 rounded-3xl text-sm"
                 >
                   Decline
                 </button>

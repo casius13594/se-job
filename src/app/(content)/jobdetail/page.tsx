@@ -437,7 +437,7 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
 
   return (
     <div
-      className="popup-overlay"
+      className="popup-overlay overflow-auto"
       style={{
         position: "fixed",
         top: 0,

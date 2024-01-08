@@ -82,33 +82,33 @@ const JobPage = () => {
             />
           </span>
         </div>
-        <text className="flex items-center text-center">
+        <text className="flex items-center text-center text-base font-black">
           Total job: {jobs.length}
         </text>
       </div>
-      <div className="grid grid-cols-6 gap-4 text-center overflow-hidden">
-        <div>No.</div>
-        <div>Name</div>
-        <div>Applicants</div>
-        <div>Status</div>
-        <div className="col-span-2">Action</div>
+      <div className="grid grid-cols-6 gap-4 text-center overflow-hidden text-bold">
+        <div className="font-bold">No.</div>
+        <div className="font-bold">Name</div>
+        <div className="font-bold">Applicants</div>
+        <div className="font-bold">Status</div>
+        <div className="col-span-2 font-bold">Action</div>
 
         {filteredJobs.map((job, index) => (
           <>
-            <div>{index + 1}</div>
-            <div>{job.name}</div>
-            <div>{(applicants[index] || []).length}</div>
-            <div>{job.status === "open" ? "Visible" : "Hidden"}</div>
+            <div className="text-sm">{index + 1}</div>
+            <div className="text-sm">{job.name}</div>
+            <div className="text-sm">{(applicants[index] || []).length}</div>
+            <div className="text-sm">{job.status === "open" ? "Visible" : "Hidden"}</div>
             <div className="col-span-2 flex justify-end">
               <div className="flex justify-between w-5/6">
                 <button
                   onClick={() => changeJobStatus(job.job_id)}
-                  className="bg-black text-white px-3 py-1 rounded-3xl"
+                  className="bg-black text-white px-3 py-1 rounded-3xl text-sm"
                 >
                   {job.status === "open" ? "Hide Job" : "Show Job"}
                 </button>
                 <Link
-                  className="bg-black text-white px-3 py-1 rounded-3xl"
+                  className="bg-black text-white px-3 py-1 rounded-3xl text-sm"
                   href={{
                     pathname: "/dashboard/applicants",
                     query: {

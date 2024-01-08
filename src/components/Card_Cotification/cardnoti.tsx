@@ -46,8 +46,8 @@ const CardNotification: React.FC<InfoNoti> = ({
         />
       </div>
       <div className="flex flex-col justify-between w-8/12">
-        <h1 className="text-xl font-bold">{name_sender}</h1>
-        <h1 className="text-base">{content}</h1>
+        <h1 className="text-base font-bold">{name_sender}</h1>
+        <h1 className="text-xs">{content}</h1>
         <h2 className="text-xs">{formatDate(time)}</h2>
       </div>
       {check_status && (
