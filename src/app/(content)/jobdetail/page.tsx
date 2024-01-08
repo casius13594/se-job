@@ -1,23 +1,17 @@
 "use client";
 
-import {
-  getJobDetail,
-  getRelatedJob,
-  getSavedJob,
-  takeURL,
-} from "@/components/controller";
+import { getJobDetail, getRelatedJob, takeURL} from "@/components/controller";
 import React, { useState } from "react";
 import { TfiMoney } from "react-icons/tfi";
 import { dm_sans } from "@/components/fonts";
 import Link from "next/link";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { BsBoxFill } from "react-icons/bs";
-import "./jobdetail.css";
+import "./jobdetail.css"
 import { MdOutlineAttachMoney, MdWorkHistory } from "react-icons/md";
 // import { cookies } from "next/headers";
 
 export default function JobDetail() {
-  const [savedJobs, setSavedJobs] = React.useState<any[]>([]);
   const [job, setJob] = React.useState(null);
   const [relatedJobs, setRelatedJobs] = React.useState([]); // [
   const job_id = localStorage.getItem("job_id") || "";
@@ -55,6 +49,7 @@ export default function JobDetail() {
   );
 }
 
+
 function JobDetailPage({
   job,
   relatedJobs,
@@ -66,19 +61,15 @@ function JobDetailPage({
 }) {
   const [employer, setEmployer] = useState<any[]>([]);
   React.useEffect(() => {
-    if (job) {
+    if (job) { 
       takeURL(job.employer_id).then((employerData) => {
         if (employerData !== null) {
           setEmployer(employerData);
         }
       });
     }
-    const savedJobList = getSavedJob();
-    savedJobList.then((jobs) => {
-      setSavedJobs(jobs || []);
-    });
   }, [job]);
-  console.log(employer);
+    console.log(employer)
   const formatDateToDDMMYYYY = (date: Date): string => {
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -245,23 +236,17 @@ function JobDetailPage({
             <div className="flex flex-row w-full justify-between px-[2vw]">
               <div className="flex flex-col items-center justify-center">
                 <h1 className="text-xl font-bold text-center">Experience</h1>
-                <div className="circular-icon">
-                  <BsBoxFill />
-                </div>
+                <div className="circular-icon"><BsBoxFill /></div>
                 <h1 className="text-base text-center">{job.experience}</h1>
               </div>
               <div className="flex flex-col items-center justify-center">
                 <h1 className="text-xl font-bold text-center">Type</h1>
-                <div className="circular-icon">
-                  <MdWorkHistory />
-                </div>
+                  <div className="circular-icon"><MdWorkHistory /></div>
                 <h1 className="text-base text-center">{job.type}</h1>
               </div>
               <div className="flex flex-col items-center justify-center">
                 <h1 className="text-xl font-bold text-center">Salary</h1>
-                <div className="circular-icon">
-                  <TfiMoney />
-                </div>
+                <div className="circular-icon"><TfiMoney /></div>
                 <h1 className="text-base text-center">{job.salary} Millions</h1>
               </div>
             </div>
@@ -295,27 +280,7 @@ function JobDetailPage({
                   width="22"
                   height="20"
                   viewBox="0 0 22 20"
-                  fill={
-                    savedJobs
-                      .map((savedJob) => savedJob.Job.job_id)
-                      .includes(job.job_id)
-                      ? "green"
-                      : "none"
-                  }
-                  onClick={() => {
-                    if (
-                      savedJobs
-                        .map((savedJob) => savedJob.Job.job_id)
-                        .includes(job.job_id)
-                    ) {
-                      unsaveJob(job.job_id);
-                    } else {
-                      saveJob(job.job_id).then((res) => {
-                        res == false ? setLoginRequired(true) : null;
-                      });
-                    }
-                    setReset();
-                  }}
+                  fill="none"
                 >
                   <path
                     fill-rule="evenodd"
@@ -381,22 +346,22 @@ function JobDetailPage({
               <div className="flex w-[0.5vw] h-full bg-[#13544E]" />
               <h1 className="text-2xl font-bold">Company Infomation</h1>
             </div>
-            <Link href={employer[0]?.url || ""}>
-              <div className="flex flex-row w-full py-[1vh] rounded hover:bg-[#CCCCCC] ">
-                <div className="flex m-[1vw]">
-                  <img
-                    className="placeholder-image"
-                    src={job.employer_logo || "/logo.svg"}
-                    alt=""
-                  />
-                </div>
-                <div className="flex flex-col justify-between w-full p-[1vw]">
-                  <h1 className="text-3xl font-bold">{job.employer_name}</h1>
-                  <h1 className="text-base">{job.location}</h1>
-                </div>
+            <Link href={employer[0]?.url || ''}>
+            <div className="flex flex-row w-full py-[1vh] rounded hover:bg-[#CCCCCC] ">
+              <div className="flex m-[1vw]">
+                <img
+                  className="placeholder-image"
+                  src={job.employer_logo || "/logo.svg"}
+                  alt=""
+                />
               </div>
+              <div className="flex flex-col justify-between w-full p-[1vw]">
+                <h1 className="text-3xl font-bold">{job.employer_name}</h1>
+                <h1 className="text-base">{job.location}</h1>
+              </div>
+            </div>
             </Link>
-            <div> </div>
+            <div>  </div>
           </div>
         </div>
       </div>
