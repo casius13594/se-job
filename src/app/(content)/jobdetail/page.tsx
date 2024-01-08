@@ -24,8 +24,12 @@ export default function JobDetail() {
   const [loginRequired, setLoginRequired] = React.useState<boolean>(false);
   const [job, setJob] = React.useState(null);
   const [relatedJobs, setRelatedJobs] = React.useState([]); // [
-  const job_id = localStorage.getItem("job_id") || "";
+  const job_id =
+    typeof window !== "undefined" ? localStorage.getItem("job_id") || "" : "";
+
   const [isPopupVisible, setPopupVisibility] = React.useState(false);
+  const [reset, setReset] = React.useState<boolean>(false);
+
   const handleApplyNowClick = () => {
     setPopupVisibility(true);
   };
@@ -33,6 +37,11 @@ export default function JobDetail() {
   const handleClosePopup = () => {
     setPopupVisibility(false);
   };
+
+  function toggleReset() {
+    setReset(!reset);
+  }
+
   React.useEffect(() => {
     getJobDetail(job_id).then((job) => {
       setJob(job);
@@ -46,7 +55,7 @@ export default function JobDetail() {
     savedJobList.then((jobs) => {
       setSavedJobs(jobs || []);
     });
-  }, []);
+  }, [reset]);
   if (!job) return;
   return (
     <>
@@ -60,6 +69,7 @@ export default function JobDetail() {
           relatedJobs={relatedJobs}
           setLoginRequired={setLoginRequired}
           onApplyNowClick={handleApplyNowClick}
+          setReset={toggleReset}
         />
         {isPopupVisible && <ApplicationPopup onClosePopup={handleClosePopup} />}
       </main>
@@ -73,12 +83,14 @@ function JobDetailPage({
   relatedJobs,
   setLoginRequired,
   onApplyNowClick,
+  setReset,
 }: {
   job: any;
   savedJobs: any[];
   relatedJobs: any[];
   setLoginRequired: (logedIn: boolean) => void;
   onApplyNowClick: () => void;
+  setReset: () => void;
 }) {
   const [employer, setEmployer] = useState<any[]>([]);
   React.useEffect(() => {
@@ -315,6 +327,7 @@ function JobDetailPage({
                       res == false ? setLoginRequired(true) : null;
                     });
                   }
+                  setReset();
                 }}
               >
                 <svg
