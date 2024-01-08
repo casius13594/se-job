@@ -19,6 +19,7 @@ import { MdOutlineAttachMoney, MdWorkHistory } from "react-icons/md";
 // import { cookies } from "next/headers";
 
 export default function JobDetail() {
+  const [savedJobs, setSavedJobs] = React.useState<any[]>([]);
   const [job, setJob] = React.useState(null);
   const [relatedJobs, setRelatedJobs] = React.useState([]); // [
   const job_id = localStorage.getItem("job_id") || "";
@@ -38,6 +39,11 @@ export default function JobDetail() {
     getRelatedJob(job_id).then((jobs) => {
       setRelatedJobs(jobs);
     });
+
+    const savedJobList = getSavedJob();
+    savedJobList.then((jobs) => {
+      setSavedJobs(jobs || []);
+    });
   }, []);
   if (!job) return;
   return (
@@ -47,6 +53,7 @@ export default function JobDetail() {
       >
         <JobDetailPage
           job={job}
+          savedJobs={savedJobs}
           relatedJobs={relatedJobs}
           onApplyNowClick={handleApplyNowClick}
         />
@@ -58,10 +65,12 @@ export default function JobDetail() {
 
 function JobDetailPage({
   job,
+  savedJobs,
   relatedJobs,
   onApplyNowClick,
 }: {
   job: any;
+  savedJobs: any[];
   relatedJobs: any[];
   onApplyNowClick: () => void;
 }) {
