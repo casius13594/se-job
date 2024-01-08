@@ -1,6 +1,5 @@
 "use client";
 
-import AppBar from "@/components/appbar";
 import React, { use, useEffect } from "react";
 import { dm_sans } from "@/components/fonts";
 import {
@@ -325,7 +324,7 @@ function JobListClient({
                       >
                         <div className="flex m-[1vw]">
                           <img
-                            className="w-32 h-28 rounded-full"
+                            className="placeholder-image -translate-x-4 translate-y-2"
                             src={job.employer_logo || "logo.svg"}
                             alt=""
                           />

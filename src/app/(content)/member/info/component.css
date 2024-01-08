@@ -4,3 +4,10 @@
 .font_information{
   font-size: 16px;
 }
+.modal_style{
+  width: 50%;
+  margin-left: 25%;
+  height: 50%;
+  margin-top: 7%;
+  background-color: white;
+}

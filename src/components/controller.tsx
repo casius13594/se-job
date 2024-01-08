@@ -955,3 +955,21 @@ export async function insert_noti(user_id: string, content: string) {
 //     console.error("Unexpected error:", error.message);
 //   }
 // }
+export async function takeURL(id: UUID) {
+  "use server";
+  
+  const supabase = createServerComponentClient({ cookies });
+  
+  // Construct the query to join Employer with Job tables
+  const { data, error } = await supabase
+  .from('Employer')
+  .select('url')
+  .eq('user_id', id)
+  
+  if (error) {
+    console.error('Error fetching data:', error);
+    return null;
+  }
+  
+  return data;
+}

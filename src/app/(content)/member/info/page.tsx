@@ -43,10 +43,11 @@ export default function BasicInfo() {
       className={`flex flex-col w-full h-full ${dm_sans.className} pt-[2vh] overflow-hidden`}
     >
       <Modal
+        className='modal_style'
         isOpen={selectLocation}
         onRequestClose={() => setSelectLocation(false)}
       >
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center p-4">
           <Areaselector
             city={city}
             setCity={setCity}
