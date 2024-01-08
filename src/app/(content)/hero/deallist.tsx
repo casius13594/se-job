@@ -64,7 +64,7 @@ const DealList = () => {
         {isHovered && (
           <div className="scroll-buttons absolute left-16 top-1/2 transform -translate-y-1/2">
             <button
-              className="bg-gray-300 hover:bg-gray-400 px-2 py-1 rounded-l-md"
+              className="bg-[#9292923f] hover:bg-[#929292af] px-2 py-40 rounded-l-3xl"
               onClick={() => handleScroll("left")}
             >
               {"<"}
@@ -111,7 +111,7 @@ const DealList = () => {
         {isHovered && (
           <div className="scroll-buttons absolute right-16 top-1/2 transform -translate-y-1/2">
             <button
-              className="bg-gray-300 hover:bg-gray-400 px-2 py-1 rounded-r-md"
+              className="bg-[#9292923f] hover:bg-[#929292af] px-2 py-40 rounded-r-3xl"
               onClick={() => handleScroll("right")}
             >
               {">"}

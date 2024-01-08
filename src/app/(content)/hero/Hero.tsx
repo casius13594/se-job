@@ -34,17 +34,12 @@ const Hero = () => {
 
   const handleCityClick = () => {
     setCityDialogVisibility(true);
-    setOverlayVisibility(true); // Toggle overlay visibility
+    setOverlayVisibility(true);
 
-    // Get the width of the input field for cities
     const inputCityElement = document.getElementById("inputCity");
     if (inputCityElement) {
       const inputCityWidth = inputCityElement.offsetWidth;
-
-      // Set the width of the city dialog
       setDialogWidth(inputCityWidth);
-
-      // Set the initial list of cities when the dialog is opened
       setFilteredCities(initialCities);
     }
   };
@@ -52,13 +47,12 @@ const Hero = () => {
   const handleCitySelect = (city: string) => {
     setSelectedCity(city);
     setCityDialogVisibility(false);
-    setOverlayVisibility(false); // Hide overlay on city select
+    setOverlayVisibility(false);
   };
 
   const handleCityInputChange = (e: { target: { value: any } }) => {
     const inputValue = e.target.value;
 
-    // Filter the cities based on the input value
     const filtered = initialCities.filter((city) =>
       city.toLowerCase().includes(inputValue.toLowerCase())
     );
@@ -75,17 +69,13 @@ const Hero = () => {
 
   const handleSalaryClick = () => {
     setSalaryDialogVisibility(true);
-    setOverlayVisibility(true); // Toggle overlay visibility
+    setOverlayVisibility(true);
 
-    // Get the width of the input field for salary
     const inputSalaryElement = document.getElementById("inputSalary");
     if (inputSalaryElement) {
       const inputSalaryWidth = inputSalaryElement.offsetWidth;
 
-      // Set the width of the salary dialog
       setDialogWidth(inputSalaryWidth);
-
-      // Set the initial list of salary options when the dialog is opened
       setFilteredSalaries(initialSalaries);
     }
   };
@@ -98,8 +88,6 @@ const Hero = () => {
 
   const handleSalaryInputChange = (e: { target: { value: any } }) => {
     const inputValue = e.target.value;
-
-    // Filter the salary options based on the input value
     const filtered = initialSalaries.filter((salary) =>
       salary.toLowerCase().includes(inputValue.toLowerCase())
     );
@@ -119,7 +107,7 @@ const Hero = () => {
             Find newest jobs, best location, and the most suitable salary
           </h1>
 
-          <div className="search__container flex flex-row justify-between items-center mb-3">
+          <div className="search__container flex justify-between items-center mb-3">
             <div className="py-3 pl-7 pr-14 bg-gray-300 rounded-xl mr-2">
               <input
                 className="search__keyword bg-gray-300 focus:outline-none"
@@ -256,8 +244,8 @@ const Hero = () => {
               left: 0,
               width: "100%",
               height: "100%",
-              backgroundColor: "rgba(0, 0, 0, 0.5)", // Grey color with 50% opacity
-              zIndex: 8, // Ensure the overlay is behind the dialog (z-index: 10)
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 8,
             }}
           />
         )}
