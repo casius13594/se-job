@@ -1,32 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import { CustomButton } from ".";
 import Link from "next/link";
-import { getAllJob } from "@/components/controller";
 
 const DealList = () => {
-  const [jobs, setJobs] = React.useState<any[]>([]);
   const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const jobData = await getAllJob();
-        // Get 10 random jobs
-        const randomJobs = getRandomJobs(jobData || [], 10);
-        setJobs(randomJobs);
-      } catch (error) {
-        console.error("Error fetching job data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const getRandomJobs = (allJobs: any[], count: number) => {
-    const shuffledJobs = allJobs.sort(() => Math.random() - 0.5);
-    return shuffledJobs.slice(0, count);
-  };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -56,8 +35,9 @@ const DealList = () => {
         </div>
       </div>
 
+      {/* Horizontal scrolling card list */}
       <div
-        className="relative w-full flex items-center px-24 mb-10"
+        className="relative w-full flex items-center px-24"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -71,31 +51,23 @@ const DealList = () => {
             </button>
           </div>
         )}
-        <ul id="cardListContainer" className="flex overflow-x-hidden space-x-4">
-          {jobs.map((job, index) => (
-            <li
-              key={index}
-              className="card flex-shrink-0 bg-light-green h-[415px] w-72 rounded-3xl"
-            >
-              <img
-                src={job.employer_logo || "logo.svg"}
-                className="card_logo p-6 rounded-full"
-              />
-              <h1 className="card_name px-6 text-3xl font-bold">{job.name}</h1>
-              <h2 className="card_salary px-6 text-xl">
-                {job.salary} millions
-              </h2>
-              <p className="card_description py-3 px-6 overflow-hidden max-h-20 leading-snug line-clamp-3">
-                {job.content}
-              </p>
-              <div className="text-center absolute bottom-0 mb-3">
-                <button className="card_button px-3 py-1 rounded-3xl bg-[#1c7e748e] hover:bg-[#1c7e74cc] active:bg-[#1c7e74ea] text-white">
-                  More Detail
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div
+          id="cardListContainer"
+          className="flex overflow-x-hidden space-x-4"
+        >
+          <div className="flex-shrink-0 w-48 bg-red p-4 rounded-lg"></div>
+          <div className="flex-shrink-0 w-48 bg-black p-4 rounded-lg"></div>
+          <div className="flex-shrink-0 w-48 bg-green p-4 rounded-lg"></div>
+          <div className="flex-shrink-0 w-48 bg-red p-4 rounded-lg"></div>
+          <div className="flex-shrink-0 w-48 bg-black p-4 rounded-lg"></div>
+          <div className="flex-shrink-0 w-48 bg-green p-4 rounded-lg"></div>
+          <div className="flex-shrink-0 w-48 bg-red p-4 rounded-lg"></div>
+          <div className="flex-shrink-0 w-48 bg-black p-4 rounded-lg"></div>
+          <div className="flex-shrink-0 w-48 bg-green p-4 rounded-lg"></div>
+          <div className="flex-shrink-0 w-48 bg-red p-4 rounded-lg"></div>
+          <div className="flex-shrink-0 w-48 bg-black p-4 rounded-lg"></div>
+          <div className="flex-shrink-0 w-48 bg-green p-4 rounded-lg"></div>
+        </div>
         {isHovered && (
           <div className="scroll-buttons absolute right-16 top-1/2 transform -translate-y-1/2">
             <button
