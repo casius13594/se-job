@@ -1,11 +1,11 @@
 import Hero from "./Hero";
 import CustomButton from "./CustomButton";
 import Navbar from "./Navbar";
-import Categories from "./Categories";
+import DealList from "./deallist";
 
 export {
     Hero,
     CustomButton,
     Navbar,
-    Categories,
+    DealList,
 }
