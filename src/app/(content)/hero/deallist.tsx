@@ -53,7 +53,7 @@ const DealList = () => {
         )}
         <div
           id="cardListContainer"
-          className="flex space-x-4 overflow-x-auto p-4"
+          className="flex overflow-x-hidden space-x-4"
         >
           <div className="flex-shrink-0 w-48 bg-red p-4 rounded-lg"></div>
           <div className="flex-shrink-0 w-48 bg-black p-4 rounded-lg"></div>
