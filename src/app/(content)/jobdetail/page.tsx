@@ -16,10 +16,12 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { BsBoxFill } from "react-icons/bs";
 import "./jobdetail.css";
 import { MdOutlineAttachMoney, MdWorkHistory } from "react-icons/md";
+import { requireLogin } from "@/components/popupModal";
 // import { cookies } from "next/headers";
 
 export default function JobDetail() {
   const [savedJobs, setSavedJobs] = React.useState<any[]>([]);
+  const [loginRequired, setLoginRequired] = React.useState<boolean>(false);
   const [job, setJob] = React.useState(null);
   const [relatedJobs, setRelatedJobs] = React.useState([]); // [
   const job_id = localStorage.getItem("job_id") || "";
@@ -51,10 +53,12 @@ export default function JobDetail() {
       <main
         className={`flex flex-col w-[100vw] h-[100vh] ${dm_sans.className} pt-[2vh]`}
       >
+        {requireLogin(loginRequired, () => setLoginRequired(false))}
         <JobDetailPage
           job={job}
           savedJobs={savedJobs}
           relatedJobs={relatedJobs}
+          setLoginRequired={setLoginRequired}
           onApplyNowClick={handleApplyNowClick}
         />
         {isPopupVisible && <ApplicationPopup onClosePopup={handleClosePopup} />}
@@ -67,11 +71,13 @@ function JobDetailPage({
   job,
   savedJobs,
   relatedJobs,
+  setLoginRequired,
   onApplyNowClick,
 }: {
   job: any;
   savedJobs: any[];
   relatedJobs: any[];
+  setLoginRequired: (logedIn: boolean) => void;
   onApplyNowClick: () => void;
 }) {
   const [employer, setEmployer] = useState<any[]>([]);
@@ -295,13 +301,34 @@ function JobDetailPage({
                   Apply now
                 </h1>
               </button>
-              <button className="flex flex-row w-[12vw] rounded-full hover:bg-[#CCCCCC] bg-[#D9D9D9] items-center justify-center space-x-[1vw]">
+              <button
+                className="flex flex-row w-[12vw] rounded-full hover:bg-[#CCCCCC] bg-[#D9D9D9] items-center justify-center space-x-[1vw]"
+                onClick={() => {
+                  if (
+                    savedJobs
+                      .map((savedJob) => savedJob.Job.job_id)
+                      .includes(job.job_id)
+                  ) {
+                    unsaveJob(job.job_id);
+                  } else {
+                    saveJob(job.job_id).then((res) => {
+                      res == false ? setLoginRequired(true) : null;
+                    });
+                  }
+                }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="22"
                   height="20"
                   viewBox="0 0 22 20"
-                  fill="none"
+                  fill={
+                    savedJobs
+                      .map((savedJob) => savedJob.Job.job_id)
+                      .includes(job.job_id)
+                      ? "green"
+                      : "none"
+                  }
                 >
                   <path
                     fill-rule="evenodd"
