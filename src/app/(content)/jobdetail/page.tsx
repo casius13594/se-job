@@ -1,11 +1,14 @@
 "use client";
 
-import { getJobDetail, getRelatedJob } from "@/components/controller";
+import { getJobDetail, getRelatedJob, takeURL} from "@/components/controller";
 import React, { useState } from "react";
-import AppBar from "@/components/appbar";
+import { TfiMoney } from "react-icons/tfi";
 import { dm_sans } from "@/components/fonts";
 import Link from "next/link";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { BsBoxFill } from "react-icons/bs";
+import "./jobdetail.css"
+import { MdOutlineAttachMoney, MdWorkHistory } from "react-icons/md";
 // import { cookies } from "next/headers";
 
 export default function JobDetail() {
@@ -46,6 +49,7 @@ export default function JobDetail() {
   );
 }
 
+
 function JobDetailPage({
   job,
   relatedJobs,
@@ -55,6 +59,17 @@ function JobDetailPage({
   relatedJobs: any[];
   onApplyNowClick: () => void;
 }) {
+  const [employer, setEmployer] = useState<any[]>([]);
+  React.useEffect(() => {
+    if (job) { 
+      takeURL(job.employer_id).then((employerData) => {
+        if (employerData !== null) {
+          setEmployer(employerData);
+        }
+      });
+    }
+  }, [job]);
+    console.log(employer)
   const formatDateToDDMMYYYY = (date: Date): string => {
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -109,7 +124,7 @@ function JobDetailPage({
             </div>
           </div>
           <div className="flex flex-col w-full items-center">
-            <div className="flex flex-row rounded-full bg-[#D9D9D9] text-lg p-[1vw]">
+            <div className="flex flex-row rounded-full bg-[#D9D9D9] text-sm p-[1vw] font-bold">
               You might interested in
             </div>
             <div className="flex flex-col w-full h-full overflow-y-scroll no-scrollbar">
@@ -117,7 +132,7 @@ function JobDetailPage({
                 return (
                   <div
                     key={job.job_id}
-                    className="flex flex-row w-full border-2 border-black rounded-3xl bg-[#13544E26] mt-[1vh] overflow-y-scroll no-scrollbar"
+                    className="flex flex-row w-full border-2 border-black rounded-3xl bg-white  hover:bg-[#13544E26] mt-[1vh] overflow-y-scroll no-scrollbar"
                     onClick={() => {
                       const job_id = job.job_id as string;
                       localStorage.setItem("job_id", job_id);
@@ -165,10 +180,10 @@ function JobDetailPage({
         <div className="flex flex-col w-[50vw] min-h-full bg-[#D9D9D9] rounded-3xl overflow-y-scroll no-scrollbar space-y-[2vh]">
           <div className="flex flex-row w-full p-[1vw]">
             <div className="flex flex-row w-full space-x-[1vw]">
-              <h1 className="text-2xl font-bold">{job.name}</h1>
+              <h1 className="text-xl font-bold">{job.name}</h1>
               <ul className="flex flex-row list-disc list-inside space-x-[1vw]">
-                <li className="text-xl">{job.location}</li>
-                <li className="text-xl">
+                <li className="text-base">{job.location}</li>
+                <li className="text-base">
                   {formatDateToDDMMYYYY(new Date(job.post_time))}
                 </li>
               </ul>
@@ -220,48 +235,24 @@ function JobDetailPage({
           <div className="flex flex-col w-full rounded-3xl border-2 border-[#13544E] bg-[#F2F0F0] space-y-[1vh] py-[2vh]">
             <div className="flex flex-row w-full justify-between px-[2vw]">
               <div className="flex flex-col items-center justify-center">
-                <h1 className="text-2xl font-bold text-center">Experience</h1>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="74"
-                  height="74"
-                  viewBox="0 0 74 74"
-                  fill="none"
-                >
-                  <circle cx="37" cy="37" r="37" fill="#13544E" />
-                </svg>
-                <h1 className="text-xl text-center">{job.experience}</h1>
+                <h1 className="text-xl font-bold text-center">Experience</h1>
+                <div className="circular-icon"><BsBoxFill /></div>
+                <h1 className="text-base text-center">{job.experience}</h1>
               </div>
               <div className="flex flex-col items-center justify-center">
-                <h1 className="text-2xl font-bold text-center">Type</h1>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="74"
-                  height="74"
-                  viewBox="0 0 74 74"
-                  fill="none"
-                >
-                  <circle cx="37" cy="37" r="37" fill="#13544E" />
-                </svg>
-                <h1 className="text-xl text-center">{job.type}</h1>
+                <h1 className="text-xl font-bold text-center">Type</h1>
+                  <div className="circular-icon"><MdWorkHistory /></div>
+                <h1 className="text-base text-center">{job.type}</h1>
               </div>
               <div className="flex flex-col items-center justify-center">
-                <h1 className="text-2xl font-bold text-center">Salary</h1>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="74"
-                  height="74"
-                  viewBox="0 0 74 74"
-                  fill="none"
-                >
-                  <circle cx="37" cy="37" r="37" fill="#13544E" />
-                </svg>
-                <h1 className="text-xl text-center">{job.salary} Millions</h1>
+                <h1 className="text-xl font-bold text-center">Salary</h1>
+                <div className="circular-icon"><TfiMoney /></div>
+                <h1 className="text-base text-center">{job.salary} Millions</h1>
               </div>
             </div>
             <div className="flex flex-row w-full px-[2vw] justify-between">
               <button
-                className="flex flex-row w-[30vw] rounded-full bg-[#13544ED1] items-center justify-center space-x-[1vw]"
+                className="flex flex-row w-[30vw] rounded-full bg-[#1C7E75] hover:bg-[#13544E] items-center justify-center space-x-[1vw]"
                 onClick={onApplyNowClick}
               >
                 <svg
@@ -283,7 +274,7 @@ function JobDetailPage({
                   Apply now
                 </h1>
               </button>
-              <button className="flex flex-row w-[12vw] rounded-full bg-[#D9D9D9] items-center justify-center space-x-[1vw]">
+              <button className="flex flex-row w-[12vw] rounded-full hover:bg-[#CCCCCC] bg-[#D9D9D9] items-center justify-center space-x-[1vw]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="22"
@@ -324,7 +315,7 @@ function JobDetailPage({
                 <h1 className="text-xl font-bold">About the job</h1>
                 {job.content ? (
                   job.content.split("\n").map((item: string) => {
-                    return <li className="text-xl">{item}</li>;
+                    return <li className="text-base">{item}</li>;
                   })
                 ) : (
                   <p>None</p>
@@ -334,7 +325,7 @@ function JobDetailPage({
                 <h1 className="text-xl font-bold">Requirements</h1>
                 {job.requirement ? (
                   job.requirements.split("\n").map((item: string) => {
-                    return <li className="text-xl">{item}</li>;
+                    return <li className="text-base">{item}</li>;
                   })
                 ) : (
                   <p>None</p>
@@ -344,7 +335,7 @@ function JobDetailPage({
                 <h1 className="text-xl font-bold">Benefits</h1>
                 {job.benefits ? (
                   job.benefits.split("\n").map((item: string) => {
-                    return <li className="text-xl">{item}</li>;
+                    return <li className="text-base">{item}</li>;
                   })
                 ) : (
                   <p>None</p>
@@ -355,19 +346,22 @@ function JobDetailPage({
               <div className="flex w-[0.5vw] h-full bg-[#13544E]" />
               <h1 className="text-2xl font-bold">Company Infomation</h1>
             </div>
-            <div className="flex flex-row w-full py-[1vh]">
+            <Link href={employer[0]?.url || ''}>
+            <div className="flex flex-row w-full py-[1vh] rounded hover:bg-[#CCCCCC] ">
               <div className="flex m-[1vw]">
                 <img
-                  className="w-[10vw] h-[10vw]"
+                  className="placeholder-image"
                   src={job.employer_logo}
                   alt=""
                 />
               </div>
               <div className="flex flex-col justify-between w-full p-[1vw]">
                 <h1 className="text-3xl font-bold">{job.employer_name}</h1>
-                <h1 className="text-xl">{job.location}</h1>
+                <h1 className="text-base">{job.location}</h1>
               </div>
             </div>
+            </Link>
+            <div>  </div>
           </div>
         </div>
       </div>
