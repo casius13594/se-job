@@ -462,7 +462,7 @@ export async function unsaveJob(job_id: string) {
 export async function postJob(
   formData1: FormData,
   formData2: FormData,
-  user: UserResponse["data"],
+  userID: string,
   city: IState,
   selectedTags: MultiValue<{ value: any; label: any }>
 ) {
@@ -472,7 +472,7 @@ export async function postJob(
   const employerData = await supabase
     .from("Employer")
     .select("*")
-    .eq("user_id", user.user?.id)
+    .eq("user_id", userID)
     .single();
   const employer_name = employerData.data.name;
   const employer_logo = employerData.data.logo;
@@ -480,7 +480,7 @@ export async function postJob(
     .from("Job")
     .insert([
       {
-        employer_id: user.user?.id,
+        employer_id: userID,
         name: formData1.get("name"),
         employer_name: employer_name,
         employer_logo: employer_logo ?? "",

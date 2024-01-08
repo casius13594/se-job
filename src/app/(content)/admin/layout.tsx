@@ -9,26 +9,26 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [userType, setUserType] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUserType = async () => {
-      try {
-        const userObject = await getUser();
-        if (userObject) {
-          const { data: user } = userObject;
-          if (user) {
-            setUserType(user.type);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
-        // Set loading to false regardless of success or failure
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUserType = async () => {
+  //     try {
+  //       const userObject = await getUser();
+  //       if (userObject) {
+  //         const { data: user } = userObject;
+  //         if (user) {
+  //           setUserType(user.type);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching user data:", error);
+  //     } finally {
+  //       // Set loading to false regardless of success or failure
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchUserType();
-  }, []);
+  //   fetchUserType();
+  // }, []);
   if (loading) {
     return (
       <p className="flex flex-column justify-center items-center h-[100vh] text-3xl font-bold">
@@ -38,7 +38,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   }
   return (
     <>
-      {userType === "admin" ? (
+      {localStorage.getItem("userType") === "admin" ? (
         <div className={styles.main}>
           <div className={styles.container}>
             <div className={styles.menu}>

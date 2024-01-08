@@ -310,7 +310,7 @@ function JobListClient({
             </div>
           </div>
           <div className="flex flex-col w-full h-[82vh] space-y-[2vw] overflow-y-scroll no-scrollbar mt-2 border border-black rounded-lg">
-            <div className="m-5 overflow-auto">
+            <div className="m-3 overflow-auto">
               <div className="flex flex-col h-full w-full">
                 <ul className="flex flex-col h-full w-full space-y-[2vh]">
                   {filteredJobs.map((job) => (

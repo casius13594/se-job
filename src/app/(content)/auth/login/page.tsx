@@ -79,6 +79,7 @@ export default function CredentialsForm() {
               .select("user_id,url")
               .eq("user_id", res.data.user.id)
               .single();
+            localStorage.setItem("userType", "employer");
             if (existingEmployer.data) {
               // if employer exists in the Employer table
               router.push("/" + existingEmployer.data.url);
@@ -86,6 +87,7 @@ export default function CredentialsForm() {
               router.push("../../auth/profileinput");
             }
           } else if (existingUser.data.type === "admin") {
+            localStorage.setItem("userType", "admin");
             router.push("../../admin/usertest");
           } else {
             console.log(res.data.user.id);
@@ -95,7 +97,7 @@ export default function CredentialsForm() {
               .select("user_id")
               .eq("user_id", res.data.user.id)
               .single();
-
+            localStorage.setItem("userType", "employee");
             if (existingEmployee.data) {
               console.log(existingEmployee.data);
               router.push("../../joblist");
