@@ -199,7 +199,7 @@ function JobListClient({
       `}</style>
       <div className="flex flex-row h-full w-full space-x-[2vw]">
         <div className="flex flex-col w-[15vw] min-h-full">
-          <h1 className="flex flex-row w-full text-center text-lg font-bold">
+          <h1 className="flex flex-row w-full text-center text-lg  font-bold">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="36"
@@ -281,7 +281,7 @@ function JobListClient({
               </select>
             </div>
             <div className="flex w-full justify-center items-center">
-              <button className="w-fit px-[2vw] py-2 rounded-3xl bg-[#1c7e748e] hover:bg-[#1c7e74cc] active:bg-[#1c7e74ea] text-white">
+              <button className="w-fit px-[2vw] py-2 rounded-3xl bg-[#1c7e748e] hover:bg-[#1c7e74cc] active:bg-[#1c7e74ea] text-white mt-4">
                 Apply
               </button>
             </div>
@@ -289,14 +289,15 @@ function JobListClient({
         </div>
         <div className="flex flex-col h-full w-[55vw]">
           <div className="flex flex-row w-full justify-between">
-            <h1 className="flex flex-row text-center text-2xl font-bold">
+            <h1 className="flex flex-row text-center text-xl font-bold">
               Results:
             </h1>
             <div className="flex flex-row w-fit">
-              <label htmlFor="sort" className="text-center text-xl">
+              <label htmlFor="sort" className="text-center text-xl font-bold">
                 Sort by:
               </label>
               <select
+              className="ml-2"
                 name="sort"
                 onChange={(e) => {
                   setSortOption(e.target.value);
@@ -308,12 +309,12 @@ function JobListClient({
               </select>
             </div>
           </div>
-          <div className="flex flex-col w-full h-[82vh] space-y-[2vw] overflow-y-scroll no-scrollbar mt-2 border border-black rounded-lg">
-            <div className="m-3 overflow-auto">
+          <div className="flex flex-col w-full h-[82vh] space-y-[2vw] overflow-y-scroll no-scrollbar mt-2 border  rounded-lg">
+            <div className="m-5 overflow-auto">
               <div className="flex flex-col h-full w-full">
                 <ul className="flex flex-col h-full w-full space-y-[2vh]">
                   {filteredJobs.map((job) => (
-                    <li className="flex flex-row w-full border-2 border-black rounded-md hover:bg-grey">
+                    <li className="flex flex-row w-full border-2  border-[#D9D9D9] rounded-md hover:bg-[#D9D9D9]">
                       <div
                         className="flex flex-row w-full"
                         onClick={() => {
