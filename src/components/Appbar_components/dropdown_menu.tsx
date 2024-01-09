@@ -27,6 +27,7 @@ const Menu_Profile: React.FC<MenuProfileProps> = ({
       console.log("Error signing out:", res.error.message);
     } else {
       console.log("Successfully log out");
+      localStorage.clear();
       router.push("/");
     } // navigate to home page
   };

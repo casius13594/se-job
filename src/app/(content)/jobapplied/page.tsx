@@ -19,9 +19,10 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [jobIdInView, setJobIdInView] = useState<string | "">("");
+  const check_user = localStorage.getItem("userType") || null;
+  const currentuser = localStorage.getItem("current_user_id") || null;
   const router = useRouter();
   const supabase = createClientComponentClient();
-
   const closeForm = () => {
     setIsFormVisible(false);
   };
@@ -40,21 +41,28 @@ export default function Page() {
 
   const fetchDataFromSupabase = async (id: number) => {
     setIsLoading(true);
-    const check_user = await is_user();
-    setIsuser(check_user);
 
-    if (check_user) {
+    if (check_user === "employee") {
       const storedSearchTerm = localStorage.getItem("search_jobapplied");
-      setData(await fetchData(id, storedSearchTerm));
+      setData(await fetchData(id, storedSearchTerm, currentuser));
+      setIsuser(true);
+      setIsLoading(false);
     }
 
-    setIsLoading(false);
+    if (!check_user || check_user === "employer") {
+      setIsuser(false);
+    }
   };
 
   useEffect(() => {
     localStorage.setItem("id_click", isClick.toString());
     fetchDataFromSupabase(isClick);
   }, [isClick]);
+
+  const debouncedFetchData = useMemo(
+    () => debounce(fetchDataFromSupabase, 200),
+    []
+  );
 
   useEffect(() => {
     const channel = supabase.channel("jobapplied").on(
@@ -72,11 +80,6 @@ export default function Page() {
       channel.unsubscribe(); // Unsubscribe when the component is unmounted
     };
   }, [supabase, router]);
-
-  const debouncedFetchData = useMemo(
-    () => debounce(fetchDataFromSupabase, 200),
-    []
-  );
 
   useEffect(() => {
     const handleKeyPress = (e: any) => {
@@ -102,7 +105,7 @@ export default function Page() {
     localStorage.setItem("id_click", id.toString());
     debouncedFetchData(id);
   };
-  if (!isuser) {
+  if (check_user !== "employee" || !check_user) {
     return (
       <>
         <main

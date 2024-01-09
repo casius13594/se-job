@@ -603,17 +603,20 @@ export async function fetchChart() {
   return [];
 }
 
-export async function fetchData(isClick: number, search_string: string | null) {
+export async function fetchData(
+  isClick: number,
+  search_string: string | null,
+  currentuser: string | null
+) {
   "use server";
   const supabase = createServerComponentClient({ cookies });
-  const currentuser = await supabase.auth.getUser();
-  if (currentuser.data) {
-    const userId = currentuser.data.user?.id;
-
+  if (currentuser) {
     const appliedData = await supabase.rpc("listappliedjob", {
-      userid: userId,
+      userid: currentuser,
     });
-    const savedData = await supabase.rpc("listsavejob", { userid: userId });
+    const savedData = await supabase.rpc("listsavejob", {
+      userid: currentuser,
+    });
 
     if (appliedData.error || savedData.error) {
       console.log("Fetch jobapplied data error");
