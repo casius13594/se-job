@@ -129,7 +129,7 @@ function JobDetailPage({
             <div className="flex flex-row w-full">
               <div className="flex m-[1vw]">
                 <img
-                 className="placeholder-image -translate-x-4 translate-y-2"
+                  className="placeholder-image -translate-x-4 translate-y-2"
                   src={job.employer_logo || "/logo.svg"}
                   alt=""
                 />
@@ -407,36 +407,39 @@ function JobDetailPage({
             <div className="flex flex-row w-full space-x-[1vw]">
               <div className="flex w-[0.5vw] h-full bg-[#13544E]" />
               <h1 className="text-2xl font-bold">Company Infomation</h1>
-              
             </div>
             <div className="flex flex-row w-full rounded-3xl">
-            <div className="flex flex-row w-full">
-              <div className="flex m-[1vw]">
-                <img
-                 className="placeholder-image -translate-x-4 translate-y-2"
-                  src={employer[0]?.logo || "/logo.svg"}
-                  alt=""
-                />
-              </div>
-              <div className="flex flex-col justify-between w-full p-[1vw]">
-              <a href={employer[0]?.url || ""} target="_blank" rel="noopener noreferrer">
-  <div className="flex flex-row justify-between w-full">
-    <h1 className="text-3xl font-bold hover:underline cursor-pointer">
-      {employer[0]?.name}
-    </h1>
-  </div>
-</a>
-                <div className="flex flex-row w-full">
-                  <h1 className="text-base">{employer[0]?.description}</h1>
+              <div className="flex flex-row w-full">
+                <div className="flex m-[1vw]">
+                  <img
+                    className="placeholder-image -translate-x-4 translate-y-2"
+                    src={employer[0]?.logo || "/logo.svg"}
+                    alt=""
+                  />
                 </div>
-                <div className="flex flex-row w-full">
-                  <h1 className="text-sm">
-                  • {employer[0]?.location} • {employer[0]?.size} employees
-                  </h1>
+                <div className="flex flex-col justify-between w-full p-[1vw]">
+                  <a
+                    href={employer[0]?.url || ""}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="flex flex-row justify-between w-full">
+                      <h1 className="text-3xl font-bold hover:underline cursor-pointer">
+                        {employer[0]?.name}
+                      </h1>
+                    </div>
+                  </a>
+                  <div className="flex flex-row w-full">
+                    <h1 className="text-base">{employer[0]?.description}</h1>
+                  </div>
+                  <div className="flex flex-row w-full">
+                    <h1 className="text-sm">
+                      • {employer[0]?.location} • {employer[0]?.size} employees
+                    </h1>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
             <div> </div>
           </div>
         </div>
@@ -457,7 +460,18 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    setCv(file);
+
+    if (file) {
+      const fileSizeInMB = file.size / (1024 * 1024); // Convert to MB
+      const maxFileSizeMB = 5;
+
+      if (fileSizeInMB <= maxFileSizeMB) {
+        setCv(file);
+      } else {
+        alert("File size exceeds the maximum limit of 5MB");
+        setCv(null);
+      }
+    }
   };
 
   const handleFileRemove = () => {
@@ -542,7 +556,7 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
           <div className="flex items-center bg-green text-white px-10 py-3 rounded-xl">
             Application form
           </div>
-          <img src="/delete.svg" className="invisible" alt=""/>
+          <img src="/delete.svg" className="invisible" alt="" />
         </div>
 
         <div className="flex items-center justify-between px-8 py-2">
