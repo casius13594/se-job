@@ -85,7 +85,7 @@ export default function BasicInfo() {
         <div className="text-2xl font-bold"> Basic Information</div>
         <div className="border-b mt-4 mb-4 border-green w-1/5 "></div>
         <div className="flex flex-row w-full h-[10vh] space-x-[1vw]">
-          <h1 className="text-2xl font-bold">Member Information</h1>
+          <h1 className="text-xl font-bold">Member Information</h1>
 
           <button className="ml-6 -translate-y-5">
             <svg
@@ -161,9 +161,9 @@ export default function BasicInfo() {
               modified ? "" : "invisible"
             }`}
           >
-            <button className="text-bold text-xl">Save</button>
+            <button className="rounded-btn mt-2 text-bold text-base">Save</button>
             <button
-              className="text-bold text-xl"
+              className="-translate-x-64 mt-2 rounded-btn text-bold text-base"
               formAction={() => {
                 setReload(true);
                 setModified(false);

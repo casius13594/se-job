@@ -2,7 +2,7 @@
     border-left: solid gray;
   }
 .font_information{
-  font-size: 16px;
+  font-size: 13px;
 }
 .modal_style{
   width: 50%;
@@ -10,4 +10,16 @@
   height: 50%;
   margin-top: 7%;
   background-color: white;
+}
+.rounded-btn {
+  border-radius: 20px; /* Adjust the value to make the button more or less rounded */
+  padding: 10px 20px;  /* Optional: Add padding for better appearance */
+  border: none;       /* Optional: Remove default border */
+  background-color: #13544E; /* Optional: Add a background color */
+  color: #ffffff;     /* Optional: Add text color */
+  cursor: pointer;    /* Optional: Change cursor on hover */
+  transition: background-color 0.3s; /* Optional: Smooth transition on hover */
+}
+.rounded-btn:hover {
+  background-color: #1C7E75 ; /* Optional: Change background color on hover */
 }

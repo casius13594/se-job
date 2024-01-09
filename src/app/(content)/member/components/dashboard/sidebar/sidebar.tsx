@@ -6,19 +6,23 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { getUser } from '@/components/controller';
 import MenuLink from '@/components/DashBoard/sidebar/linkmenu/Linkmenu';
+import { IoIosInformationCircle } from 'react-icons/io';
+import { SiSecurityscorecard } from "react-icons/si";
+
 const menuItems = [
     {
       title: "Profile",
       list: [
         {
-          title: "Basic Information",
+          title: "Information",
           path: "/member/info",
-          icon: <MdSupervisedUserCircle />,
+          icon: <IoIosInformationCircle />,
         },
         {
-          title: "Security Settings",
+          title: "Security",
           path: "/member/security",
-          icon: <MdShoppingBag />,
+          icon: <SiSecurityscorecard />
+          ,
         },
            ],
     },
@@ -63,12 +67,12 @@ const SidebarMember = () => {
           className={styles.userImage}
           src={profileImg || defaultLogo}
           alt=""
-          width="60"
-          height="60"
+          width="100"
+          height="100"
         />
         <div className={styles.userDetail}>
           <span className={styles.username}>{profileName}</span>
-          <span className={styles.userTitle}>{role} abc</span>
+          <span className={styles.userTitle}>{role}</span>
         </div>
       </div>
         <ul className={styles.list}>

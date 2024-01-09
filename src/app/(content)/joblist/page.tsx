@@ -291,14 +291,16 @@ function JobListClient({
         <div className="flex flex-col h-full w-[55vw]">
           <div className="flex flex-row w-full justify-between">
             <h1 className="flex flex-row text-center text-xl font-bold">
-              {filteredJobs.length} Results:
+                Results: 
+                <div className="ml-4 font-normal">  {filteredJobs.length}</div>
+
             </h1>
             <div className="flex flex-row w-fit">
               <label htmlFor="sort" className="text-center text-xl font-bold">
-                Sort by:
+                Sort by 
               </label>
               <select
-              className="ml-2"
+              className="ml-2 border-hidden"
                 name="sort"
                 onChange={(e) => {
                   setSortOption(e.target.value);
