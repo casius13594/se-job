@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./guidance.module.css";
 import { MdPlayCircleFilled, MdReadMore } from "react-icons/md";
+import { FaBookBookmark } from "react-icons/fa6";
 
 const Guidance = () => {
   return (
@@ -10,7 +11,7 @@ const Guidance = () => {
           <Image className={styles.bg} src="/logo.svg" alt="" fill />
         </div>
         <div className={styles.text}>
-          <span className={styles.notification}>🔥 Available Now</span>
+          <span className={styles.notification}> Guidance</span>
           <h3 className={styles.title}>
             How to use the employer dashboard?
           </h3>
@@ -26,15 +27,13 @@ const Guidance = () => {
       </div>
       <div className={styles.item}>
         <div className={styles.text}>
-          <span className={styles.notification}>🚀 Coming Soon</span>
+          <span className={styles.notification}> Incoming update</span>
           <h3 className={styles.title}>
-            New server actions are available, partial pre-rendering is coming
-            up!
+            Charts display will be added in the future patch.
           </h3>
           <span className={styles.subtitle}>Boost your productivity</span>
           <p className={styles.desc}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit eius libero perspiciatis recusandae possimus.
+          The future statistical function provides more in-depth insights into the current performance of the company
           </p>
           <button className={styles.button}>
             <MdReadMore />

@@ -105,6 +105,7 @@ const Sidebar = () => {
           </span>
         </div>
       </div>
+      <hr style={{ backgroundColor: 'black', height: '1px', border: 'none' }} /> {/* Add the black horizontal ruler here */}
       <ul className={styles.list}>
         {filteredMenuItems.map((item) => (
           <MenuLink item={item} key={item.title} />

@@ -25,10 +25,11 @@
     align-items: center;
     border-radius: 50%;
     object-fit: fill;
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70  px;
     border-color: black;
     border-style: solid;
+    border-width: 0.25px;  
   }
   
   .userDetail{
@@ -38,4 +39,8 @@
   
   .username{
     font-weight: 500;
+    font-size: 30px;
+  }
+  .userTitle{
+    font-size:16px;
   }

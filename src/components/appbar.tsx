@@ -164,7 +164,7 @@ const AppBar = () => {
             className="object-contain"
           />
         </Link>
-        {!currentPath.startsWith("/dashboard") && (
+        {!currentPath.startsWith("/dashboard" || "/admin") && (
           <div className="relative w-1/2">
             <input
               className=" bg-[#d9d9d9] pl-10 rounded-lg h-[5vh] w-full"
@@ -178,6 +178,7 @@ const AppBar = () => {
             </span>
           </div>
         )}
+
         <div className="flex justify-between">
           {userActive ? (
             <div className="flex space-x-6">

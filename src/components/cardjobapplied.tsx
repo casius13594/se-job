@@ -45,12 +45,12 @@ const CardApplied: React.FC<
     <div className="flex flex-row border-2 border-black w-full max-h-80 py-2 mt-1 rounded-md mb-10">
       <div className="flex w-1/5 mx-1 rounded-full overflow-hidden items-center justify-center">
         <img
-          className="w-32 h-28 rounded-full"
+           style={{ borderRadius: "50%", aspectRatio: "1/1" }}
           src={employer_logo ? employer_logo : "/logo.svg"}
           alt=""
         />
       </div>
-      <div className="flex flex-col justify-between w-3/5">
+      <div className="flex flex-col justify-between w-3/5 ml-4">
         <h1 className="text-xl font-bold">{name}</h1>
         <h1 className="text-base">{employer_name}</h1>
         <h1 className="text-base">
@@ -59,7 +59,7 @@ const CardApplied: React.FC<
         <h2 className="text-xs">{post_time}</h2>
       </div>
       <div className="flex flex-col justify-between w-2/5 items-end">
-        <div className="text-center  rounded-full bg-gray-400 m-[1vh] px-[1vw]">
+        <div className="text-center  rounded-full bg-gray-400 m-[1vh] px-[1vw] text-white">
           {tag}
         </div>
         <button
