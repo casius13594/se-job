@@ -464,12 +464,19 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
     if (file) {
       const fileSizeInMB = file.size / (1024 * 1024); // Convert to MB
       const maxFileSizeMB = 5;
+      const allowedFileTypes = ["application/pdf"];
 
-      if (fileSizeInMB <= maxFileSizeMB) {
+      if (
+        fileSizeInMB <= maxFileSizeMB &&
+        allowedFileTypes.includes(file.type)
+      ) {
         setCv(file);
       } else {
-        alert("File size exceeds the maximum limit of 5MB");
-        setCv(null);
+        if (!allowedFileTypes.includes(file.type)) {
+          alert("Only PDF files are allowed");
+        } else if (fileSizeInMB > maxFileSizeMB) {
+          alert("File size exceeds the maximum limit of 5MB");
+        }
       }
     }
   };
