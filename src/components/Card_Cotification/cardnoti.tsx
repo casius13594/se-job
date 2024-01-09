@@ -1,6 +1,7 @@
 "use client";
 import { UUID } from "crypto";
 import { formatDistanceToNow, parseISO } from "date-fns";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaCircle } from "react-icons/fa";
 
@@ -21,8 +22,18 @@ const CardNotification: React.FC<InfoNoti> = ({
   status,
   time,
 }) => {
+  const route = useRouter();
   const check_status = status === "Unread";
-  const handleButtonClick = () => {};
+  const handleButtonClick = () => {
+    const current_user = localStorage.getItem("userType");
+    console.log("Clicked job");
+    if (current_user === "employee") {
+      route.push("/jobapplied");
+    }
+    if (current_user === "employer") {
+      route.push("/dashboard/jobs");
+    }
+  };
 
   const formatDate = (date: string): string => {
     const parsedDate = parseISO(date);
@@ -36,7 +47,6 @@ const CardNotification: React.FC<InfoNoti> = ({
       onClick={handleButtonClick}
       className="flex flex-row border-2 border-black w-full max-h-20 py-1 rounded-md shadow-md hover:bg-[#D9D9D9]"
     >
-
       <div className="flex w-3/12 mx-[0.01vw] rounded-full overflow-hidden items-center justify-center">
         <img
           className=" h-3/4 rounded-full object-fit no-drag"
