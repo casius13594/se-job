@@ -71,31 +71,38 @@ const DealList = () => {
             </button>
           </div>
         )}
-        <ul id="cardListContainer" className="flex overflow-x-hidden space-x-4">
+        <ul id="cardListContainer" className="flex overflow-x-auto space-x-4">
           {jobs.map((job, index) => (
             <li
               key={index}
-              className="card relative flex-shrink-0 bg-light-green h-[415px] w-72 rounded-3xl"
+              className="card relative flex-shrink-0  h-[415px] w-72 rounded-3x border-[#D9D9D9]"
             >
               <div className="flex justify-center items-center p-6">
                 <img
                   src={job.employer_logo || "logo.svg"}
-                  className="card_logo w-32 h-28 rounded-full"
+                  className="card_logo w-32 h-32 rounded-full"
                 />
               </div>
 
-              <h1 className="card_name px-6 text-3xl font-bold overflow-hidden overflow-ellipsis">
+              <h1 className="card_name px-6 text-2xl font-bold overflow-hidden overflow-ellipsis hover:underline cursor-pointer"
+                onClick={() => {
+                  const job_id = job.job_id as string;
+                  localStorage.setItem("job_id", job_id);
+                  window.location.href = "/jobdetail";
+                }}>
                 {job.name}
               </h1>
-              <h2 className="card_salary px-6 text-xl">
-                {job.salary} millions
-              </h2>
-              <p className="card_description py-3 px-6 overflow-hidden max-h-20 leading-snug line-clamp-3">
+              <p className="text-sm card_description py-3 px-6 overflow-hidden max-h-20 leading-snug line-clamp-3">
                 {job.content}
               </p>
-              <div className="absolute bottom-0 left-1/3 mb-6">
+              <h2 className="card_salary px-6 text-sm flex">
+                <div className="font-bold text-red"> Offer: </div>
+                <div className="ml-4">{job.salary} millions </div>
+              </h2>
+            
+              <div className="absolute mt-5 left-1/3 mb-6">
                 <button
-                  className="card_button px-3 py-1 rounded-3xl bg-[#1c7e748e] hover:bg-[#1c7e74cc] active:bg-[#1c7e74ea] text-white"
+                  className="card_button px-3 py-1 rounded-3xl bg-[#13544E] hover:bg-[#1c7e74cc] active:bg-[#1c7e74ea] text-white"
                   onClick={() => {
                     const job_id = job.job_id as string;
                     localStorage.setItem("job_id", job_id);

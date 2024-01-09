@@ -124,11 +124,11 @@ function JobDetailPage({
       `}</style>
       <div className="flex flex-row w-full justify-between px-[1vw]">
         <div className="flex flex-col w-[45vw] h-full space-y-[2vh]">
-          <div className="flex flex-row w-full border-2 border-black rounded-3xl bg-[#13544E26]">
+          <div className="flex flex-row w-full border-2 border-slate-400 rounded-3xl bg-[#13544E26]">
             <div className="flex flex-row w-full">
               <div className="flex m-[1vw]">
                 <img
-                  className="w-[10vw] h-[10vw]"
+                 className="placeholder-image -translate-x-4 translate-y-2"
                   src={job.employer_logo || "/logo.svg"}
                   alt=""
                 />
@@ -160,12 +160,12 @@ function JobDetailPage({
             <div className="flex flex-row rounded-full bg-[#D9D9D9] text-sm p-[1vw] font-bold">
               You might interested in
             </div>
-            <div className="flex flex-col w-full h-full overflow-y-scroll no-scrollbar">
+            <div className="flex flex-col w-full h-full overflow-y-scroll no-scrollbar ">
               {relatedJobs.map((job) => {
                 return (
                   <div
                     key={job.job_id}
-                    className="flex flex-row w-full border-2 border-black rounded-3xl bg-white  hover:bg-[#13544E26] mt-[1vh] overflow-y-scroll no-scrollbar"
+                    className="flex flex-row w-full border-2 border-slate-400 rounded-3xl bg-white  hover:bg-[#13544E26] mt-[2vh] overflow-y-scroll no-scrollbar"
                     onClick={() => {
                       const job_id = job.job_id as string;
                       localStorage.setItem("job_id", job_id);
@@ -175,7 +175,7 @@ function JobDetailPage({
                     <div className="flex flex-row w-full">
                       <div className="flex m-[1vw]">
                         <img
-                          className="w-[10vw] h-[10vw]"
+                          className="placeholder-image -translate-x-4 translate-y-2"
                           src={job.employer_logo || "/logo.svg"}
                           alt=""
                         />
@@ -291,7 +291,7 @@ function JobDetailPage({
             </div>
             <div className="flex flex-row w-full px-[2vw] justify-between">
               <button
-                className="flex flex-row w-[30vw] rounded-full bg-[#1C7E75] hover:bg-[#13544E] items-center justify-center space-x-[1vw]"
+                className="flex flex-row w-[30vw] rounded-full hover:bg-[#1C7E75] bg-[#13544E] items-center justify-center space-x-[1vw]"
                 onClick={onApplyNowClick}
               >
                 <svg
@@ -339,7 +339,7 @@ function JobDetailPage({
                     savedJobs
                       .map((savedJob) => savedJob.Job.job_id)
                       .includes(job.job_id)
-                      ? "green"
+                      ? "red"
                       : "none"
                   }
                 >
@@ -406,22 +406,36 @@ function JobDetailPage({
             <div className="flex flex-row w-full space-x-[1vw]">
               <div className="flex w-[0.5vw] h-full bg-[#13544E]" />
               <h1 className="text-2xl font-bold">Company Infomation</h1>
+              
             </div>
-            <Link href={employer[0]?.url || ""}>
-              <div className="flex flex-row w-full py-[1vh] rounded hover:bg-[#CCCCCC] ">
-                <div className="flex m-[1vw]">
-                  <img
-                    className="placeholder-image"
-                    src={job.employer_logo || "/logo.svg"}
-                    alt=""
-                  />
+            <div className="flex flex-row w-full rounded-3xl">
+            <div className="flex flex-row w-full">
+              <div className="flex m-[1vw]">
+                <img
+                 className="placeholder-image -translate-x-4 translate-y-2"
+                  src={employer[0]?.logo || "/logo.svg"}
+                  alt=""
+                />
+              </div>
+              <div className="flex flex-col justify-between w-full p-[1vw]">
+              <a href={employer[0]?.url || ""} target="_blank" rel="noopener noreferrer">
+  <div className="flex flex-row justify-between w-full">
+    <h1 className="text-3xl font-bold hover:underline cursor-pointer">
+      {employer[0]?.name}
+    </h1>
+  </div>
+</a>
+                <div className="flex flex-row w-full">
+                  <h1 className="text-base">{employer[0]?.description}</h1>
                 </div>
-                <div className="flex flex-col justify-between w-full p-[1vw]">
-                  <h1 className="text-3xl font-bold">{job.employer_name}</h1>
-                  <h1 className="text-base">{job.location}</h1>
+                <div className="flex flex-row w-full">
+                  <h1 className="text-sm">
+                  • {employer[0]?.location} • {employer[0]?.size} employees
+                  </h1>
                 </div>
               </div>
-            </Link>
+            </div>
+          </div>
             <div> </div>
           </div>
         </div>

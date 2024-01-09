@@ -991,7 +991,7 @@ export async function takeURL(id: UUID) {
   // Construct the query to join Employer with Job tables
   const { data, error } = await supabase
     .from("Employer")
-    .select("url")
+    .select("*")
     .eq("user_id", id);
 
   if (error) {
