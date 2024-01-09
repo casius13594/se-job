@@ -673,7 +673,7 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
             <label className="flex flex-col mt-2">
               <span className="mb-1">Proposal letter</span>
               <textarea
-                className="p-1  rounded-md focus:outline-none font-normal"
+                className="p-1 rounded-md focus:outline-none font-normal"
                 style={{
                   border: "1px solid rgba(0, 0, 0, 0.5)",
                 }}

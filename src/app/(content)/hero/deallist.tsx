@@ -72,7 +72,7 @@ const DealList = () => {
             </button>
           </div>
         )}
-        <ul id="cardListContainer" className="flex overflow-x-auto space-x-4">
+        <ul id="cardListContainer" className="flex overflow-x-hidden space-x-4">
           {jobs.map((job, index) => (
             <li
               key={index}
@@ -86,12 +86,14 @@ const DealList = () => {
                 />
               </div>
 
-              <h1 className="card_name px-6 text-2xl font-bold overflow-hidden overflow-ellipsis hover:underline cursor-pointer"
+              <h1
+                className="card_name px-6 text-2xl font-bold overflow-hidden overflow-ellipsis hover:underline cursor-pointer"
                 onClick={() => {
                   const job_id = job.job_id as string;
                   localStorage.setItem("job_id", job_id);
                   window.location.href = "/jobdetail";
-                }}>
+                }}
+              >
                 {job.name}
               </h1>
               <p className="text-sm card_description py-3 px-6 overflow-hidden max-h-20 leading-snug line-clamp-3">
@@ -101,8 +103,8 @@ const DealList = () => {
                 <div className="font-bold text-red"> Offer: </div>
                 <div className="ml-4">{job.salary} millions </div>
               </h2>
-            
-              <div className="absolute mt-5 left-1/3 mb-6">
+
+              <div className="absolute bottom-0 left-1/3 mb-8">
                 <button
                   className="card_button px-3 py-1 rounded-3xl bg-[#13544E] hover:bg-[#1c7e74cc] active:bg-[#1c7e74ea] text-white"
                   onClick={() => {
