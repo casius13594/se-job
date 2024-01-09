@@ -45,7 +45,7 @@ const CardNotification: React.FC<InfoNoti> = ({
   return (
     <div
       onClick={handleButtonClick}
-      className="flex flex-row border-2 border-black w-full max-h-20 py-1 rounded-md shadow-md hover:bg-[#D9D9D9]"
+      className="flex flex-row border-2 border-black w-full max-h-20 py-1 rounded-md shadow-md hover:bg-[#D9D9D9] cursor-pointer"
     >
       <div className="flex w-3/12 mx-[0.01vw] rounded-full overflow-hidden items-center justify-center">
         <img
