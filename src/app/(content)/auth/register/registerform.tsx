@@ -104,7 +104,7 @@ export default function Register() {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col justify-center p-8"
           >
-            <div className="relative  flex pr-2 pl-2 items-center justify-center border-b border-black">
+            {/* <div className="relative  flex pr-2 pl-2 items-center justify-center border-b border-black">
               <button
                 type="button"
                 onClick={handleGoogle}
@@ -117,7 +117,7 @@ export default function Register() {
                 ></img>
                 Connect via Google
               </button>
-            </div>
+            </div> */}
 
             <form
               onSubmit={handleSubmit(onSubmit)}

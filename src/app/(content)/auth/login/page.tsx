@@ -46,6 +46,10 @@ export default function CredentialsForm() {
     else console.log("Sent");
   };
 
+  const toRegister = () => {
+    router.push("/auth/register");
+  }
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const res = await supabase.auth.signInWithPassword({
@@ -349,7 +353,7 @@ export default function CredentialsForm() {
             Login
           </button>
           <div className="h-px bg-black w-full my-7" />
-          <div className="relative mb-5">
+          {/* <div className="relative mb-5">
             <button
               type="button"
               className="w-full h-12 px-6 text-base font-dmsans text-white bg-[#13544E] rounded-lg focus:shadow-outline"
@@ -364,11 +368,11 @@ export default function CredentialsForm() {
               height={30}
               className="absolute top-0 m-2"
             />
-          </div>
+          </div> */}
         </form>
         <h1 className="mt-5 text-base font-bold text-[#AD343E] cursor-default">
           New member?{" "}
-          <span className="text-black text-opacity-50 hover:underline underline-offset-2 cursor-pointer">
+          <span className="text-black text-opacity-50 hover:underline underline-offset-2 cursor-pointer" onClick={toRegister}>
             Create account here
           </span>
         </h1>
