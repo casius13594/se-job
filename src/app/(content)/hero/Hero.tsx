@@ -186,7 +186,7 @@ const Hero = () => {
                 className="py-3 px-7 flex flex-row justify-between items-center bg-red rounded-xl ml-2 cursor-pointer"
                 style={{ width: "135px" }}
               >
-                <img src="/iconSearch.svg" />
+                <img src="/iconSearch.svg" alt=""/>
                 <b className="text-white">Search</b>
               </div>
             </Link>

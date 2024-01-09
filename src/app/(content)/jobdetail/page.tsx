@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 "use client";
 
 import {
@@ -536,11 +537,12 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
             onClick={onClosePopup}
             src="/delete.svg"
             className="cursor-pointer"
+            alt=""
           />
           <div className="flex items-center bg-green text-white px-10 py-3 rounded-xl">
             Application form
           </div>
-          <img src="/delete.svg" className="invisible" />
+          <img src="/delete.svg" className="invisible" alt=""/>
         </div>
 
         <div className="flex items-center justify-between px-8 py-2">
@@ -602,7 +604,7 @@ function ApplicationPopup({ onClosePopup }: { onClosePopup: () => void }) {
                 }}
                 type="tel"
                 name="phone"
-                autoComplete="phone"
+                autoComplete="tel"
                 required
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}

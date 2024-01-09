@@ -8,8 +8,8 @@ const UserProfileCard = () => {
         <div className='gradient'></div>
         <div className='profile-down'>
             <img src = '/logo.svg' alt = ''></img>
-            <div className='profile-title'>Member name</div>  
-        </div>  
+            <div className='profile-title'>Member name</div>
+        </div>
     </div>
   )
 }

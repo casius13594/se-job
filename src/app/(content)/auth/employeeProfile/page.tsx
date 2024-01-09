@@ -81,7 +81,7 @@ export default function EmployeeProfile() {
               ref={datePickerRef}
               className="w-full h-7 border-black border border-r-2 border-b-2 rounded-lg shadow p-2 font-medium"
               onChange={(date: Date) => {
-                setStartDate(date);
+                const [startDate, setStartDate] = useState<Date | null>(null);
                 handleBlur();
                 console.log(date);
               }}

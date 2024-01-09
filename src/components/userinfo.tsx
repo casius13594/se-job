@@ -34,7 +34,7 @@ export function UserInfo({
     <div className = "flex flex-row w-full h-full p-5vw space-x-[1vw] divide-black divide-x-2">
       <div className = "flex flex-col w-[30vw] pr-2vw space-y-[2vh] divide-black divide-y-2 items-center">
         <div className = "flex flex-col w-[20vw] py-[5vh] space-y-[2vh] bg-gradient-to-b from-[#DBDFD0] via-[#FFFFFF] to-[#F3F8E8]">
-          <img className = "w-[12vw] h-[12vw] mx-auto" src = {profileImg ? profileImg : defaultLogo} />
+          <img className = "w-[12vw] h-[12vw] mx-auto" src = {profileImg ? profileImg : defaultLogo} alt = ""/>
           <div className = "text-center text-2xl font-bold">{name}</div>
         </div>
         <div className = "flex flex-col w-full">

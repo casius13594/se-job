@@ -48,6 +48,7 @@ const DealList = () => {
         <img
           src="/abstract-shape-left.svg"
           className="object-fill h-[4vw] m-5"
+          alt=""
         />
         <div className="categories__header-title flex flex-row">
           <h1 className="text-[3vw] font-bold text-green">Great</h1>
@@ -81,6 +82,7 @@ const DealList = () => {
                 <img
                   src={job.employer_logo || "logo.svg"}
                   className="card_logo w-32 h-32 rounded-full"
+                  alt=""
                 />
               </div>
 

@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 interface GELandingProps {
-    id: string,
+  id: string;
   companyName: string;
   location: string;
   industry: string;
@@ -14,9 +14,8 @@ interface GELandingProps {
   size: string;
 }
 
-
 const GELanding: React.FC<GELandingProps> = ({
-    id,
+  id,
   companyName,
   location,
   industry,
@@ -24,29 +23,32 @@ const GELanding: React.FC<GELandingProps> = ({
   logo,
   size,
 }) => {
-    const [relatedCompany, setrelatedCompany] = useState<any[]>([]);;
-    useEffect(() => {
-        // Call the takeIndustry function and set the state with the result
-        const fetchData = async () => {
-          const result = await takesameIdus(industry, companyName);
-          if (result !== null){
-          setrelatedCompany(result);
-          }
-        };
-        fetchData();
-      }, []); 
+  const [relatedCompany, setrelatedCompany] = useState<any[]>([]);
+  useEffect(() => {
+    // Call the takeIndustry function and set the state with the result
+    const fetchData = async () => {
+      const result = await takesameIdus(industry, companyName);
+      if (result !== null) {
+        setrelatedCompany(result);
+      }
+    };
+    fetchData();
+  }, []);
 
-    console.log(relatedCompany)
-    
+  console.log(relatedCompany);
+
   return (
     <>
       <div id="parent" className="profilepage z-0">
         <div className="flex w-full">
           <div className="w-2/3">
-            <div className="profilebg-container">
-            </div>
+            <div className="profilebg-container"></div>
             <div className="flex">
-              <img src={logo || "/logo.svg"} className="placeholder-image  -translate-y-10" />
+              <img
+                src={logo || "/logo.svg"}
+                className="placeholder-image  -translate-y-10"
+                alt=""
+              />
               <div className="ml-5 w-full">
                 <div className="text-3xl font-bold">{companyName}</div>
                 <div className="flex opacity-50 mt-2 text-sm">
@@ -59,33 +61,43 @@ const GELanding: React.FC<GELandingProps> = ({
           </div>
 
           <div className="w-1/3 ">
-            <div className="text-center font-bold mb-3"> People also interest   </div>
-  {relatedCompany.map((company, index) => (
-    <div 
-      key={index} 
-      className="mx-auto flex flex-row border-2 border-slate-300 w-3/4 max-h-20 py-1 rounded-md shadow-md hover:bg-[#D9D9D9] mb-2"
-    >
-      
-      <div className="flex w-3/12 mx-[0.01vw] rounded-full overflow-hidden items-center justify-center">
-        <img
-          className="h-3/4 rounded-full object-fit no-drag"
-          style={{ borderRadius: "50%", aspectRatio: "1/1" }}
-          src={company.logo} // Assuming each company object has a 'logo' property
-          alt=""
-        />
-      </div>
-      <div className="flex flex-col justify-between w-9/12">
-        <h1 className="text-base font-bold hover:underline cursor-pointer">
-        <Link href={`/${company.url}`} prefetch={false} target="_blank" rel="noopener noreferrer">
-    {company.name}
-  </Link>
-          </h1> {/* Assuming each company object has a 'name' property */}
-        <h1 className="text-xs">{company.description}</h1> {/* Assuming each company object has a 'description' property */}
-        <h2 className="text-xs">{company.size} People</h2> {/* Assuming each company object has a 'size' property */}
-      </div>
-    </div>
-  ))}
-</div>
+            <div className="text-center font-bold mb-3">
+              {" "}
+              People also interest{" "}
+            </div>
+            {relatedCompany.map((company, index) => (
+              <div
+                key={index}
+                className="mx-auto flex flex-row border-2 border-slate-300 w-3/4 max-h-20 py-1 rounded-md shadow-md hover:bg-[#D9D9D9] mb-2"
+              >
+                <div className="flex w-3/12 mx-[0.01vw] rounded-full overflow-hidden items-center justify-center">
+                  <img
+                    className="h-3/4 rounded-full object-fit no-drag"
+                    style={{ borderRadius: "50%", aspectRatio: "1/1" }}
+                    src={company.logo} // Assuming each company object has a 'logo' property
+                    alt=""
+                  />
+                </div>
+                <div className="flex flex-col justify-between w-9/12">
+                  <h1 className="text-base font-bold hover:underline cursor-pointer">
+                    <Link
+                      href={`/${company.url}`}
+                      prefetch={false}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {company.name}
+                    </Link>
+                  </h1>{" "}
+                  {/* Assuming each company object has a 'name' property */}
+                  <h1 className="text-xs">{company.description}</h1>{" "}
+                  {/* Assuming each company object has a 'description' property */}
+                  <h2 className="text-xs">{company.size} People</h2>{" "}
+                  {/* Assuming each company object has a 'size' property */}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
@@ -170,4 +182,4 @@ function IconThree() {
   );
 }
 
-export default GELanding
+export default GELanding;

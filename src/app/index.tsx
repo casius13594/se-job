@@ -45,7 +45,7 @@ export async function insertNotes(i: string, t: string) {
 };
 
 export async function signOutUser() {
-    const supabase = await createClient();
+    const supabase = createClient();
     try {
       // Sign out the user
       const { error } = await supabase.auth.signOut();

@@ -73,11 +73,12 @@ export function ApplicationView({
             onClick={onClosePopup}
             src="/delete.svg"
             className="cursor-pointer"
+            alt=""
           />
           <div className="flex items-center bg-green text-white px-10 py-3 rounded-xl">
             Application view
           </div>
-          <img src="/delete.svg" className="invisible" />
+          <img src="/delete.svg" className="invisible" alt="" />
         </div>
 
         <div className="flex items-center justify-between px-8 py-2">

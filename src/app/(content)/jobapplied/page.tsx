@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import AppBar from "@/components/appbar";
