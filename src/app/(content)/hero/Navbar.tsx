@@ -5,7 +5,13 @@ import { usePathname } from "next/navigation"; // Import the useRouter
 import Image from "next/image";
 import CustomButton from "./CustomButton";
 
-const Navbar = () => {
+// ...
+
+interface NavbarProps {
+  scrollToBottom: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ scrollToBottom }) => {
   const pathname = usePathname(); // Initialize the router
   // Check if the current route is the main page (index)
   const isMainPage = pathname === "/";
@@ -43,14 +49,13 @@ const Navbar = () => {
             btnType="button"
             containerStyles="text-black-100 rounded-full bg-white hover:bg-grey"
           />
-          <Link href="./contact">
+
           <CustomButton
             title="Contact"
             btnType="button"
             containerStyles="text-black-100 rounded-full bg-white hover:bg-grey"
-
+            handleClick={scrollToBottom}
           />
-          </Link>
           <Link href="/auth/register">
             <CustomButton
               title="Register Now"
