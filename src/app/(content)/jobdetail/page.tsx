@@ -32,7 +32,10 @@ export default function JobDetail() {
   const [reset, setReset] = React.useState<boolean>(false);
 
   const handleApplyNowClick = () => {
-    setPopupVisibility(true);
+    if (!localStorage.getItem("current_user_id")) {
+      setLoginRequired(true);
+    }
+    else setPopupVisibility(true);
   };
 
   const handleClosePopup = () => {
