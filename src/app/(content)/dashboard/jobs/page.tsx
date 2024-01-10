@@ -8,6 +8,7 @@ import {
   toggleJobStatus,
 } from "@/components/controller";
 import Link from "next/link";
+import { ClipLoader } from "react-spinners";
 
 interface Job {
   job_id: any;
@@ -24,11 +25,13 @@ const JobPage = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [searchInput, setSearchInput] = useState("");
   const [applicants, setApplicants] = useState<any[][]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const filteredJobs = jobs.filter((job) =>
     job.name.toLowerCase().includes(searchInput.toLowerCase())
   );
 
   useEffect(() => {
+    setIsLoading(true);
     console.log(localStorage.getItem("current_user_id"));
     getJobOfEmployer(localStorage.getItem("current_user_id") || "")
       .then((jobs) => {
@@ -46,7 +49,8 @@ const JobPage = () => {
           setJobs([]);
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => setIsLoading(false));
   }, []);
 
   const changeJobStatus = async (jobId: string) => {
@@ -66,67 +70,77 @@ const JobPage = () => {
 
   return (
     <div className="w-full">
-      <div className="flex flex-row w-1/2 justify-between mb-5">
-        <div className="relative w-1/2">
-          <input
-            className=" bg-[#13544e] pl-10 rounded-lg h-[5vh] w-full text-white"
-            placeholder="Search"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
-          <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
-            <Image
-              src="/search_light.svg"
-              alt="search"
-              width={20}
-              height={20}
-            />
-          </span>
-        </div>
-        <text className="flex items-center text-center text-base font-black">
-          Total job: {jobs.length}
-        </text>
-      </div>
-      <div className="grid grid-cols-6 gap-4 text-center overflow-hidden text-bold">
-        <div className="font-bold">No.</div>
-        <div className="font-bold">Name</div>
-        <div className="font-bold">Applicants</div>
-        <div className="font-bold">Status</div>
-        <div className="col-span-2 font-bold">Action</div>
-
-        {filteredJobs.map((job, index) => (
-          <>
-            <div className="text-sm">{index + 1}</div>
-            <div className="text-sm">{job.name}</div>
-            <div className="text-sm">{(applicants[index] || []).length}</div>
-            <div className="text-sm">{job.status === "open" ? "Visible" : "Hidden"}</div>
-            <div className="col-span-2 flex justify-end">
-              <div className="flex justify-between w-5/6">
-                <button
-                  onClick={() => changeJobStatus(job.job_id)}
-                  className="bg-black text-white px-3 py-1 rounded-3xl text-sm"
-                >
-                  {job.status === "open" ? "Hide Job" : "Show Job"}
-                </button>
-                <Link
-                  className="bg-black text-white px-3 py-1 rounded-3xl text-sm"
-                  href={{
-                    pathname: "/dashboard/applicants",
-                    query: {
-                      index: index,
-                      id: job.job_id,
-                      name: job.name,
-                      status: job.status,
-                    },
-                  }}
-                >
-                  Check Applicants
-                </Link>
-              </div>
+      {isLoading ? (
+        <ClipLoader color="#ffffff" loading={true} size={50}></ClipLoader>
+      ) : (
+        <>
+          <div className="flex flex-row w-1/2 justify-between mb-5">
+            <div className="relative w-1/2">
+              <input
+                className=" bg-[#13544e] pl-10 rounded-lg h-[5vh] w-full text-white"
+                placeholder="Search"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+              <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
+                <Image
+                  src="/search_light.svg"
+                  alt="search"
+                  width={20}
+                  height={20}
+                />
+              </span>
             </div>
-          </>
-        ))}
-      </div>
+            <text className="flex items-center text-center text-base font-black">
+              Total job: {jobs.length}
+            </text>
+          </div>
+          <div className="grid grid-cols-6 gap-4 text-center overflow-hidden text-bold">
+            <div className="font-bold">No.</div>
+            <div className="font-bold">Name</div>
+            <div className="font-bold">Applicants</div>
+            <div className="font-bold">Status</div>
+            <div className="col-span-2 font-bold">Action</div>
+
+            {filteredJobs.map((job, index) => (
+              <>
+                <div className="text-sm">{index + 1}</div>
+                <div className="text-sm">{job.name}</div>
+                <div className="text-sm">
+                  {(applicants[index] || []).length}
+                </div>
+                <div className="text-sm">
+                  {job.status === "open" ? "Visible" : "Hidden"}
+                </div>
+                <div className="col-span-2 flex justify-end">
+                  <div className="flex justify-between w-5/6">
+                    <button
+                      onClick={() => changeJobStatus(job.job_id)}
+                      className="bg-black text-white px-3 py-1 rounded-3xl text-sm"
+                    >
+                      {job.status === "open" ? "Hide Job" : "Show Job"}
+                    </button>
+                    <Link
+                      className="bg-black text-white px-3 py-1 rounded-3xl text-sm"
+                      href={{
+                        pathname: "/dashboard/applicants",
+                        query: {
+                          index: index,
+                          id: job.job_id,
+                          name: job.name,
+                          status: job.status,
+                        },
+                      }}
+                    >
+                      Check Applicants
+                    </Link>
+                  </div>
+                </div>
+              </>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

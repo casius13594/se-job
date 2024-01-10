@@ -5,8 +5,11 @@ import Image from "next/image";
 import { CustomButton } from ".";
 import Link from "next/link";
 import { City } from "country-state-city";
+interface HeroProps {
+  onButtonClick: () => void;
+}
 
-const Hero = () => {
+const Hero: React.FC<HeroProps> = ({ onButtonClick }) => {
   const [isCityDialogVisible, setCityDialogVisibility] = React.useState(false);
   const [isSalaryDialogVisible, setSalaryDialogVisibility] =
     React.useState(false);
@@ -210,7 +213,7 @@ const Hero = () => {
               <CustomButton
                 title="About us"
                 containerStyles="bg-red text-white min-w-[153px] mt-10"
-                handleClick={handleScroll}
+                handleClick={onButtonClick}
               />
             </div>
           </div>
