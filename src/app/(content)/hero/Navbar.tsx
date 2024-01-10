@@ -68,7 +68,8 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToBottom }) => {
             containerStyles="text-black-100 rounded-full bg-white hover:bg-grey"
             handleClick={scrollToBottom}
           />
-          {notUser && (
+          
+           
             <Link href="/auth/register">
               <CustomButton
                 title="Register Now"
@@ -76,7 +77,6 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToBottom }) => {
                 containerStyles="text-white rounded-full bg-green hover:bg-[#0f433e] active:bg-[#092a27] min-w-[261px]"
               />
             </Link>
-          )}
         </div>
       </nav>
     </header>
