@@ -72,7 +72,7 @@ const DealList = () => {
             </button>
           </div>
         )}
-        <ul id="cardListContainer" className="flex overflow-x-hidden space-x-4">
+        <ul id="cardListContainer" className="flex overflow-x-auto space-x-4">
           {jobs.map((job, index) => (
             <li
               key={index}
