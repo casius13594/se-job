@@ -87,7 +87,7 @@ export default function Register() {
   return (
     <main className="flex min-h-screen min-w-screen items-center justify-between">
       <div className="flex min-h-screen flex-col min-w-full items-center ">
-        <div className="relative top-0 left-0 flex border-b w-full items-end lg:static lg:h-auto lg:bg-none ">
+        <div className="relative top-0 left-0 mb-10 flex border-b w-full items-end lg:static lg:h-auto lg:bg-none ">
           <Link href="/">
             <Image
               src="/logo.svg"
@@ -118,7 +118,7 @@ export default function Register() {
                 Connect via Google
               </button>
             </div> */}
-            <h1 className="relative  flex text-2xl text-[#13544E] font-serif font-bold pr-2 pl-2 items-center justify-center border-b border-black">
+            <h1 className="relative  flex text-2xl text-[#13544E] font-semibold pb-2 items-center justify-center border-b border-black">
               {" "}
               Register form
             </h1>
@@ -198,12 +198,12 @@ export default function Register() {
                 type="submit"
                 className="my-4 p-2 text-center rounded-2xl text-white font-semibold focus:outline-none bg-[#13544E]  hover:bg-black hover:opacity-100"
               >
-                Sign in
+                Register
               </button>
 
               <div className="text-center text-black font-bold text-xs">
                 Already have an account?
-                <span className="font-semibold text-[#505050] text-opacity-70 hover:text-opacity-100">
+                <span className="font-semibold text-base text-[#505050] text-opacity-70 hover:text-opacity-100">
                   {" "}
                   <Link href="./login">Log in now</Link>
                 </span>
