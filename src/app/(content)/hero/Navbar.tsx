@@ -39,16 +39,14 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToBottom }) => {
             btnType="button"
             containerStyles="text-black-100 rounded-full bg-white hover:bg-grey"
           />
-          <CustomButton
-            title="About"
-            btnType="button"
-            containerStyles="text-black-100 rounded-full bg-white hover:bg-grey"
-          />
-          <CustomButton
-            title="Pages"
-            btnType="button"
-            containerStyles="text-black-100 rounded-full bg-white hover:bg-grey"
-          />
+
+          <Link href="/joblist">
+            <CustomButton
+              title="Jobs"
+              btnType="button"
+              containerStyles="text-black-100 rounded-full bg-white hover:bg-grey"
+            />
+          </Link>
 
           <CustomButton
             title="Contact"
