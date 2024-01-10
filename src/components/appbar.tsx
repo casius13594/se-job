@@ -53,7 +53,7 @@ const AppBar = () => {
     function handleClickOutside(event: { target: any; }) {
       if (
         notificationsRef.current &&
-        !notificationsRef.current.contains(event.target)
+        !((notificationsRef.current as HTMLElement).contains(event.target))
       ) {
         setShowNotifications(false);
       }

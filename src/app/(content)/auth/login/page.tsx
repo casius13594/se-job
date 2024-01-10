@@ -93,7 +93,7 @@ export default function CredentialsForm() {
             }
           } else if (existingUser.data.type === "admin") {
             localStorage.setItem("userType", "admin");
-            router.push("../../admin/usertest");
+            router.push("../../admin");
           } else {
             console.log(res.data.user.id);
             const existingEmployee = await supabase
