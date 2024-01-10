@@ -1,16 +1,15 @@
-"use client"
-import Card from '@/components/DashBoard/card/card'
-import React, { useEffect, useState } from 'react'
-import styles from '@/components/DashBoard/dashbar.module.css'
+"use client";
+import Card from "@/components/DashBoard/card/card";
+import React, { useEffect, useState } from "react";
+import styles from "@/components/DashBoard/dashbar.module.css";
 import {
   getApplied,
   getEmployeeOfCompany,
   getJobOfEmployer,
   toggleJobStatus,
 } from "@/components/controller";
-import Guidance from '@/components/DashBoard/guidance/guidance';
-import { employeeCompany } from '@/components/DashBoard/user/userinfo';
-
+import Guidance from "@/components/DashBoard/guidance/guidance";
+import { employeeCompany } from "@/components/DashBoard/user/userinfo";
 
 interface Job {
   job_id: any;
@@ -23,13 +22,11 @@ interface Job {
   experience: any;
 }
 
-
-
 const Page = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [applicants, setApplicants] = useState<any[][]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // New loading state\
-  
+
   const [data2, setData2] = useState<employeeCompany[]>([]);
   React.useEffect(() => {
     const fetchdata = async () => {
@@ -37,7 +34,7 @@ const Page = () => {
     };
     fetchdata();
   }, []);
-  
+
   const cards = [
     {
       id: 1,
@@ -50,7 +47,7 @@ const Page = () => {
       title: "Total Jobs",
       number: jobs.length || "loading",
       change: -2,
-    }
+    },
   ];
 
   useEffect(() => {
@@ -64,9 +61,8 @@ const Page = () => {
         }
       })
       .catch((error) => console.error(error));
-      setIsLoading(false);
+    setIsLoading(false);
   }, []);
-
 
   if (isLoading) {
     return <div>Loading...</div>; // Show loading state
@@ -74,19 +70,16 @@ const Page = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.main}>
-      <div className={styles.cards}>
+        <div className={styles.cards}>
           {cards.map((item) => (
             <Card item={item} key={item.id} />
           ))}
         </div>
         <div className={styles.side}>
-        <Guidance />
+          <Guidance />
+        </div>
       </div>
-      </div>
-      </div>
-
-  )
-}
-export default Page
-
-
+    </div>
+  );
+};
+export default Page;

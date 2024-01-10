@@ -139,8 +139,8 @@ export default function CredentialsForm() {
 
   return (
     <div className="w-full flex flex-row min-h-screen">
-      <div className="w-4/12 flex flex-col items-center min-h-screen">
-        <div className="flex flex-col items-center justify-center w-full h-4/5">
+      <div className="w-4/12 flex flex-col items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center w-full h-4/5 ">
           <Modal
             isOpen={forgotPassword}
             contentLabel="forgot password"
