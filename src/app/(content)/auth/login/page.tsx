@@ -52,6 +52,7 @@ export default function CredentialsForm() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setIsLoading(true);
     const res = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -133,55 +134,12 @@ export default function CredentialsForm() {
         setError(res.error?.message || null);
       }
     }
-  };
-
-  const handleGoogle = async () => {
-    // Open Google authentication popup
-
-    const res = await supabase.auth.signInWithOAuth({
-      provider: "google",
-    });
-
-    if (res.error) {
-      console.error("Google authentication error:", res.error.message);
-      return;
-    }
-
-    // If user is successfully authenticated
-    console.log("Successfully authenticated with Google");
-    const user = await supabase.auth.getUser();
-    console.log(user);
-    // Now you can fetch additional user data or perform other actions
-    // For example, fetching user profile data from the Supabase database
-    const existingUser = await supabase
-      .schema("public")
-      .from("User")
-      .select("user_id")
-      .eq("user_id", user.data.user?.id)
-      .single();
-    if (existingUser.data) {
-      // If the user exists, update the status
-      console.log("Updating");
-      await supabase
-        .schema("public")
-        .from("User")
-        .update({ status: "online" })
-        .eq("user_id", user.data?.user?.id);
-    } else {
-      // If the user doesn't exist, insert a new record
-      console.log("Inserting");
-      await supabase
-        .schema("public")
-        .from("User")
-        .insert([
-          { user_id: user.data.user?.id, status: "online", type: "null" },
-        ]);
-    }
+    setIsLoading(false);
   };
 
   return (
     <div className="w-full flex flex-row min-h-screen">
-      <div className="w-1/2 flex flex-col items-center min-h-screen">
+      <div className="w-4/12 flex flex-col items-center min-h-screen">
         <Link href="/" className="flex place-self-start ml-16 my-5">
           <Image
             src="/logo.svg"
@@ -353,7 +311,11 @@ export default function CredentialsForm() {
               type="submit"
               className="w-full h-12 px-6 text-base font-dmsans text-white bg-[#13544E] rounded-lg focus:shadow-outline"
             >
-              Login
+              {isLoading ? (
+                <ClipLoader color="#ffffff" loading={true} size={20} />
+              ) : (
+                "Login"
+              )}
             </button>
             <div className="h-px bg-black w-full my-7" />
             {/* <div className="relative mb-5">
@@ -384,8 +346,8 @@ export default function CredentialsForm() {
           </h1>
         </div>
       </div>
-      <div className="w-2/3 relative">
-      <div className="absolute inset-0 bg-white opacity-30 z-10"></div>
+      <div className="w-9/12 relative">
+        <div className="absolute inset-0 bg-white opacity-30 z-10"></div>
         <Image
           src="/login_background.jpg"
           alt=""
