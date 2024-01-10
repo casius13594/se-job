@@ -359,6 +359,7 @@ function JobListClient({
                           </div>
                         </div>
                       </div>
+                      {localStorage.getItem("userType") !== "employer" && (
                       <svg
                         className="flex m-[1vw] hover:cursor-pointer"
                         xmlns="http://www.w3.org/2000/svg"
@@ -392,7 +393,7 @@ function JobListClient({
                           stroke="#33363F"
                           stroke-width="2"
                         />
-                      </svg>
+                      </svg>)}
                     </li>
                   ))}
                 </ul>
