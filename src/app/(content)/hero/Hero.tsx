@@ -99,11 +99,9 @@ const Hero: React.FC<HeroProps> = ({ onButtonClick }) => {
     setSelectedSalary(inputValue);
   };
 
-  const notUser = localStorage.getItem("userType") === null;
-
   return (
     <div className="Hero">
-      <div className="mt-28 padding-x">
+      <div className=" mt-24 padding-x">
         <div
           className="hero__container-0 flex flex-col justify-between items-center pt-4 pb-10 padding-x -mb-8 bg-green rounded-t-3xl"
           style={{ height: "200px" }}
