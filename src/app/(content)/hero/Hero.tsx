@@ -208,7 +208,7 @@ const Hero: React.FC<HeroProps> = ({ onButtonClick }) => {
             <div className="flex flex-row space-x-3">
               <Link href="./auth/login">
                 <CustomButton
-                  title={"Login"}
+                  title={notUser ? "Login" : "Change account"}
                   containerStyles="bg-green hover:bg-[#0f433e] active:bg-[#092a27] text-white min-w-[153px] mt-10"
                 />
               </Link>
