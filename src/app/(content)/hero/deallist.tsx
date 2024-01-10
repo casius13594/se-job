@@ -96,7 +96,7 @@ const DealList = () => {
               >
                 {job.name}
               </h1>
-              <p className="text-sm card_description py-3 px-6 overflow-hidden max-h-20 leading-snug line-clamp-3">
+              <p className="text-sm card_description py-3 px-6 overflow-auto max-h-20 leading-snug line-clamp-3">
                 {job.content}
               </p>
               <h2 className="card_salary px-6 text-sm flex">
