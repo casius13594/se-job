@@ -21,6 +21,7 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToBottom }) => {
   }
 
   const userType = localStorage.getItem("userType");
+  const notUser = userType === null;
 
   // Determine the link based on the userType
   const homeLink =
@@ -67,13 +68,15 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToBottom }) => {
             containerStyles="text-black-100 rounded-full bg-white hover:bg-grey"
             handleClick={scrollToBottom}
           />
-          <Link href="/auth/register">
-            <CustomButton
-              title="Register Now"
-              btnType="button"
-              containerStyles="text-white rounded-full bg-green min-w-[261px]"
-            />
-          </Link>
+          {notUser && (
+            <Link href="/auth/register">
+              <CustomButton
+                title="Register Now"
+                btnType="button"
+                containerStyles="text-white rounded-full bg-green min-w-[261px]"
+              />
+            </Link>
+          )}
         </div>
       </nav>
     </header>
