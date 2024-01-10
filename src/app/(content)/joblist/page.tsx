@@ -402,16 +402,17 @@ function JobListClient({
         </div>
         <div className="flex flex-col h-[90vh] w-[25vw] justify-between">
           <div className="flex flex-col h-full space-y-[2vw] w-full">
-            <div className="rounded-lg bg-[#d9d9d9] w-full h-full ">
+            <div className="rounded-lg w-full h-full flex justify-center items-center">
               <video
                 src="./adver.mp4"
                 muted
                 autoPlay
                 controls={false}
                 loop
-                className="w-full h-full object-cover rounded-lg"
+                className="w-2/3 h-2/3 object-cover rounded-lg"
               ></video>
             </div>
+            
             {/* <div className="rounded-lg bg-[#d9d9d9] w-full h-[20vh]">
               <div className="flex flex-row w-full m-[1vw] space-x-[2vw]">
                 <svg
