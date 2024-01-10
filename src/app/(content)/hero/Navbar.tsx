@@ -73,7 +73,7 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToBottom }) => {
               <CustomButton
                 title="Register Now"
                 btnType="button"
-                containerStyles="text-white rounded-full bg-green min-w-[261px]"
+                containerStyles="text-white rounded-full bg-green hover:bg-[#0f433e] active:bg-[#092a27] min-w-[261px]"
               />
             </Link>
           )}
