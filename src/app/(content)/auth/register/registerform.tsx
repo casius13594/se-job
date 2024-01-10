@@ -118,6 +118,10 @@ export default function Register() {
                 Connect via Google
               </button>
             </div> */}
+            <h1 className="relative  flex text-2xl text-[#13544E] font-serif font-bold pr-2 pl-2 items-center justify-center border-b border-black">
+              {" "}
+              Register form
+            </h1>
 
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -192,7 +196,7 @@ export default function Register() {
 
               <button
                 type="submit"
-                className="my-4 p-2 text-center rounded-2xl text-white font-semibold focus:outline-none bg-black opacity-20 hover:bg-black hover:opacity-100"
+                className="my-4 p-2 text-center rounded-2xl text-white font-semibold focus:outline-none bg-[#13544E]  hover:bg-black hover:opacity-100"
               >
                 Sign in
               </button>
