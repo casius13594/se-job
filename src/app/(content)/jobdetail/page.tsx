@@ -117,6 +117,8 @@ function JobDetailPage({
     return `${day}-${month}-${year}`;
   };
 
+  const isEmployee = localStorage.getItem("userType") === "employee";
+
   return (
     <>
       <style jsx global>{`
@@ -296,80 +298,161 @@ function JobDetailPage({
               </div>
             </div>
             <div className="flex flex-row w-full px-[2vw] justify-between">
-              <button
-                className="flex flex-row w-[30vw] rounded-full hover:bg-[#1C7E75] bg-[#13544E] items-center justify-center space-x-[1vw]"
-                onClick={onApplyNowClick}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
+              {isEmployee ? (
+                <button
+                  className="flex flex-row w-[30vw] rounded-full hover:bg-[#1C7E75] bg-[#13544E] items-center justify-center space-x-[1vw]"
+                  onClick={onApplyNowClick}
                 >
-                  <path
-                    d="M13.8325 6.17463L8.10904 11.9592L1.59944 7.88767C0.66675 7.30414 0.860765 5.88744 1.91572 5.57893L17.3712 1.05277C18.3373 0.769629 19.2326 1.67283 18.9456 2.642L14.3731 18.0868C14.0598 19.1432 12.6512 19.332 12.0732 18.3953L8.10601 11.9602"
-                    stroke="white"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                <h1 className="text-xl font-bold text-center text-white py-[1vh]">
-                  Apply now
-                </h1>
-              </button>
-              <button
-                className="flex flex-row w-[12vw] rounded-full hover:bg-[#CCCCCC] bg-[#D9D9D9] items-center justify-center space-x-[1vw]"
-                onClick={() => {
-                  if (
-                    savedJobs
-                      .map((savedJob) => savedJob.Job.job_id)
-                      .includes(job.job_id)
-                  ) {
-                    unsaveJob(job.job_id);
-                  } else {
-                    saveJob(job.job_id).then((res) => {
-                      res == false ? setLoginRequired(true) : null;
-                    });
-                  }
-                  setReset();
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="20"
-                  viewBox="0 0 22 20"
-                  fill={
-                    savedJobs
-                      .map((savedJob) => savedJob.Job.job_id)
-                      .includes(job.job_id)
-                      ? "red"
-                      : "none"
-                  }
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                  >
+                    <path
+                      d="M13.8325 6.17463L8.10904 11.9592L1.59944 7.88767C0.66675 7.30414 0.860765 5.88744 1.91572 5.57893L17.3712 1.05277C18.3373 0.769629 19.2326 1.67283 18.9456 2.642L14.3731 18.0868C14.0598 19.1432 12.6512 19.332 12.0732 18.3953L8.10601 11.9602"
+                      stroke="white"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <h1 className="text-xl font-bold text-center text-white py-[1vh]">
+                    Apply now
+                  </h1>
+                </button>
+              ) : (
+                <button
+                  className="flex flex-row w-[30vw] rounded-full bg-slate-300 items-center justify-center space-x-[1vw]"
+                  disabled
                 >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M1.87187 9.59832C0.798865 6.24832 2.05287 2.41932 5.56987 1.28632C7.41987 0.689322 9.46187 1.04132 10.9999 2.19832C12.4549 1.07332 14.5719 0.693322 16.4199 1.28632C19.9369 2.41932 21.1989 6.24832 20.1269 9.59832C18.4569 14.9083 10.9999 18.9983 10.9999 18.9983C10.9999 18.9983 3.59787 14.9703 1.87187 9.59832Z"
-                    stroke="black"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M15 4.69995C16.07 5.04595 16.826 6.00095 16.917 7.12195"
-                    stroke="black"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                <h1 className="text-xl font-bold text-center py-[1vh]">
-                  Save job
-                </h1>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                  >
+                    <path
+                      d="M13.8325 6.17463L8.10904 11.9592L1.59944 7.88767C0.66675 7.30414 0.860765 5.88744 1.91572 5.57893L17.3712 1.05277C18.3373 0.769629 19.2326 1.67283 18.9456 2.642L14.3731 18.0868C14.0598 19.1432 12.6512 19.332 12.0732 18.3953L8.10601 11.9602"
+                      stroke="white"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <h1 className="text-xl font-bold text-center text-white py-[1vh]">
+                    Apply now
+                  </h1>
+                </button>
+              )}
+              {isEmployee ? (
+                <button
+                  className="flex flex-row w-[12vw] rounded-full hover:bg-[#CCCCCC] bg-[#D9D9D9] items-center justify-center space-x-[1vw]"
+                  onClick={() => {
+                    if (
+                      savedJobs
+                        .map((savedJob) => savedJob.Job.job_id)
+                        .includes(job.job_id)
+                    ) {
+                      unsaveJob(job.job_id);
+                    } else {
+                      saveJob(job.job_id).then((res) => {
+                        res == false ? setLoginRequired(true) : null;
+                      });
+                    }
+                    setReset();
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="20"
+                    viewBox="0 0 22 20"
+                    fill={
+                      savedJobs
+                        .map((savedJob) => savedJob.Job.job_id)
+                        .includes(job.job_id)
+                        ? "red"
+                        : "none"
+                    }
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M1.87187 9.59832C0.798865 6.24832 2.05287 2.41932 5.56987 1.28632C7.41987 0.689322 9.46187 1.04132 10.9999 2.19832C12.4549 1.07332 14.5719 0.693322 16.4199 1.28632C19.9369 2.41932 21.1989 6.24832 20.1269 9.59832C18.4569 14.9083 10.9999 18.9983 10.9999 18.9983C10.9999 18.9983 3.59787 14.9703 1.87187 9.59832Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M15 4.69995C16.07 5.04595 16.826 6.00095 16.917 7.12195"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <h1 className="text-xl font-bold text-center py-[1vh]">
+                    Save job
+                  </h1>
+                </button>
+              ) : (
+                <button
+                  className="flex flex-row w-[12vw] rounded-full bg-slate-300 items-center justify-center space-x-[1vw]"
+                  disabled
+                  onClick={() => {
+                    if (
+                      savedJobs
+                        .map((savedJob) => savedJob.Job.job_id)
+                        .includes(job.job_id)
+                    ) {
+                      unsaveJob(job.job_id);
+                    } else {
+                      saveJob(job.job_id).then((res) => {
+                        res == false ? setLoginRequired(true) : null;
+                      });
+                    }
+                    setReset();
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="20"
+                    viewBox="0 0 22 20"
+                    fill={
+                      savedJobs
+                        .map((savedJob) => savedJob.Job.job_id)
+                        .includes(job.job_id)
+                        ? "red"
+                        : "none"
+                    }
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M1.87187 9.59832C0.798865 6.24832 2.05287 2.41932 5.56987 1.28632C7.41987 0.689322 9.46187 1.04132 10.9999 2.19832C12.4549 1.07332 14.5719 0.693322 16.4199 1.28632C19.9369 2.41932 21.1989 6.24832 20.1269 9.59832C18.4569 14.9083 10.9999 18.9983 10.9999 18.9983C10.9999 18.9983 3.59787 14.9703 1.87187 9.59832Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M15 4.69995C16.07 5.04595 16.826 6.00095 16.917 7.12195"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <h1 className="text-xl font-bold text-center py-[1vh]">
+                    Save job
+                  </h1>
+                </button>
+              )}
             </div>
           </div>
           <div className="flex flex-col w-full px-[2vw] space-y-[3vh]">
@@ -435,16 +518,22 @@ function JobDetailPage({
                     </div>
                   </a>
                   <div className="flex flex-row w-full">
-                  <div>
-                  <h1 style={{ maxHeight: isExpanded ? 'none' : '60px', overflow: 'hidden' }} className="text-sm">
-        {employer[0]?.description}
-      </h1>
-      {employer[0]?.description.length > 60 && (
-        <button onClick={toggleExpand} className="font-bold">
-          {isExpanded ? 'Minimize' : 'Know more'}
-        </button>
-      )}
-    </div>
+                    <div>
+                      <h1
+                        style={{
+                          maxHeight: isExpanded ? "none" : "60px",
+                          overflow: "hidden",
+                        }}
+                        className="text-sm"
+                      >
+                        {employer[0]?.description}
+                      </h1>
+                      {employer[0]?.description.length > 60 && (
+                        <button onClick={toggleExpand} className="font-bold">
+                          {isExpanded ? "Minimize" : "Know more"}
+                        </button>
+                      )}
+                    </div>
                   </div>
                   <div className="flex flex-row w-full">
                     <h1 className="text-sm">
