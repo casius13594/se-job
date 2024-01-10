@@ -291,16 +291,15 @@ function JobListClient({
         <div className="flex flex-col h-full w-[55vw]">
           <div className="flex flex-row w-full justify-between">
             <h1 className="flex flex-row text-center text-xl font-bold">
-                Results: 
-                <div className="ml-4 font-normal">  {filteredJobs.length}</div>
-
+              Results:
+              <div className="ml-4 font-normal"> {filteredJobs.length}</div>
             </h1>
             <div className="flex flex-row w-fit">
               <label htmlFor="sort" className="text-center text-xl font-bold">
-                Sort by 
+                Sort by
               </label>
               <select
-              className="ml-2 border-hidden"
+                className="ml-2 border-hidden"
                 name="sort"
                 onChange={(e) => {
                   setSortOption(e.target.value);
@@ -400,21 +399,15 @@ function JobListClient({
         </div>
         <div className="flex flex-col h-[90vh] w-[25vw] justify-between">
           <div className="flex flex-col h-full space-y-[2vw] w-full">
-            <div className="rounded-lg bg-[#d9d9d9] w-full h-[20vh]">
-              <div className="flex flex-row w-full m-[1vw] text-center text-xl">
-                Other features
-              </div>
-              <p className="flex flex-row w-full m-[1vw] text-center text-md">
-                Coming soon
-              </p>
-            </div>
-            <div className="rounded-lg bg-[#d9d9d9] w-full h-[12vw]">
-              <div className="flex flex-row w-full pt-[1vw]">
-                <h1 className="text-center text-xl w-full">Banner</h1>
-              </div>
-              <p className="flex flex-row w-full text-center text-md">
-                Advertisement please contact 0123456789 
-              </p> 
+            <div className="rounded-lg bg-[#d9d9d9] w-full h-full ">
+              <video
+                src="./adver.mp4"
+                muted
+                autoPlay
+                controls={false}
+                loop
+                className="w-full h-full object-cover rounded-lg"
+              ></video>
             </div>
             {/* <div className="rounded-lg bg-[#d9d9d9] w-full h-[20vh]">
               <div className="flex flex-row w-full m-[1vw] space-x-[2vw]">
