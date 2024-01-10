@@ -34,6 +34,7 @@ const AppBar = () => {
   const router = useRouter();
   const supabase = createClientComponentClient();
   const userType = localStorage.getItem("userType");
+  const notificationsRef = React.useRef(null);
 
   console.log(currentPath);
 
@@ -47,6 +48,24 @@ const AppBar = () => {
     setListNoti(updatedNotiList);
     update_noti_status();
   };
+
+  useEffect(() => {
+    function handleClickOutside(event: { target: any; }) {
+      if (
+        notificationsRef.current &&
+        !notificationsRef.current.contains(event.target)
+      ) {
+        setShowNotifications(false);
+      }
+    }
+
+    // Attach the listeners on component mount.
+    document.addEventListener("mousedown", handleClickOutside);
+    // Detach the listeners on component unmount.
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [notificationsRef]);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -108,14 +127,22 @@ const AppBar = () => {
   }, [supabase, router]);
 
   const links = [
-    // put property in here.
-    { key: "home", href: "/joblist", icon: <IoMdHome />, name: "" },
     {
-      key: "document",
-      href: userType === "employee" ? "/jobapplied" : `/${profileUrl}`,
-      icon: <IoMdDocument />,
+      key: "home",
+      href: userType === "employer" ? `/${profileUrl}` : "/joblist",
+      icon: <IoMdHome />,
       name: "",
     },
+    ...(userType === "employee"
+      ? [
+          {
+            key: "document",
+            href: "/jobapplied",
+            icon: <IoMdDocument />,
+            name: "",
+          },
+        ]
+      : []),
     {
       key: "notifications",
       href: "#",
@@ -173,7 +200,7 @@ const AppBar = () => {
             className="object-contain"
           />
         </Link>
-        {!currentPath.startsWith("/dashboard" || "/admin") && (
+        {currentPath === "/joblist" && (
           <div
             className="relative w-1/2"
             hidden={currentPath.startsWith("/member/")}
@@ -213,9 +240,11 @@ const AppBar = () => {
                   </Link>
                 ))}
               </div>
-              {showNotifications && (
-                <NotificationDropdown listNoti={listNoti} />
-              )}
+              <div ref={notificationsRef}>
+                {showNotifications && (
+                  <NotificationDropdown listNoti={listNoti} />
+                )}
+              </div>
               <div className="translate-y-2 z-10">
                 <Menu_Profile
                   profile_img={profileImg}
