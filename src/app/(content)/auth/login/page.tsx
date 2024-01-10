@@ -139,8 +139,8 @@ export default function CredentialsForm() {
 
   return (
     <div className="w-full flex flex-row min-h-screen">
-      <div className="w-4/12 flex flex-col items-center justify-center min-h-screen">
-        <div className="flex flex-col items-center w-full h-4/5 ">
+      <div className="w-4/12 flex flex-col items-center min-h-screen">
+        <div className="flex flex-col items-center justify-center w-full h-4/5">
           <Modal
             isOpen={forgotPassword}
             contentLabel="forgot password"
@@ -248,14 +248,14 @@ export default function CredentialsForm() {
             onSubmit={(event) => handleSubmit(event)}
           >
             {error && (
-              <span className="w-full p-4 mb-2 text-lg font-semibold text-white bg-red rounded-md text-center">
+              <span className="w-full p-0.5 mb-5 text-lg font-semibold text-white bg-red rounded-md text-center">
                 {error}
               </span>
             )}
             <div className="flex items-center mb-5">
               <div className="absolute m-5 flex">
                 <Image src="/2User.svg" alt="Email" width={20} height={20} />
-                <div className="h-10 bg-black w-px ml-5"></div>
+                <div className="h-6 bg-black w-px ml-5"></div>
               </div>
               <input
                 type="email"
@@ -264,7 +264,7 @@ export default function CredentialsForm() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-20 py-4 bg-[#D9D9D9] text-black text-opacity-50 lg:text-base md:text-sm sm:text-xs font-dmsans rounded-lg placeholder-black placeholder-opacity-50"
+                className="w-full pl-20 py-2 bg-[#D9D9D9] text-black text-opacity-50 lg:text-base md:text-sm sm:text-xs font-dmsans rounded-lg placeholder-black placeholder-opacity-50"
               />
             </div>
             <div className="relative items-center place-content-center">
@@ -275,10 +275,10 @@ export default function CredentialsForm() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-20 py-4 bg-[#D9D9D9] text-black text-opacity-50 text-base font-dmsans rounded-lg placeholder-black placeholder-opacity-50 focus:outline"
+                className="w-full pl-20 py-2 bg-[#D9D9D9] text-black text-opacity-50 text-base font-dmsans rounded-lg placeholder-black placeholder-opacity-50 focus:outline"
               />
 
-              <div className="absolute flex w-11 h-1/2 -top-1 my-5 mx-3 bg-blend-overlay bg-[#D9D9D9] -right-3 justify-center">
+              <div className="absolute flex w-11 h-1/2 -top-1 my-3.5 mx-3 bg-blend-overlay bg-[#D9D9D9] -right-3 justify-center">
                 {showPassword ? (
                   <button type="button" onClick={togglePasswordVisibility}>
                     <Image src="/hide.svg" alt="Show" width={20} height={20} />{" "}
@@ -297,7 +297,7 @@ export default function CredentialsForm() {
                   width={20}
                   height={20}
                 />
-                <div className="h-10 bg-black w-px ml-5" />
+                <div className="h-6 bg-black w-px ml-5" />
               </div>
             </div>
             <button
@@ -309,7 +309,7 @@ export default function CredentialsForm() {
             </button>
             <button
               type="submit"
-              className="w-full h-12 px-6 text-base font-dmsans text-white bg-[#13544E] rounded-lg focus:shadow-outline"
+              className="w-full h-10 px-6 text-base font-dmsans text-white bg-[#13544E] rounded-lg focus:shadow-outline"
             >
               {isLoading ? (
                 <ClipLoader color="#ffffff" loading={true} size={20} />
