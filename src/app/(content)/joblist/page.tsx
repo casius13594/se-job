@@ -290,12 +290,15 @@ function JobListClient({
         </div>
         <div className="flex flex-col h-full w-[55vw]">
           <div className="flex flex-row w-full justify-between">
-            <h1 className="flex flex-row text-center text-xl font-bold">
+            <h1 className="flex flex-row text-center text-xl font-bold pb-1">
               Results:
               <div className="ml-4 font-normal"> {filteredJobs.length}</div>
             </h1>
             <div className="flex flex-row w-fit">
-              <label htmlFor="sort" className="text-center text-xl font-bold">
+              <label
+                htmlFor="sort"
+                className="text-center text-xl font-bold pb-1"
+              >
                 Sort by
               </label>
               <select
@@ -383,7 +386,6 @@ function JobListClient({
                           }
                           setReset();
                         }}
-                      
                       >
                         <path
                           d="M1 7.90976C1 4.65247 1 3.02382 1.76884 2.01191C2.53769 1 3.77513 1 6.25 1H9.75C12.2249 1 13.4623 1 14.2312 2.01191C15 3.02382 15 4.65247 15 7.90976V15.7726C15 18.8627 15 20.4078 14.2612 20.8804C13.5225 21.353 12.5994 20.3984 10.7532 18.4892L10.1624 17.8782C9.1243 16.8048 8.60526 16.268 8 16.268C7.39474 16.268 6.8757 16.8048 5.83762 17.8782L5.24678 18.4892C3.4006 20.3984 2.47751 21.353 1.73876 20.8804C1 20.4078 1 18.8627 1 15.7726V7.90976Z"
