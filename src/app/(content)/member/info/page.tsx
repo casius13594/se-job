@@ -155,22 +155,22 @@ export default function BasicInfo() {
               defaultValue={user ? user.dob : ""}
               disabled={!modified}
             />
-          </div>
-          <div
-            className={`flex flex-row w-full justify-around items-center ${
-              modified ? "" : "invisible"
-            }`}
-          >
-            <button className="rounded-btn mt-2 text-bold text-base">Save</button>
-            <button
-              className="-translate-x-64 mt-2 rounded-btn text-bold text-base"
-              formAction={() => {
-                setReload(true);
-                setModified(false);
-              }}
+            <div
+              className={`flex flex-row w-full justify-around items-center ${
+                modified ? "" : "invisible"
+              }`}
             >
-              Cancel
-            </button>
+              <button className="rounded-btn mt-2 text-bold text-base">Save</button>
+              <button
+                className="mt-2 rounded-btn text-bold text-base"
+                formAction={() => {
+                  setReload(true);
+                  setModified(false);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </form>
       </div>
