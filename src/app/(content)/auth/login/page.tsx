@@ -140,16 +140,7 @@ export default function CredentialsForm() {
   return (
     <div className="w-full flex flex-row min-h-screen">
       <div className="w-4/12 flex flex-col items-center min-h-screen">
-        <Link href="/" className="flex place-self-start ml-16 my-5">
-          <Image
-            src="/logo.svg"
-            alt="Jelp logo"
-            width="100"
-            height="100"
-            className="object-contain"
-          />
-        </Link>
-        <div className="flex flex-col items-center justify-center w-full h-3/4">
+        <div className="flex flex-col items-center justify-center w-full h-4/5">
           <Modal
             isOpen={forgotPassword}
             contentLabel="forgot password"
@@ -239,7 +230,16 @@ export default function CredentialsForm() {
               )}
             </div>
           </Modal>
-          <h1 className="mt-10 mb-5 text-base font-bold text-[#AD343E] cursor-default">
+          <Link href="/" className="flex place-self-center my-5">
+            <Image
+              src="/logo.svg"
+              alt="Jelp logo"
+              width="100"
+              height="100"
+              className="object-contain"
+            />
+          </Link>
+          <h1 className="mt-5 mb-5 text-base font-bold text-[#AD343E] cursor-default">
             Welcome back! <span className="text-black">Log in Jelp</span>
           </h1>
 
@@ -335,7 +335,7 @@ export default function CredentialsForm() {
             />
           </div> */}
           </form>
-          <h1 className="mt-5 text-base font-bold text-[#AD343E] cursor-default">
+          <h1 className=" text-base font-bold text-[#AD343E] cursor-default">
             New member?{" "}
             <span
               className="text-black text-opacity-50 hover:underline underline-offset-2 cursor-pointer"
@@ -347,7 +347,7 @@ export default function CredentialsForm() {
         </div>
       </div>
       <div className="w-9/12 relative">
-        <div className="absolute inset-0 bg-white opacity-30 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent z-10"></div>
         <Image
           src="/login_background.jpg"
           alt=""
