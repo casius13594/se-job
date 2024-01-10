@@ -35,13 +35,26 @@ export default function JobList() {
   type StatusOrder = { [key: string]: number };
   const fetchJobData = async () => {
     try {
+      let ind = 0;
       const jobData = await getListJob();
       const statusOrder: StatusOrder = { pending: 0, open: 1, closed: 2 };
       const sortedData = jobData.sort((a, b) => {
         return statusOrder[a.status] - statusOrder[b.status];
       });
 
-      setData(sortedData);
+      const results_job: jobInfo[] = sortedData
+        ? sortedData.map((item: jobInfo) => ({
+            id: ++ind,
+            job_id: item.job_id,
+            employer_id: item.employer_id,
+            name: item.name || "",
+            employer_name: item.employer_name || "",
+            status: item.status || "",
+            action: item.action || "",
+          }))
+        : [];
+
+      setData(results_job);
     } catch (error) {
       console.error("Error fetching job data:", error);
     }

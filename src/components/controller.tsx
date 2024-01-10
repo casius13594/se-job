@@ -301,7 +301,7 @@ export async function getListUser() {
     return "";
   };
 
-  let ind = -1;
+  let ind = 0;
   const results_employee: userinfo[] = queries_employee.data
     ? queries_employee.data.map((item: userinfo) => ({
         id: ++ind,
@@ -340,7 +340,7 @@ export async function getListJob() {
     return [];
   }
 
-  let ind = -1;
+  let ind = 0;
   const results_job: jobInfo[] = queries_job.data
     ? queries_job.data.map((item: jobInfo) => ({
         id: ++ind,
