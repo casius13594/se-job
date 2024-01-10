@@ -5,7 +5,7 @@ import React from "react";
 const page = () => {
   return (
     <main
-      className={`flex flex-col w-[100vw] h-[100vh] ${dm_sans.className} pt-[2vh] overflow-hidden`}
+      className={`flex flex-col w-full h-full ${dm_sans.className} pt-[2vh] overflow-hidden`}
     >
       <div className="text-2xl font-bold"> Security Settings</div>
       <div className="border-b mt-4 mb-4 border-green w-1/5 "></div>
