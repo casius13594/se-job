@@ -165,7 +165,10 @@ const AppBar = () => {
           />
         </Link>
         {!currentPath.startsWith("/dashboard" || "/admin") && (
-          <div className="relative w-1/2">
+          <div 
+            className="relative w-1/2"
+            hidden={currentPath.startsWith("/member/")}
+          >
             <input
               className=" bg-[#d9d9d9] pl-10 rounded-lg h-[5vh] w-full"
               placeholder="Search"
