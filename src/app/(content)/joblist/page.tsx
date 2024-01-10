@@ -249,7 +249,7 @@ function JobListClient({
                 <option value="%">All</option>
                 <option value="none">None</option>
                 <option value="fresher">Fresher</option>
-                <option value="mid_level">Mid-level</option>
+                <option value="junior">Junior</option>
                 <option value="senior">Senior</option>
               </select>
             </div>
@@ -262,8 +262,8 @@ function JobListClient({
                 className="rounded-lg px-1 py-2 bg-[#d9d9d9] w-full"
               >
                 <option value="%">All</option>
-                <option value="Full-time">Fulltime</option>
-                <option value="Part-time">Parttime</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
                 <option value="Intern">Intern</option>
               </select>
             </div>
