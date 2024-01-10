@@ -99,6 +99,8 @@ const Hero: React.FC<HeroProps> = ({ onButtonClick }) => {
     setSelectedSalary(inputValue);
   };
 
+  const notUser = localStorage.getItem("userType") === null;
+
   return (
     <div className="Hero">
       <div className="mt-28 padding-x">
@@ -189,7 +191,7 @@ const Hero: React.FC<HeroProps> = ({ onButtonClick }) => {
                 className="py-3 px-7 flex flex-row justify-between items-center bg-red rounded-xl ml-2 cursor-pointer"
                 style={{ width: "135px" }}
               >
-                <img src="/iconSearch.svg" alt=""/>
+                <img src="/iconSearch.svg" alt="" />
                 <b className="text-white">Search</b>
               </div>
             </Link>
@@ -206,7 +208,7 @@ const Hero: React.FC<HeroProps> = ({ onButtonClick }) => {
             <div className="flex flex-row space-x-3">
               <Link href="./auth/login">
                 <CustomButton
-                  title="Login"
+                  title={notUser ? "Login" : "Change account"}
                   containerStyles="bg-green text-white min-w-[153px] mt-10"
                 />
               </Link>
