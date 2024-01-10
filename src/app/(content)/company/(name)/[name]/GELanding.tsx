@@ -36,6 +36,11 @@ const GELanding: React.FC<GELandingProps> = ({
   }, []);
 
   console.log(relatedCompany);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   return (
     <>
@@ -51,7 +56,18 @@ const GELanding: React.FC<GELandingProps> = ({
               />
               <div className="ml-5 w-full">
                 <div className="text-3xl font-bold">{companyName}</div>
+                <div>
+                  <h1 style={{ maxHeight: isExpanded ? 'none' : '60px', overflow: 'hidden' }} className="text-sm">
+        {introduction}
+      </h1>
+      { introduction.length > 60 && (
+        <button onClick={toggleExpand} className="font-bold">
+          {isExpanded ? 'Minimize' : 'Know more'}
+        </button>
+      )}
+    </div>
                 <div className="flex opacity-50 mt-2 text-sm">
+              
                   <div className="">• {industry} </div>
                   <div className="ml-2">• {location}</div>
                   <div className="ml-2 ">• {size} employees</div>
