@@ -263,7 +263,7 @@ const AppBar = () => {
             </div>
           ) : (
             <Link
-              className="bg-[#13544E] rounded-3xl px-5 py-2 w-full text-white"
+              className="bg-green hover:bg-[#0f433e] active:bg-[#092a27] rounded-3xl px-5 py-2 w-full text-white"
               href="/auth/login"
             >
               Log in
