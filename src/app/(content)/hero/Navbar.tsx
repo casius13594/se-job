@@ -20,6 +20,16 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToBottom }) => {
     return null; // If not the main page, don't render the navbar
   }
 
+  const userType = localStorage.getItem("userType");
+
+  // Determine the link based on the userType
+  const homeLink =
+    userType === "admin"
+      ? "/admin"
+      : userType === "employee"
+      ? "/joblist"
+      : "/";
+
   return (
     <header className="w-full absolute z-7 bg-white">
       <nav className="max-w-[1440p] mx-auto flex justify-between items-center sm:px-16 px-6 py-4">
@@ -34,11 +44,14 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToBottom }) => {
         </Link>
 
         <div className="flex justify-center items-center space-x-3">
-          <CustomButton
-            title="Home"
-            btnType="button"
-            containerStyles="text-black-100 rounded-full bg-white hover:bg-grey"
-          />
+          <Link href={homeLink}>
+            {" "}
+            <CustomButton
+              title="Home"
+              btnType="button"
+              containerStyles="text-black-100 rounded-full bg-white hover:bg-grey"
+            />
+          </Link>
 
           <Link href="/joblist">
             <CustomButton
