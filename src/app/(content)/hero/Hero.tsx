@@ -209,7 +209,7 @@ const Hero: React.FC<HeroProps> = ({ onButtonClick }) => {
               <Link href="./auth/login">
                 <CustomButton
                   title={notUser ? "Login" : "Change account"}
-                  containerStyles="bg-green text-white min-w-[153px] mt-10"
+                  containerStyles="bg-green hover:bg-[#0f433e] active:bg-[#092a27] text-white min-w-[153px] mt-10"
                 />
               </Link>
               <CustomButton
