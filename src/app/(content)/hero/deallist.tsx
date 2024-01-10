@@ -96,7 +96,7 @@ const DealList = () => {
               >
                 {job.name}
               </h1>
-              <p className="text-sm card_description py-3 px-6 overflow-hidden max-h-20 leading-snug line-clamp-3">
+              <p className="text-sm card_description py-3 px-6 overflow-auto max-h-20 leading-snug line-clamp-3">
                 {job.content}
               </p>
               <h2 className="card_salary px-6 text-sm flex">
@@ -130,6 +130,36 @@ const DealList = () => {
           </div>
         )}
       </div>
+
+      <div className="reason__header flex flex-row items-center justify-end mx-10 mt-10">
+        <div className="reason__header-title flex flex-row">
+          <h1 className="text-[3vw] font-bold text-green">Why choose</h1>
+          <h1 className="text-[3vw] font-bold text-red">&nbsp;Jelp</h1>
+        </div>
+        <img
+          src="/abstract-shape-right.svg"
+          className="object-fill h-[4vw] m-5"
+          alt=""
+        />
+      </div>
+      <ul className="reason__content flex justify-between h-[400px] items-center mx-10 mb-10">
+        <li className="w-[28vw] h-[100%] bg-green rounded-3xl flex flex-col justify-center items-center">
+          <img src="/security.png" className="w-[10vw]" />
+          <p className="font-bold text-3xl mt-5 text-white">Security</p>
+        </li>
+        <li className="w-[28vw] h-[100%] bg-green rounded-3xl flex flex-col justify-center items-center">
+          <img src="/time.png" className="w-[10vw]" />
+          <p className="font-bold text-3xl mt-5 text-white">
+            Speedy Performance
+          </p>
+        </li>
+        <li className="w-[28vw] h-[100%] bg-green rounded-3xl flex flex-col justify-center items-center text-center">
+          <img src="/cost.png" className="w-[10vw]" />
+          <p className="font-bold text-3xl mt-5 text-white">
+            Start without cost
+          </p>
+        </li>
+      </ul>
     </div>
   );
 };

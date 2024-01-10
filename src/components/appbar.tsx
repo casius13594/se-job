@@ -16,9 +16,9 @@ import Badge from "@mui/icons-material/Badge";
 import { InfoNoti } from "./Card_Cotification/cardnoti";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-
 const AppBar = () => {
   const [profileImg, setProfileImg] = useState("");
+  const [profileUrl, setProfileUrl] = useState("");
   const [defaultLogo, setDefaultLogo] = useState("");
   const [profileName, setProfileName] = useState("");
   const [searchInput, setSearchInput] = useState("");
@@ -33,6 +33,7 @@ const AppBar = () => {
   const isCurrentPath_joblist = currentPath === path_joblist;
   const router = useRouter();
   const supabase = createClientComponentClient();
+  const userType = localStorage.getItem("userType");
 
   console.log(currentPath);
 
@@ -63,7 +64,10 @@ const AppBar = () => {
           setProfileImg(user.logo);
           setProfileName(user.name);
           if (isEmployee) setDefaultLogo("/default_logo.svg");
-          else setDefaultLogo("/logo.svg");
+          else {
+            setDefaultLogo("/logo.svg");
+            setProfileUrl(user.url);
+          }
           setUserActive(true);
         } else {
           setUserActive(false);
@@ -106,7 +110,12 @@ const AppBar = () => {
   const links = [
     // put property in here.
     { key: "home", href: "/joblist", icon: <IoMdHome />, name: "" },
-    { key: "document", href: "/jobapplied", icon: <IoMdDocument />, name: "" },
+    {
+      key: "document",
+      href: userType === "employee" ? "/jobapplied" : `/${profileUrl}`,
+      icon: <IoMdDocument />,
+      name: "",
+    },
     {
       key: "notifications",
       href: "#",
@@ -165,7 +174,7 @@ const AppBar = () => {
           />
         </Link>
         {!currentPath.startsWith("/dashboard" || "/admin") && (
-          <div 
+          <div
             className="relative w-1/2"
             hidden={currentPath.startsWith("/member/")}
           >

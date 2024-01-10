@@ -104,6 +104,11 @@ function JobDetailPage({
     }
   }, [job]);
   console.log(employer);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
   const formatDateToDDMMYYYY = (date: Date): string => {
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -430,7 +435,16 @@ function JobDetailPage({
                     </div>
                   </a>
                   <div className="flex flex-row w-full">
-                    <h1 className="text-base">{employer[0]?.description}</h1>
+                  <div>
+                  <h1 style={{ maxHeight: isExpanded ? 'none' : '60px', overflow: 'hidden' }} className="text-sm">
+        {employer[0]?.description}
+      </h1>
+      {employer[0]?.description.length > 60 && (
+        <button onClick={toggleExpand} className="font-bold">
+          {isExpanded ? 'Minimize' : 'Know more'}
+        </button>
+      )}
+    </div>
                   </div>
                   <div className="flex flex-row w-full">
                     <h1 className="text-sm">

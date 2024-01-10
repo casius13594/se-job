@@ -18,7 +18,7 @@ export default function RootLayout({
   const currentPath = usePathname();
   const pathsToHideAppbar = ["/postjob", "/selection"];
 
-  const bottomRef = useRef(null);
+
   const scrollToBottom = () => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   };
