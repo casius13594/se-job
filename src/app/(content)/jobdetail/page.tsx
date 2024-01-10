@@ -146,7 +146,7 @@ function JobDetailPage({
                 </div>
                 <div className="flex flex-row w-full">
                   <h1 className="text-lg">
-                    {job.location}({job.type})
+                    {job.location} ({job.type})
                   </h1>
                 </div>
                 <div className="flex flex-row w-full">
@@ -195,7 +195,7 @@ function JobDetailPage({
                         </div>
                         <div className="flex flex-row w-full">
                           <h1 className="text-lg">
-                            {job.location}({job.type})
+                            {job.location} ({job.type})
                           </h1>
                         </div>
                         <div className="flex flex-row w-full">
@@ -377,7 +377,7 @@ function JobDetailPage({
                 <h1 className="text-xl font-bold">About the job</h1>
                 {job.content ? (
                   job.content.split("\n").map((item: string) => {
-                    return <li className="text-base">{item}</li>;
+                    return <li className="text-sm">{item}</li>;
                   })
                 ) : (
                   <p>None</p>
@@ -385,9 +385,9 @@ function JobDetailPage({
               </ul>
               <ul>
                 <h1 className="text-xl font-bold">Requirements</h1>
-                {job.requirement ? (
+                {job.requirements ? (
                   job.requirements.split("\n").map((item: string) => {
-                    return <li className="text-base">{item}</li>;
+                    return <li className="text-sm">{item}</li>;
                   })
                 ) : (
                   <p>None</p>
@@ -397,7 +397,7 @@ function JobDetailPage({
                 <h1 className="text-xl font-bold">Benefits</h1>
                 {job.benefits ? (
                   job.benefits.split("\n").map((item: string) => {
-                    return <li className="text-base">{item}</li>;
+                    return <li className="text-sm">{item}</li>;
                   })
                 ) : (
                   <p>None</p>
