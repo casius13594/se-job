@@ -50,10 +50,10 @@ const AppBar = () => {
   };
 
   useEffect(() => {
-    function handleClickOutside(event: { target: any }) {
+    function handleClickOutside(event: { target: any; }) {
       if (
         notificationsRef.current &&
-        !(notificationsRef.current as HTMLElement).contains(event.target)
+        !((notificationsRef.current as HTMLElement).contains(event.target))
       ) {
         setShowNotifications(false);
       }
@@ -188,18 +188,10 @@ const AppBar = () => {
       }
     }
   };
-
-  const logoLink =
-    userType === "admin"
-      ? "/admin"
-      : userType === "employee"
-      ? "/joblist"
-      : "/";
-
   return (
     <header className="w-full z-10 bg-white">
       <nav className="w-full mx-auto flex justify-between items-center px-6 py-2">
-        <Link href={logoLink} className="flex justify-center items-center">
+        <Link href="/" className="flex justify-center items-center">
           <Image
             src="/logo.svg"
             alt="Jelp logo"
