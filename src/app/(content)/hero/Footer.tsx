@@ -30,7 +30,7 @@ const Footer = () => {
           </Link>
         </div>
       </div>
-      <div className="w-full h-20 pl-10 font_size_text items-center">
+      <div className="w-full h-20 pl-10 pt-1 font_size_text items-center">
         Address: 227 Nguyen Van Cu, Ward 4, District 5, Ho Chi Minh City
         <br />
         Hotline: 0987654321
