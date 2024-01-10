@@ -203,7 +203,7 @@ const Hero: React.FC<HeroProps> = ({ onButtonClick }) => {
               Where to find your career prospect? How to communicate between
               employee and employer
             </p>
-            <div className="flex flex-row space-x-3 mt-2">
+            <div className="flex flex-row space-x-3">
               <Link href="./auth/login">
                 <CustomButton
                   title="Login"

@@ -77,14 +77,14 @@ const JobPage = () => {
           <div className="flex flex-row w-1/2 justify-between mb-5">
             <div className="relative w-1/2">
               <input
-                className=" bg-[#13544e] pl-10 rounded-lg h-[5vh] w-full text-white"
+                className=" bg-[#d9d9d9] pl-10 rounded-lg h-[5vh] w-full text-white"
                 placeholder="Search"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
               />
               <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
                 <Image
-                  src="/search_light.svg"
+                  src="/search.svg"
                   alt="search"
                   width={20}
                   height={20}
@@ -110,16 +110,24 @@ const JobPage = () => {
                   {(applicants[index] || []).length}
                 </div>
                 <div className="text-sm">
-                  {job.status === "open" ? "Visible" : "Hidden"}
+                  {job.status === "open"
+                    ? "Visible"
+                    : job.status === "pending"
+                    ? "Pending"
+                    : "Hidden"}
                 </div>
                 <div className="col-span-2 flex justify-end">
                   <div className="flex justify-between w-5/6">
-                    <button
-                      onClick={() => changeJobStatus(job.job_id)}
-                      className="bg-black text-white px-3 py-1 rounded-3xl text-sm"
-                    >
-                      {job.status === "open" ? "Hide Job" : "Show Job"}
-                    </button>
+                    {job.status !== "pending" ? (
+                      <button
+                        onClick={() => changeJobStatus(job.job_id)}
+                        className="bg-black text-white px-3 py-1 rounded-3xl text-sm"
+                      >
+                        {job.status === "open" ? "Hide Job" : "Show Job"}
+                      </button>
+                    ) : (
+                      <div className="px-3 py-1 rounded-3xl text-sm"></div>
+                    )}
                     <Link
                       className="bg-black text-white px-3 py-1 rounded-3xl text-sm"
                       href={{
