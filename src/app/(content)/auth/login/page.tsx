@@ -309,7 +309,7 @@ export default function CredentialsForm() {
             </button>
             <button
               type="submit"
-              className="w-full h-10 px-6 text-base font-dmsans text-white bg-[#13544E] rounded-lg focus:shadow-outline"
+              className="w-full h-10 px-6 text-base font-dmsans text-white bg-[#13544E] rounded-lg focus:shadow-outline hover:bg-[#003f39]"
             >
               {isLoading ? (
                 <ClipLoader color="#ffffff" loading={true} size={20} />
@@ -318,22 +318,6 @@ export default function CredentialsForm() {
               )}
             </button>
             <div className="h-px bg-black w-full my-7" />
-            {/* <div className="relative mb-5">
-            <button
-              type="button"
-              className="w-full h-12 px-6 text-base font-dmsans text-white bg-[#13544E] rounded-lg focus:shadow-outline"
-              onClick={handleGoogle}
-            >
-              Connect via Google
-            </button>
-            <Image
-              src="/iconGoogle.svg"
-              alt="google"
-              width={30}
-              height={30}
-              className="absolute top-0 m-2"
-            />
-          </div> */}
           </form>
           <h1 className=" text-base font-bold text-[#AD343E] cursor-default">
             New member?{" "}
