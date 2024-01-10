@@ -52,6 +52,11 @@ const Profilepage: React.FC<ProfilepageProps> = ({
   const toggleEditMode = () => {
     setIsEditMode((prevEditMode) => !prevEditMode);
   };
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   return (
     <>
@@ -65,15 +70,15 @@ const Profilepage: React.FC<ProfilepageProps> = ({
               <div className="ml-5 w-full">
                 <div className="text-3xl font-bold">{companyName}</div>
                 <div>
-                  {isEditMode ? (
-                    <textarea
-                      className="w-1/2 mt-2"
-                      placeholder="Welcome to our main page !"
-                    />
-                  ) : (
-                    introduction
-                  )}
-                </div>
+                  <h1 style={{ maxHeight: isExpanded ? 'none' : '60px', overflow: 'hidden' }} className="text-sm">
+        introduction
+      </h1>
+      {introduction.length > 60 && (
+        <button onClick={toggleExpand} className="font-bold">
+          {isExpanded ? 'Minimize' : 'Know more'}
+        </button>
+      )}
+    </div>
                 <div className="flex opacity-50 mt-2 text-sm">
                   <div className="">• {industry} </div>
                   <div className="ml-2">• {location}</div>
