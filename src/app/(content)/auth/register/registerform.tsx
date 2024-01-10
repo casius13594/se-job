@@ -87,7 +87,7 @@ export default function Register() {
   return (
     <main className="flex min-h-screen min-w-screen items-center justify-between">
       <div className="flex min-h-screen flex-col min-w-full items-center ">
-        <div className="relative top-0 left-0 mb-10 flex border-b w-full items-end lg:static lg:h-auto lg:bg-none ">
+        <div className="relative top-0 left-0 mb-5 flex border-b w-full items-end lg:static lg:h-auto lg:bg-none ">
           <Link href="/">
             <Image
               src="/logo.svg"
@@ -127,7 +127,7 @@ export default function Register() {
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col justify-center"
             >
-              <div className="flex items-center mb-5 mt-5">
+              <div className="flex items-center mt-5">
                 <div className="absolute m-5 flex">
                   <Image src="/2User.svg" alt="Email" width={20} height={20} />
                   <div className="h-10 bg-black w-px ml-5"></div>
@@ -146,7 +146,7 @@ export default function Register() {
                 <p className="text-red font-semibold">{`${errors.email.message}`}</p>
               )}
 
-              <div className="flex items-center mb-5">
+              <div className="flex items-center mt-5">
                 <div className="absolute m-5 flex">
                   <Image
                     src="/iconPassword.svg"
@@ -170,7 +170,7 @@ export default function Register() {
                 <p className="text-red font-semibold">{`${errors.password.message}`}</p>
               )}
 
-              <div className="flex items-center mb-5">
+              <div className="flex items-center mt-5">
                 <div className="absolute m-5 flex">
                   <Image
                     src="/iconPassword.svg"
