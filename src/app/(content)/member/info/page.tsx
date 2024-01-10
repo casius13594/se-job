@@ -107,7 +107,7 @@ export default function BasicInfo() {
         </div>
         <form
           name="userInfo"
-          className="flex flex-col space-y-[1vh]"
+          className="flex flex-col w-fit space-y-[1vh]"
           action={(data) => {
             updateEmployee(data);
             setModified(false);
@@ -155,23 +155,23 @@ export default function BasicInfo() {
               defaultValue={user ? user.dob : ""}
               disabled={!modified}
             />
-            <div
-              className={`flex flex-row w-full justify-around items-center ${
-                modified ? "" : "invisible"
-              }`}
-            >
-              <button className="rounded-btn mt-2 text-bold text-base">Save</button>
-              <button
-                className="mt-2 rounded-btn text-bold text-base"
-                formAction={() => {
-                  setReload(true);
-                  setModified(false);
-                }}
-              >
-                Cancel
-              </button>
-            </div>
           </div>
+          <div
+            className={`flex flex-row w-full justify-around items-center ${
+              modified ? "" : "invisible"
+            }`}
+          >
+            <button className="rounded-btn mt-2 text-bold text-base">Save</button>
+            <button
+              className="mt-2 rounded-btn text-bold text-base"
+              formAction={() => {
+                setReload(true);
+                setModified(false);
+              }}
+            >
+              Cancel
+            </button>
+            </div>
         </form>
       </div>
     </main>
